@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  context-path: /GRCBlog
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/grcblog?characterEncoding=utf8&useSSL=false
+    username: root
+    password: 19961002happy
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+

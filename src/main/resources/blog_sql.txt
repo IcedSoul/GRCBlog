@@ -1,0 +1,108 @@
+创建数据库
+create database grcblog
+
+use grcblog
+
+1、用户表 
+create  table user (
+ user_id         int(8) not null primary key auto_increment,
+ user_name    varchar(10) not null,
+ user_password    varchar(50) not null,
+ email          varchar(50) not null,
+ img          varchar(50),
+ score         int(8),
+ unique(user_name));
+
+2、用户信息表
+create table user_detail
+( user_id          int (8)  not null,
+  register_time  datetime,
+  sex               varchar(4),
+  phone          varchar(50),
+  address        varchar(50),
+  interest         varchar(50),
+  birthday        datetime,
+  remark          varchar(100),
+  job               varchar(50),
+  primary   key(user_id),
+  foreign    key(user_id)  references user(user_id)
+  );
+
+3、博客表
+create table Blog
+( blog_id         int(8) not null  primary key auto_increment,
+  user_id           int(8) not null,
+  title               varchar(50)  not null,
+  blog_content         varchar(21000),
+  classify_id      int(8),
+  it_classify_id int(8),
+  keyword        varchar(15),
+  publish_time    datetime ,
+  foreign    key(user_id)  references User(user_id),
+  foreign    key(classify_id) references Classify(classify_id),
+  foreign    key(it_classify_id) references IT_Classify(it_classify_id)
+);
+
+4、分类表
+create table Classify 
+( classify_id        int(8) not null  primary key auto_increment,
+  user_id             int(8) not null,
+  classify_name    varchar(20),
+  foreign  key(user_id) references User(user_id));
+
+5、博客留言表
+create table Leave_word
+( word_id          int(8) not null  primary key auto_increment,
+  blog_id            int(8) not null,
+  user_id              int(8) not null,
+  leave_content   varchar(21000) not null,
+  answer_id        int(8) not null,
+  leave_time         datetime,
+  foreign  key(blog_id) references Blog(blog_id),
+  foreign  key(user_id) references  User(user_id));
+
+6、问表
+create  table Question
+( question_id       int(8) not null  primary key auto_increment,
+  user_id               int(8) not null,
+  question            varchar(21000),
+  publish_time    datetime,
+  answer_num        int(10),
+  score             int(5),
+  state                  int(5),
+  accept_user_id     int(8),
+  foreign  key(user_id) references User(user_id));
+
+7、答表
+create  table Answer
+( answer_id                 int(8) not null  primary key auto_increment,
+  user_id                       int(8) not null,
+  question_id    int(8) not null,
+  answer_content          varchar(21000),
+  publish_time          datetime,
+  answer_answer_id     int(8),
+  foreign  key(user_id) references User(user_id),
+  foreign  key(question_id) references Question(question_id));
+
+8、上传表
+create table Upload
+( file_id            int(8) not null  primary key auto_increment,
+  user_id          int(8) not null,
+  file_path         varchar(100),
+  name     varchar(50),
+  remark   varchar(300),
+  it_classify_id       int(8),
+  keyword    varchar(20),
+  up_time         datetime,
+  down_num     int(8),
+  score      int(5),
+  foreign  key(user_id)  references  User(user_id),
+  foreign  key(it_classify_id )  references  it_classify(it_classify_id));
+9、整体分类表
+create table it_classify
+( 
+  it_classify_id int(8) not null  primary key auto_increment,
+  it_classify_name varchar(20) not null
+);
+
+  
