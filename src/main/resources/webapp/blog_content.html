@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Myblog</title>
+
+    <style>
+    body{
+        padding-top: 20px;
+
+    }
+    img{
+        width: 60px;
+        height: 60px;
+
+    }
+    #head_img{
+        padding-top: 100px;
+
+    }
+
+    #content{
+        margin-top: 50px;
+
+    }
+    #content .col-md-8 col-md-offset-2{
+
+        text-align: center;
+        margin-bottom: 100px;
+    }
+
+    hr.divider{
+        margin-top: 100px;
+    }
+
+    .input-group{
+        width: 500px;
+
+    }
+
+
+    </style>
+</head>
+<body>
+    <div class="container"  >
+        <div class="col-md-6 col-md-offset-2">
+            <h2>标题xxxxxxx</h2>
+            <span class="label label-primary"> 标签</span>
+        </div>
+
+        <div class="container-img" id="head_img">
+            <div class="row">
+
+                <div class="col-md-4 col-md-offset-2">
+                    <div class="col-md-2 col-md-offset-0">
+                          <img class="img-circle" src="image/3.jpg" alt="head_img">
+                    </div>
+
+                    <div class="col-md-8 col-md-offset-1">
+                        <span class="text">用户名</span>
+                        <span class="label label-info"> 标签</span>
+                        <p>
+                        </p>
+                        <p class="text-muted">发布时间：2017-6-24 10：00</p>
+                     </div>
+                </div>
+
+                <div class="col-md-4 col-md-offset-2">
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true" style="color: #2aabd2" ></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <div clas="container-content" id="content">
+            <div class="col-md-8 col-md-offset-2">
+                <p>文章内容：</p>
+                <p>在博大招聘会时看到一个长着亚洲面孔的团队。我上去询问：不好意思，你们是中国人吗？两个负责人尴尬的朝我笑笑：额......我们是台湾人。
+
+                    台湾自甲午战败割给日本后就像是被大陆甩了好几次的前女友。从历史的角度，它自古的确是中国领土不可或缺的一部分。但是在如今的政治形势下，对于是不是中国人这个问题还是只能继续模棱两可的回应。
+
+                    而对于台湾的民众，两岸和平是每个人的希冀。但是由于长期历史的芥蒂，和当今社会也满足于自身的发展，相比于未知的不确定性，保持现状则成为大多数人的心态。
+
+                    天下逆取而顺守之。
+
+                    王师北定中原日，家祭无忘告乃翁。</p>
+        </div>
+
+         <hr class="divider" width="800px">
+
+         <div class="container-writercomment">
+             <div class="row">
+                 <div class="col-md-4 col-md-offset-2">
+                     <div class="col-md-2 col-md-offset-0">
+                         <img class="img-circle" src="image/3.jpg" alt="head_img">
+                     </div>
+
+                     <div class="col-md-8 col-md-offset-1">
+                         <div class="input-group ">
+                             <input type="text" class="form-control" placeholder="看了博客之后说几句吧..."
+                                    aria-describedby="basic-addon1">
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="col-md-6 col-md-offset-3">
+                 <button type="button" class="btn btn-default">
+                     <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color: #8c8c8c">取消</span>
+                 </button>
+                 <button type="button" class="btn btn-default" href="#">
+                     <span class="glyphicon glyphicon-send" aria-hidden="true" style="color: #337ab7">发送</span>
+                 </button>
+             </div>
+
+         </div>
+
+          <hr class="divider" width="800px">
+
+
+         <div class="container-commentzone">
+             <div class="row">
+                 <div class="col-md-4 col-md-offset-2">
+                     <div class="col-md-2 col-md-offset-0">
+                         <img class="img-circle" src="image/3.jpg" alt="head_img">
+                     </div>
+
+                     <div class="col-md-8 col-md-offset-1">
+                         <span class="text">用户名</span>
+
+                         <p class="text-muted">评论时间：2017-6-24 10：00</p>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="col-md-6 col-md-offset-3">
+                <p>“很多年轻的作者缺乏生活经验，却对人生侃侃而谈”这种人神烦，自己明明什么也没经历过，却好象自己经历的已经是人生所有一样</p>
+             </div>
+
+             <div class="col-md-6 col-md-offset-3">
+                 <button type="button" class="btn btn-default">
+                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style="color: #337ab7">点赞</span>
+                 </button>
+                 <button type="button" class="btn btn-default" href="#">
+                     <span class="glyphicon glyphicon-comment" aria-hidden="true" style="color: #337ab7">回复</span>
+                 </button>
+             </div>
+             <hr class="divider" width="800px">
+         </div>
+    </div>
+</div>
+    <script src="dist/js/jquery.min.js"></script>
+    <script src="dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
