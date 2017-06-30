@@ -1,0 +1,59 @@
+body{
+    padding-top: 20px;
+
+}
+img{
+    width: 60px;
+    height: 60px;
+
+}
+#head_img{
+    padding-top: 100px;
+
+}
+
+#content{
+    margin-top: 50px;
+
+}
+#content .col-md-8 col-md-offset-2{
+
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+hr.divider{
+    margin-top: 100px;
+}
+
+.input-group{
+    width: 500px;
+
+}
+.cropit-preview {
+    background-color: #f8f8f8;
+    background-size: cover;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 7px;
+    width: 250px;
+    height: 250px;
+}
+
+.cropit-preview-image-container {
+    cursor: move;
+}
+
+.image-size-label {
+    margin-top: 10px;
+}
+#title p{
+    margin-top: 20px;
+
+}
+
+svg{
+    padding-top: 25px;
+    width: 50px;
+    height: 100px;
+}
