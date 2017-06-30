@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>博客首页</title>
+    <link href="../webapp/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../webapp/static/css/style.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="../webapp/static/js/html5shiv.js"></script>
+    <script src="../webapp/static/js/respond.min.js"></script>
+    <![endif]-->
+    <script src="../webapp/static/js/jquery-1.11.1.min.js"></script>
+    <script src="../webapp/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../../../../GRCBlog/src/main/webapp/css/style.css">
+</head>
+<body style="padding-top: 50px">
+<!-- 顶部导航 -->
+<div class="navbar navbar-fixed-top" role="navigation" id="menu-nav">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"> <img alt="Brand" src="../webapp/static/images/brand.jpg"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="" class="black-feature">首页</a></li>
+                <li class="active"><a href="" class="black-feature">消息</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="搜索">
+                    <button type="submit" class="btn btn-link">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <button class="btn btn-info btn-info-nav ">登录</button>
+                <li>
+                    <button class="btn btn-info btn-info-nav ">注册</button>
+            </ul>
+        </div>
+        <hr class="navhr">
+    </div>
+</div>
+<!-- 广告图片-->
+<div id="ad-carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="item active">
+            <img src="../webapp/static/images/ad-picture.jpg" alt="1 slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>GRC BLOG</h1>
+                    <p>分享你的疑惑和见解。</p>
+                    <p><a class="btn btn-primary" href=""
+                          role="button" target="_blank">开始使用</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 首页推荐-->
+<div class="container">
+    <div class="row ">
+        <div class="col-sm-10 col-md-10 col-lg-10 col-sm-offset-1 col-sm-offset-1 col-sm-offset-1">
+            <div class="panel panel-default">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <a class="" href=""><img src="../webapp/static/images/display-photo.jpg" class="img-circle img-md"></a>
+                        <span>小民同学</span>
+                        <span class="pull-right">7小时前</span>
+                        <h3>深夜食堂故事集</h3>
+                        <p>
+                            吃东西如果总是快乐的就好了，毕竟这是人们最容易实现的愿望。
+                            任何时候，它都不会辜负你。有些食物是不可实现的愿望。这些食物，往往带着非常复杂的往事...
+                        </p>
+                        <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">
+                            <button type="button" class="btn btn-default no-border">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 128
+                            </button>
+                            <button type="button" class="btn btn-default no-border">
+                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 13
+                            </button>
+                            <button type="button" class="btn btn-default no-border">
+                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 13
+                            </button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="list-group-item">
+                        <a class="" href=""><img src="../webapp/static/images/display-photo.jpg" class="img-circle img-md"></a>
+                        <span>小李同学</span>
+                        <span class="pull-right">10小时前</span>
+                        <h3>深夜食堂故事集</h3>
+                        <p>
+                            吃东西如果总是快乐的就好了，毕竟这是人们最容易实现的愿望。
+                            任何时候，它都不会辜负你。有些食物是不可实现的愿望。这些食物，往往带着非常复杂的往事...
+                        </p>
+                        <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">
+                            <button type="button" class="btn btn-default no-border">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 128
+                            </button>
+                            <button type="button" class="btn btn-default no-border">
+                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 13
+                            </button>
+                            <button type="button" class="btn btn-default no-border">
+                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 13
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
