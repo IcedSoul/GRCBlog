@@ -1,6 +1,6 @@
 package com.grc.repository;
 
-import com.grc.entity.Upload;
+import com.grc.domain.Upload;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

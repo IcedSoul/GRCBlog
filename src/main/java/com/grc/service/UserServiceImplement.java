@@ -1,7 +1,7 @@
 package com.grc.service;
 
-import com.grc.entity.User;
-import com.grc.entity.UserDetail;
+import com.grc.domain.User;
+import com.grc.domain.UserDetail;
 import com.grc.repository.UserDetailRepository;
 import com.grc.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

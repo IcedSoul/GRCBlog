@@ -2,7 +2,7 @@ package com.grc.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.grc.entity.LeaveWord;
+import com.grc.domain.LeaveWord;
 import com.grc.service.LeaveWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

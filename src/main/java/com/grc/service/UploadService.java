@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.Upload;
+import com.grc.domain.Upload;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.grc.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.grc.entity.Classify;
+import com.grc.domain.Classify;
 import com.grc.service.ClassifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

@@ -1,6 +1,6 @@
 package com.grc.repository;
 
-import com.grc.entity.LeaveWord;
+import com.grc.domain.LeaveWord;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

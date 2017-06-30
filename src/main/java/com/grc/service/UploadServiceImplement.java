@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.Upload;
+import com.grc.domain.Upload;
 import com.grc.repository.UploadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

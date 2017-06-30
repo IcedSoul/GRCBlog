@@ -1,6 +1,6 @@
 package com.grc.repository;
 
-import com.grc.entity.Blog;
+import com.grc.domain.Blog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.grc.service;
 
-import com.grc.entity.User;
-import com.grc.entity.UserDetail;
+import com.grc.domain.User;
+import com.grc.domain.UserDetail;
 
 /**
  * Created by 14437 on 2017/6/20.

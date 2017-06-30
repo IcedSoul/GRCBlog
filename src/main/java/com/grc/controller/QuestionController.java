@@ -2,7 +2,7 @@ package com.grc.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.grc.entity.Question;
+import com.grc.domain.Question;
 import com.grc.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

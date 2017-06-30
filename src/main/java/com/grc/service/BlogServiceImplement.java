@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.Blog;
+import com.grc.domain.Blog;
 import com.grc.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

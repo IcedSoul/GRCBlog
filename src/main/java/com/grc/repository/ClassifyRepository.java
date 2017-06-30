@@ -1,6 +1,6 @@
 package com.grc.repository;
 
-import com.grc.entity.Classify;
+import com.grc.domain.Classify;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.ItClassify;
+import com.grc.domain.ItClassify;
 
 import java.util.List;
 

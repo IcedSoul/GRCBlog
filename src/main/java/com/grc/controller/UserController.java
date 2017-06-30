@@ -1,8 +1,8 @@
 package com.grc.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.grc.entity.User;
-import com.grc.entity.UserDetail;
+import com.grc.domain.User;
+import com.grc.domain.UserDetail;
 import com.grc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

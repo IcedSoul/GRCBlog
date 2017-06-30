@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.LeaveWord;
+import com.grc.domain.LeaveWord;
 import com.grc.repository.LeaveWordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

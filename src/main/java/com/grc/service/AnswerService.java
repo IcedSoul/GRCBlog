@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.Answer;
+import com.grc.domain.Answer;
 
 import java.util.List;
 

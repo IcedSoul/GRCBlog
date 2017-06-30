@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.ItClassify;
+import com.grc.domain.ItClassify;
 import com.grc.repository.ItClassifyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

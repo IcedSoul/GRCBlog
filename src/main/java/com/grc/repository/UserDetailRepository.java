@@ -1,6 +1,6 @@
 package com.grc.repository;
 
-import com.grc.entity.UserDetail;
+import com.grc.domain.UserDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

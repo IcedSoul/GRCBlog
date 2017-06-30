@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.Blog;
+import com.grc.domain.Blog;
 
 import java.util.List;
 

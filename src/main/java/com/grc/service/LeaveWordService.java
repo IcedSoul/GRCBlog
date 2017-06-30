@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.LeaveWord;
+import com.grc.domain.LeaveWord;
 
 import java.util.List;
 

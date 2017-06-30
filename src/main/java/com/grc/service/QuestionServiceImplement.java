@@ -1,6 +1,6 @@
 package com.grc.service;
 
-import com.grc.entity.Question;
+import com.grc.domain.Question;
 import com.grc.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
