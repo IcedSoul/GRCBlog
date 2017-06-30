@@ -3,12 +3,14 @@
 <head>
     <meta charset="utf-8"/>
     <title>提问</title>
-    <link rel="stylesheet" href="plugins/editor.md-master/examples/css/style.css"/>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="plugins/editor.md-master/css/editormd.css"/>
-    <link href="css/style.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../webapp/static/editor.md-master/examples/css/style.css"/>
+    <link href="../webapp/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../webapp/static/editor.md-master/css/editormd.css"/>
+    <link href="../webapp/static/css/style.css" rel="stylesheet">
+    <script src="../webapp/static/js/jquery-1.11.1.min.js"></script>
+    <script src="../webapp/static/js/bootstrap.min.js"></script>
+    <script src="../webapp/static/editor.md-master/plugins/emoji-dialog/emoji-dialog.js"></script>
 </head>
 <body>
 <div id="layout">
@@ -61,7 +63,7 @@
         </div>
     </div>
 </div>
-<script src="plugins/editor.md-master/editormd.min.js"></script>
+<script src="../webapp/static/editor.md-master/editormd.min.js"></script>
 <script type="text/javascript">
     var testEditor;
 
@@ -73,7 +75,7 @@
             codeFold: true,
             syncScrolling: "single",
             //你的lib目录的路径
-            path: "plugins/editor.md-master/lib/",
+            path: "static/editor.md-master/lib/",
             imageUpload: true,
             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
             imageUploadURL : "static/editor.md-master/examples/php/upload.php?test=dfdf",
