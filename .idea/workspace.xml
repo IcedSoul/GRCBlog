@@ -2,81 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2daf8729-ca19-4851-a0c9-1c658c711239" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/grc/config/MyAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/static/js/vue.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/static/test_vue.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/FontAwesome.otf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/editormd-logo.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/editormd-logo.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/editormd-logo.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/editormd-logo.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/fontawesome-webfont.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/fontawesome-webfont.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/fontawesome-webfont.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/fontawesome-webfont.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/fontawesome-webfont.woff2" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/glyphicons-halflings-regular.eot" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/glyphicons-halflings-regular.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/glyphicons-halflings-regular.woff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/fonts/glyphicons-halflings-regular.woff2" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/bootstrap.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/editormd.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/html5shiv.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/jquery-1.11.1.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/jquery-1.11.1.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/jquery-1.11.1.min.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/jquery.cropit.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/jquery.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/npm.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/webapp/static/js/respond.min.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/controller/AnswerController.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/controller/AnswerController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/controller/BlogController.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/controller/BlogController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/controller/ClassifyController.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/controller/ClassifyController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/controller/ItClassifyController.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/controller/ItClassifyController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/controller/LeaveWordController.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/controller/LeaveWordController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/controller/QuestionController.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/controller/QuestionController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/controller/UploadController.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/controller/UploadController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/controller/UserController.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/controller/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/repository/AnswerRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/repository/AnswerRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/repository/BlogRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/repository/BlogRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/repository/ClassifyRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/repository/ClassifyRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/repository/ItClassifyRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/repository/ItClassifyRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/repository/LeaveWordRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/repository/LeaveWordRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/repository/QuestionRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/repository/QuestionRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/repository/UploadRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/repository/UploadRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/repository/UserDetailRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/repository/UserDetailRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/repository/UserRepository.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/repository/UserRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/AnswerService.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/AnswerService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/AnswerServiceImplement.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/AnswerServiceImplement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/BlogService.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/BlogService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/BlogServiceImplement.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/BlogServiceImplement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/ClassifyService.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/ClassifyService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/ClassifyServiceImplement.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/ClassifyServiceImplement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/ItClassifyService.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/ItClassifyService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/ItClassifyServiceImplement.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/ItClassifyServiceImplement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/LeaveWordService.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/LeaveWordService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/LeaveWordServiceImplemrnt.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/LeaveWordServiceImplemrnt.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/QuestionService.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/QuestionService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/QuestionServiceImplement.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/QuestionServiceImplement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/UploadService.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/UploadService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/UploadServiceImplement.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/UploadServiceImplement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/UserService.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/UserService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/grc/service/UserServiceImplement.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/service/UserServiceImplement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/plugins/editor.md-master/plugins/html-entities-dialog/html-entities-dialog.js" afterPath="$PROJECT_DIR$/src/main/resources/static/plugins/editor.md-master/plugins/html-entities-dialog/html-entities-dialog.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/plugins/editor.md-master/tests/qunit/qunit-1.16.0.js" afterPath="$PROJECT_DIR$/src/main/resources/static/plugins/editor.md-master/tests/qunit/qunit-1.16.0.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/plugins/html-entities-dialog/html-entities-dialog.js" afterPath="$PROJECT_DIR$/src/main/resources/static/plugins/html-entities-dialog/html-entities-dialog.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/grc/entity/Answer.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/domain/Answer.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/grc/entity/Blog.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/domain/Blog.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/grc/entity/Classify.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/domain/Classify.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/grc/entity/ItClassify.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/domain/ItClassify.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/grc/entity/LeaveWord.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/domain/LeaveWord.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/grc/entity/Question.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/domain/Question.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/grc/entity/Upload.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/domain/Upload.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/grc/entity/User.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/domain/User.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/grc/entity/UserDetail.java" afterPath="$PROJECT_DIR$/src/main/java/com/grc/domain/UserDetail.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -169,8 +95,8 @@
       <file leaf-file-name="MyAdapter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/grc/config/MyAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="255">
+              <caret line="15" column="88" lean-forward="true" selection-start-line="15" selection-start-column="88" selection-end-line="15" selection-end-column="88" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -792,12 +718,12 @@
       <workItem from="1498355240865" duration="9979000" />
       <workItem from="1498444990720" duration="3160000" />
       <workItem from="1498561829773" duration="1534000" />
-      <workItem from="1498784428467" duration="4529000" />
+      <workItem from="1498784428467" duration="4747000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78868000" />
+    <option name="totallyTimeSpent" value="79086000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -809,7 +735,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="784" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -833,7 +760,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2876923" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32872504" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32872504" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22617246" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22617246" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3276923" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1396,8 +1323,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/grc/config/MyAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="255">
+          <caret line="15" column="88" lean-forward="true" selection-start-line="15" selection-start-column="88" selection-end-line="15" selection-end-column="88" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
