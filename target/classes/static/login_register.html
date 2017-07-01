@@ -107,15 +107,6 @@
     });
     /************************  失焦判断  **********************************/
     $("input").blur(function () {
-        if ($(this).is("#name")) {               //用户名判断
-            if ($("#name").val() != "") {
-                $('#name').tooltip('hide');
-                return true;
-            } else {
-                $('#name').tooltip('hide');
-                return true;
-            }
-        }
         if ($(this).is("#pwd")) {               //密码判断
             var ad = /^[a-zA-Z]\w{5,17}$/;
             if ($("#pwd").val() != "") {
@@ -149,7 +140,7 @@
     $("#register").click(function () {
         var em = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;   //邮箱正则
         var pw = /^[a-zA-Z]\w{5,17}$/;     //密码正则
-        if (  $("#pwd").val() == $("#check-pwd").val() && pw.test($("#pwd").val())) {
+        if (em.test($("#email").val()) && $("#pwd").val() == $("#check-pwd").val() && pw.test($("#pwd").val())) {
             return true;
         } else {
             if ($("#name").val() == "") {

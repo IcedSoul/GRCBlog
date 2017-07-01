@@ -77,6 +77,7 @@ public class BlogController {
         blog.setBlogContent(blogContent);
         blog.setClassifyId(classifyId);
         blog.setItClassifyId(itClassifyId);
+        blog.setLeaveNum(0);
         blog.setTags(tags);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         blog.setPublishTime(timestamp);

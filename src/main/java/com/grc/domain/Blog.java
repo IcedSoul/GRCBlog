@@ -18,6 +18,7 @@ public class Blog {
     private String blogContent;
     private Integer classifyId;
     private Integer itClassifyId;
+    private Integer leaveNum;
     private String tags;
     private Timestamp publishTime;
 
@@ -77,6 +78,14 @@ public class Blog {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public Integer getLeaveNum() {
+        return leaveNum;
+    }
+
+    public void setLeaveNum(Integer leaveNum) {
+        this.leaveNum = leaveNum;
     }
 
     public Timestamp getPublishTime() {
