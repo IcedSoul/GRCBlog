@@ -6,19 +6,23 @@
     <link rel="stylesheet" href="plugins/editor.md-master/examples/css/style.css"/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="plugins/editor.md-master/css/editormd.css"/>
+    <link href="css/layer.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="plugins/editor.md-master/editormd.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/layer.js"></script>
 </head>
 <body>
 <div id="layout">
     <header>
         <h1>欢迎使用MarkDown语法编辑博客
-        <button class="btn btn-primary pull-right"  data-toggle="modal" data-target="#myModal">发表博客</button>
+            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">发表博客</button>
         </h1>
     </header>
     <header>
-        <input type="text" class="form-control " placeholder="标题" style="width: 100%">
+        <input type="text" class="form-control " placeholder="标题" style="width: 100%;height: 50px" id="title">
     </header>
     <div class="editormd" id="test-editormd">
         <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc" id="editormd"></textarea>
@@ -26,20 +30,30 @@
         <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
         <textarea class="editormd-html-textarea" name="editorhtml" id="editorhtml"></textarea>
     </div>
-
-</div><div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="myModalLabel">文章标签</h4>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control ">
+                <h5>添加关键词</h5>
+                <input type="text" class="form-control " id="tags">
+                <h5>选择博文技术分类</h5>
+                <select class="form-control" id="itClassifyVue">
+                    <option v-for="item in items" :value="item.itClassifyId">
+                        {{ item.itClassifyName }}
+                    </option>
+                </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal"   data-toggle="modal" data-target="#myModa2">下一步</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal" data-toggle="modal"
+                        data-target="#myModa2">下一步
+                </button>
             </div>
         </div>
     </div>
@@ -48,29 +62,28 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabe2">选择文章分类</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabe2">选择文章存放目录</h4>
             </div>
             <div class="modal-body">
-                <select class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                <select class="form-control" id="ClassifyVue">
+                    <option v-for="item in items" :value="item.classifyId">
+                        {{ item.classifyName }}
+                    </option>
                 </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="submit" class="btn btn-success" data-dismiss="modal" >发表</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal" onclick="submitBlog()">发表
+                </button>
             </div>
         </div>
     </div>
 </div>
-<script src="plugins/editor.md-master/editormd.min.js"></script>
 <script type="text/javascript">
+    showClassify();
     var testEditor;
-
     testEditor = $(function () {
         editormd("test-editormd", {
             width: "90%",
@@ -81,8 +94,8 @@
             //你的lib目录的路径
             path: "plugins/editor.md-master/lib/",
             imageUpload: true,
-            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL : "static/editor.md-master/examples/php/upload.php?test=dfdf",
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: "static/editor.md-master/examples/php/upload.php?test=dfdf",
             /*  theme: "dark",//工具栏主题
              previewTheme: "dark",//预览主题
              editorTheme: "pastel-on-dark",//编辑主题 */
@@ -97,6 +110,105 @@
         });
 
     });
+    function getitClassify() {
+        var itClassifys = "";
+        var user = {};
+        user.userId = 1;
+        $.ajax({
+            async: false,
+            type: 'POST',
+            url: 'http://localhost:8080/GRCBlog/getAllItClassifys',
+            data: user,
+            dataType: 'json',
+            success: function (result) {
+                itClassifys = result.itClassifys;
+            },
+            error: function (result) {
+                layer.alert('查询错误');
+            }
+        });
+        itClassifys = eval("(" + itClassifys + ")");
+        return itClassifys;
+    }
+    function getClassify() {
+        var Classifys = "";
+        var user = {};
+        user.userId = 1;
+        $.ajax({
+            async: false,
+            type: 'POST',
+            url: 'http://localhost:8080/GRCBlog/getUserClassifys',
+            data: user,
+            dataType: 'json',
+            success: function (result) {
+                Classifys = result.classifys;
+            },
+            error: function (result) {
+                layer.alert('查询错误');
+            }
+        });
+        Classifys = eval("(" + Classifys + ")");
+        return Classifys;
+    }
+    function showClassify() {
+        var itClassifys = getitClassify();
+        var Classifys = getClassify();
+        var itClassifyVue = new Vue({
+            el: '#itClassifyVue',
+            data: {
+                items: itClassifys
+            }
+        })
+        var ClassifyVue = new Vue({
+            el: '#ClassifyVue',
+            data: {
+                items: Classifys
+            }
+        })
+    }
+    function submitBlog() {
+        var addResult = "";
+        var classifySelect = document.getElementById("ClassifyVue");
+        var classIndex = classifySelect.selectedIndex;
+        var itClassifySelect = document.getElementById("itClassifyVue");
+        var itClassIndex = itClassifySelect.selectedIndex;
+        var Blog = {};
+        Blog.userId = '1';
+        Blog.title = document.getElementById("title").value;
+        Blog.blogContent = document.getElementById("editormd").value;
+        Blog.classifyId = classifySelect.options[classIndex].value;
+        Blog.itClassifyId = itClassifySelect.options[itClassIndex].value;
+        Blog.tags = document.getElementById("tags").value;
+        $.ajax({
+            async: false,
+            type: 'POST',
+            url: 'http://localhost:8080/GRCBlog/addBlog',
+            data: Blog,
+            dataType: 'json',
+            success: function (result) {
+                addResult = result.addResult;
+            },
+            error: function (result) {
+                layer.alert('提交错误');
+            }
+        });
+        if (addResult == 'success') {
+            layer.open({
+                title: false,
+                content: '发表成功'
+                , icon: 1
+                , btn: ['继续编写博客', '查看博客']
+                , yes: function (index, layero) {
+                    window.location.href = "http://localhost:8080/GRCBlog/write_blog.html";
+                }
+                , btn2: function (index, layero) {
+                    window.location.href = "http://localhost:8080/GRCBlog/blog_content.html";
+                }
+            });
+        }
+        else
+            layer.alert('提交错误');
+    }
 
 </script>
 </body>

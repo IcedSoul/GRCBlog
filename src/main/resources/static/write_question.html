@@ -9,16 +9,18 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/layer.js"></script>
 </head>
 <body>
 <div id="layout">
     <header>
         <h1>欢迎使用MarkDown语法编辑提问
-            <button class="btn btn-primary pull-right"  data-toggle="modal" data-target="#myModal">提问</button>
+            <button class="btn btn-primary pull-right"  onclick="inputScore()">提问</button>
         </h1>
     </header>
     <header>
-        <input type="text" class="form-control " placeholder="标题" style="width: 100%">
+        <input type="text" class="form-control " placeholder="标题" style="width: 100%;height: 50px" id="title">
     </header>
     <div class="editormd" id="test-editormd">
         <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc" id="editormd"></textarea>
@@ -26,45 +28,11 @@
         <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
         <textarea class="editormd-html-textarea" name="editorhtml" id="editorhtml"></textarea>
     </div>
+</div>
 
-</div><div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">问题标签</h4>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control ">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal"   data-toggle="modal" data-target="#myModa2">下一步</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabe2">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabe2">设置积分</h4>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control ">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="submit" class="btn btn-success" data-dismiss="modal" >提问</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script src="plugins/editor.md-master/editormd.min.js"></script>
 <script type="text/javascript">
     var testEditor;
-
     testEditor = $(function () {
         editormd("test-editormd", {
             width: "90%",
@@ -91,7 +59,52 @@
         });
 
     });
+    function inputScore() {
+        layer.prompt({
+                formType: 1,
+                title: '请输入悬赏积分',
+                btn: '确认提交',
+            },
+            function(value, index, elem){
+                submitQuestion(value);
+                layer.close(index);
+            });
+    }
+    function submitQuestion(score) {
 
+        var addResult = "";
+        var Question = {};
+        Question.userId = '1';
+        Question.title = document.getElementById("title").value;
+        Question.questionContent = document.getElementById("editormd").value;
+        Question.score = score;
+        $.ajax({
+            async: false,
+            type: 'POST',
+            url: 'http://localhost:8080/GRCBlog/addQuestion',
+            data: Question,
+            dataType: 'json',
+            success: function (result) {
+                addResult = result.addResult;
+            },
+            error: function (result) {
+                layer.alert('提交错误');
+            }
+        });
+        if (addResult == 'success') {
+            layer.open({
+                title: false,
+                content: '提问成功'
+                , icon: 1
+                , yes: function (index, layero) {
+                    window.location.href = "http://localhost:8080/GRCBlog/question.html";
+                }
+            });
+            return false;
+        }
+        else
+            alert('提交错误');
+    }
 </script>
 </body>
 </html>
