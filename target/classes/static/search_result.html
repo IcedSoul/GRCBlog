@@ -55,24 +55,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="list-group ">
-                                <div class="list-group-item">
-                                    <div class="pull-right">
-                                        <span class="label label-info">java</span>
-                                        <span class="label label-info">计划书</span>
-                                    </div>
-                                    <a class="" href=""><img src="img/display-photo.jpg"
-                                                             class="img-circle img-md"></a>
-                                    <span>小民同学</span>
-                                    <h3>深夜食堂故事集</h3>
-                                    <p>
-                                        吃东西如果总是快乐的就好了，毕竟这是人们最容易实现的愿望。
-                                        任何时候，它都不会辜负你。有些食物是不可实现的愿望。这些食物，往往带着非常复杂的往事...
-                                    </p>
-                                    <span class="text-muted">评论数：</span>123&nbsp&nbsp&nbsp
-                                    <span class="text-muted">发表时间：</span>7小时前&nbsp&nbsp&nbsp
-                                </div>
-                                <hr>
+                            <div class="list-group " id="blog">
+
+
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-resource">
@@ -171,5 +156,130 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+
+    listBlog();
+    function listBlog() {
+        var allBlog = getAllBlog();
+        var user = getUser(upload.userId);
+        for(var i=0;i<allBlog.length;i++){
+            var Data = formatDate(allBlog[i].publishTime);
+            var html = "";
+            var imgURL = "http://localhost:8080/GRCBlog/img/"+user.img+".jpg";
+            html += '<div class="list-group-item">'+
+                '<div class="pull-right" onclick="BlogDetail('+allBlog[i].id+')>'+
+                ' <span class="label label-info">java</span>'+
+                '<span class="label label-info">计划书</span>'+
+                '</div>'+
+                '<a class="" href="imgURL"><img src="img/display-photo.jpg"class="img-circle img-md"></a>'+
+                '<span>'+user.userName+'小民同学</span>'+
+                '<h3>'+allBlog[i].title+'深夜食堂故事集</h3>'+
+                '<p>'+allBlog[i].blogContent+'吃东西如果总是快乐的就好了，毕竟这是人们最容易实现的愿望。任何时候，它都不会辜负你。有些食物是不可实现的愿望。这些食物，往往带着非常复杂的往事... </p>'+
+                '<span class="text-muted">评论数：</span>'+allBlog[i].LeaveNum+'&nbsp&nbsp&nbsp'+
+                '<span class="text-muted">发表时间：</span>'+Data+'&nbsp&nbsp&nbsp '+
+                '</div>'+
+                '<hr>';
+
+            var id = "blog";
+            var blogArea = document.getElementById(id);
+            blogArea.innerHTML += html;
+        }
+    }
+
+
+    function getAllBlog() {
+        var allBlog = null;
+        var nothing = {};
+        $.ajax({
+            async : false, //设置同步
+            type : 'POST',
+            url : 'http://localhost:8080/GRCBlog/getAllBlog',
+            data : nothing,
+            dataType : 'json',
+            success : function(result) {
+                if (result!=null) {
+                    allBlog = result.allBlog;
+                }
+                else{
+                    layer.alert('查询错误');
+                }
+            },
+            error : function(resoult) {
+                layer.alert('查询错误');
+            }
+        });
+        //划重点划重点，这里的eval方法不同于prase方法，外面加括号
+        allBlog = eval("("+allBlog+")");
+        return allBlog;
+    }
+
+    function BlogDetail(id) {
+        var Blog = {};
+        var blog = '';
+        Blog.id = id;
+        $.ajax({
+            async : false, //设置同步
+            type : 'POST',
+            url : 'http://localhost:8080/GRCBlog/getBlog',
+            data : Blog,
+            dataType : 'json',
+            success : function(result) {
+                blog = result.blog;
+            },
+            error : function(resoult) {
+                layer.alert('查询错误');
+            }
+        });
+
+        if(jumpResult == "success"){
+            window.location.href = "http://localhost:8080/GRCBlog/blog_content";
+        }
+    }
+
+    function getUser(id) {
+        var userDetail = null;
+        var users = {};
+        users.userId = id;
+
+        $.ajax({
+            async : false, //设置同步
+            type : 'POST',
+            url : 'http://localhost:8080/GRCBlog/getUser',
+            data :users,
+            dataType : 'json',
+            success : function(result) {
+                if (result!=null) {
+                    userDetail = result.userDetail;
+                }
+                else{
+                    alert('查询错误');
+                }
+            },
+            error : function(result) {
+                alert('查询错误!!');
+            }
+        });
+        //划重点划重点，这里的eval方法不同于prase方法，外面加括号
+        // user = eval("("+user+")");
+        return userDetail;
+    }
+
+
+    function   formatDate(time)   {
+        var date = new Date(time);
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds();
+
+        return Y+M+D+h+m+s;
+    }
+
+
+</script>
 </body>
 </html>

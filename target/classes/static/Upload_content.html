@@ -85,7 +85,7 @@
 
         var user = getUser(upload.userId);
 
-        //var classify = getItClassify(upload.itClassifyId);
+        var classify = getItClassify(upload.itClassifyId);
 
         var Data = formatDate(upload.upTime);
 
@@ -97,12 +97,12 @@
             }
         })
 
-        /*var biaoqian = new Vue({
+        var biaoqian = new Vue({
             el: '#biaoqian',
             data: {
                 message: classify
             }
-        })*/
+        })
 
 
         var remark = new Vue({
@@ -191,7 +191,7 @@
         return user.userName;
     }
 
-    /*function getItClassify(id) {
+    function getItClassify(id) {
         var itClassify = null;
         var classify = {};
         classify.itClassifyId = id;
@@ -217,7 +217,7 @@
         //划重点划重点，这里的eval方法不同于prase方法，外面加括号
         // user = eval("("+user+")");
         return itClassify.itClassifyName;
-    }*/
+    }
 
     function   formatDate(time)   {
         var date = new Date(time);

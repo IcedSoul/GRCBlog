@@ -10,6 +10,7 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/layer.js"></script>
 </head>
 <body>
 
@@ -17,12 +18,12 @@
 <div class="container">
     <div row>
         <div class="col-sm-10 col-md-10 col-lg-10 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-            <form class="form-inline">
+            <a class="form-inline">
                 <input type="text" class="form-control " placeholder="搜索" style="width: 80%">
                 <button type="submit" class="btn btn-default no-border">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 </button>
-                <button class="btn btn-primary ">我要提问</button>
+                <a href="http://localhost:8080/GRCBlog/write_question.html"><button class="btn btn-primary" >我要提问</button></a>
             </form>
         </div>
     </div>
@@ -43,43 +44,13 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab-hot">
-                            <div class="list-group ">
-                                <div class="list-group-item">
-                                    <div class="pull-right">
-                                        <span class="label label-info">java</span>
-                                        <span class="label label-info">计划书</span>
-                                    </div>
-                                    <h3>怎么写java开发计划书？</h3>
-                                    <p>
-                                        如题，给个思路
-                                    </p>
-                                    <span class="text-muted">悬赏积分：</span>3&nbsp&nbsp&nbsp
-                                    <span class="text-muted">状态：</span>未解决&nbsp&nbsp&nbsp
-                                    <span class="text-muted">回答数：</span>123&nbsp&nbsp&nbsp
-                                    <span class="text-muted">发表时间：</span>7小时前&nbsp&nbsp&nbsp
-                                    <span class="text-muted">提问者：</span>小民&nbsp&nbsp&nbsp
-                                </div>
-                                <hr>
+                            <div class="list-group" id="better">
+
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-unsolve">
-                            <div class="list-group ">
-                                <div class="list-group-item">
-                                    <div class="pull-right">
-                                        <span class="label label-info">java</span>
-                                        <span class="label label-info">计划书</span>
-                                    </div>
-                                    <h3>怎么写java开发计划书？</h3>
-                                    <p>
-                                        如题，给个思路
-                                    </p>
-                                    <span class="text-muted">悬赏积分：</span>3&nbsp&nbsp&nbsp
-                                    <span class="text-muted">状态：</span>未解决&nbsp&nbsp&nbsp
-                                    <span class="text-muted">回答数：</span>123&nbsp&nbsp&nbsp
-                                    <span class="text-muted">发表时间：</span>7小时前&nbsp&nbsp&nbsp
-                                    <span class="text-muted">提问者：</span>小民&nbsp&nbsp&nbsp
-                                </div>
-                                <hr>
+                            <div class="list-group " id="question">
+
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-recent">
@@ -108,5 +79,121 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    listQuestion();
+    function listQuestion() {
+
+        var allQuestions = getAllQuestions(1);
+
+        for(var i=0;i<allQuestions.length;i++){
+
+            var Data = formatDate(allQuestions[i].publishTime);
+            var user = getUser(allQuestions[i].userId);
+
+            var html = "";
+            html += '<div class="list-group-item">'+
+                    //onClick中的函数需要修改，等端口写好之后，修改，根据id获取问题
+                 '<div class="pull-right" onclick="getAllQuestions('+allQuestions[i].id+')>'+
+                ' <span class="label label-info">java</span>'+
+                '<span class="label label-info">计划书</span>'+
+                '</div>'+
+                ' <h3>'+allQuestions[i].title+'怎么写java开发计划书？</h3>'+
+                '<p>'+'allQuestions[i].questionContent+如题，给个思路 </p>'+
+                ' <span class="text-muted">悬赏积分：</span>'+allQuestions[i].score+'3&nbsp&nbsp&nbsp'+
+                ' <span class="text-muted">状态：</span>'+allQuestions[i].state+'未解决&nbsp&nbsp&nbsp<p>'+
+                '<span class="text-muted">回答数：</span>'+allQuestions[i].answerNum+'123&nbsp&nbsp&nbsp'+
+                ' <span class="text-muted">发表时间：</span>'+Data+'7小时前&nbsp&nbsp&nbsp'+
+                '<span class="text-muted">提问者：</span>'+user+'&nbsp&nbsp&nbsp'+
+                '</div>'+
+                '<hr>';
+
+            if(allQuestions[i].answerNum>100)
+            {
+                var id = "better";
+                var questionArea = document.getElementById(id);
+                questionArea.innerHTML += html;
+            }
+            else
+            {
+                var id = "question";
+                var questionArea = document.getElementById(id);
+                questionArea.innerHTML += html;
+            }
+        }
+    }
+
+
+    function getAllQuestions(id) {
+        var questions = null;
+        var nothing = {};
+        nothing.userId=id;
+        $.ajax({
+            async : false, //设置同步
+            type : 'POST',
+            url : 'http://localhost:8080/GRCBlog/getAllQuestions',
+            data : nothing,
+            dataType : 'json',
+            success : function(result) {
+                if (result!=null) {
+                    questions = result.questions;
+                }
+                else{
+                    layer.alert('查询错误!!');
+                }
+            },
+            error : function(resoult) {
+                layer.alert('服务器异常');
+            }
+        });
+        //划重点划重点，这里的eval方法不同于prase方法，外面加括号
+        questions = eval("("+questions+")");
+        return questions;
+    }
+
+
+    function getUser(id) {
+        var user = null;
+        var users = {};
+        users.userId = id;
+
+        $.ajax({
+            async : false, //设置同步
+            type : 'POST',
+            url : 'http://localhost:8080/GRCBlog/getUser',
+            data :users,
+            dataType : 'json',
+            success : function(result) {
+                if (result!=null) {
+                    user = result.user;
+                }
+                else{
+                    alert('查询错误');
+                }
+            },
+            error : function(result) {
+                alert('查询错误!!');
+            }
+        });
+        //划重点划重点，这里的eval方法不同于prase方法，外面加括号
+        // user = eval("("+user+")");
+        return user.userName;
+    }
+
+
+    function   formatDate(time)   {
+        var date = new Date(time);
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds();
+
+        return Y+M+D+h+m+s;
+    }
+
+</script>
 </body>
 </html>
