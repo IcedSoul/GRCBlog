@@ -1,5 +1,6 @@
 package com.grc.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.grc.domain.ItClassify;
 import com.grc.service.ItClassifyService;
@@ -35,6 +36,21 @@ public class ItClassifyController {
         result = JSONArray.toJSONString(itClassifyList);
         Map<String,Object> response = new HashMap<String, Object>();
         response.put("itClassifys",result);
+        return response;
+    }
+
+    /**
+     * 获取分类
+     * @param itClassifyId
+     * @return
+     */
+    @PostMapping(value = "/getItClassify")
+    public Map<String,Object> getItClassify(@RequestParam("itClassifyId")Integer itClassifyId){
+        String result = "";
+        ItClassify itClassify = itClassifyService.getItClassify(itClassifyId);
+        result = JSON.toJSONString(itClassify);
+        Map<String,Object> response = new HashMap<String, Object>();
+        response.put("itClassify",result);
         return response;
     }
 

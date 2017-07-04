@@ -50,16 +50,17 @@
         </div>
 
 
-        <div clas="container-content">
+        <div class="container-content">
             <div class="list-group-item-content">
                 <div class="col-md-8 col-md-offset-2">
                     <p>{{ blog_content }}</p>
                 </div>
             </div>
-            </div>
+        </div>
+    </div>
 
-         <hr class="divider" width="800px">
-
+        <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2" />
+    <div>
          <div class="container">
              <div class="row">
                  <div class="col-md-4 col-md-offset-2">
@@ -68,8 +69,8 @@
                      </div>
 
                      <div class="col-md-8 col-md-offset-1">
-                         <div class="input-group ">
-                             <textarea rows="3" type="text" class="form-control" placeholder="看了博客之后说几句吧..."
+                         <div class="input-group col-sm-12 col-md-12 col-lg-12 ">
+                             <textarea rows="3" cols="20" type="text" class="form-control" placeholder="看了博客之后说几句吧..."
                                        aria-describedby="basic-addon1"></textarea>
                          </div>
                      </div>
@@ -87,40 +88,11 @@
 
          </div>
 
-          <hr class="divider" width="800px">
-
-
-         <div class="container-commentzone">
-             <div class="row">
-                 <div class="col-md-4 col-md-offset-2">
-                     <div class="col-md-2 col-md-offset-0">
-                         <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>
-                     </div>
-
-                     <div class="col-md-8 col-md-offset-1">
-                         <span class="text">用户名</span>
-
-                         <p class="text-muted">评论时间：2017-6-24 10：00</p>
-                     </div>
-                 </div>
-             </div>
-
-             <div class="col-md-6 col-md-offset-3">
-                <p>“很多年轻的作者缺乏生活经验，却对人生侃侃而谈”这种人神烦，自己明明什么也没经历过，却好象自己经历的已经是人生所有一样</p>
-             </div>
-
-             <div class="col-md-6 col-md-offset-3">
-                 <button type="button" class="btn btn-default">
-                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style="color: #337ab7">点赞</span>
-                 </button>
-                 <button type="button" class="btn btn-default" href="#">
-                     <span class="glyphicon glyphicon-comment" aria-hidden="true" style="color: #337ab7">回复</span>
-                 </button>
-             </div>
-             <hr class="divider" width="800px">
-         </div>
+         <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2" />
+        <div id="leaveWordArea">
+            <word-item v-for="item in leaveWords" v-bind:word="item"></word-item>
+        </div>
     </div>
-</div>
 
 <script type="text/javascript">
     var blog = new Vue({
@@ -136,6 +108,56 @@
             blog_content: '空'
         }
     })
+
+    Vue.component('word-item',{
+        props: ['word'],
+        template: '<div>' +
+        '<div class="container">'+
+        '             <div class="row">'+
+        '                 <div class="col-md-4 col-md-offset-2">'+
+        '                     <div class="col-md-2 col-md-offset-0">'+
+        '                         <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>'+
+        '                     </div>'+
+        '                     <div class="col-md-8 col-md-offset-1">'+
+        '                         <span class="text">{{ word.userId }}</span>'+
+        '                         <p class="text-muted">评论时间：{{ word.leaveTime }}</p>'+
+        '                     </div>'+
+        '                 </div>'+
+        '             </div>'+
+        '             <div class="col-md-7 col-md-offset-3">'+
+        '                {{ word.leaveContent }}'+
+        '             </div>'+
+        '             <div class="col-md-6 col-md-offset-3 p-t-10">'+
+        '                 <button type="button" class="btn btn-default">'+
+        '                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style="color: #337ab7">点赞</span>'+
+        '                 </button>'+
+        '                 <button type="button" class="btn btn-default" href="#">'+
+        '                     <span class="glyphicon glyphicon-comment" aria-hidden="true" style="color: #337ab7">回复</span>'+
+        '                 </button>'+
+        '             </div>'+
+        '         </div>'+
+        '        <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2"/> >' +
+        '</div>'
+    })
+
+    var leaveWord = new Vue({
+        el: '#leaveWordArea',
+        data: {
+            leaveWords: [
+                {
+                    userId:'1',
+                    leaveTime:'2017-07-02 20:00:00',
+                    leaveContent:'我闲的没事就是想留个言'
+                },
+                {
+                    userId:'2',
+                    leaveTime:'2017-07-02 20:00:00',
+                    leaveContent:'我闲的没事又想留个言'
+                }
+            ]
+        }
+    })
+
     
     initBlogContent();
     
