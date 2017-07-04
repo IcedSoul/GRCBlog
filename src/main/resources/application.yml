@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/grcblog?characterEncoding=utf8&useSSL=false
     username: root
-    password: 19961002happy
+    password: 123456
   jpa:
     hibernate:
       ddl-auto: update
