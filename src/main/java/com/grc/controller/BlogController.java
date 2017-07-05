@@ -25,6 +25,21 @@ public class BlogController {
     BlogService blogService;
 
     /**
+     *
+     * @param userId
+     * @return
+     */
+    @PostMapping(value = "/getAllBlogs")
+    public Map<String,Object> getAllBlogs(@RequestParam("userId")Integer userId){
+        String result = "";
+        List<Blog> blogList = blogService.getAllBlog(userId);
+        result = JSONArray.toJSONString(blogList);
+        Map<String,Object> response = new HashMap<String, Object>();
+        response.put("blogs",result);
+        return response;
+    }
+
+    /**
      * 获取用户的所有博客
      * @param userId
      * @return
