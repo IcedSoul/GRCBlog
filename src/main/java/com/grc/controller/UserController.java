@@ -134,6 +134,7 @@ public class UserController {
         user.setUserPassword("");
         UserDetail userDetail = userService.findUserDetail(userId);
         Map<String,Object> response = new HashMap<String, Object>();
+        System.out.print(JSON.toJSON(user));
         response.put("user",JSON.toJSON(user));
         response.put("userDetail",JSON.toJSON(userDetail));
         return response;
