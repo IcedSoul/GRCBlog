@@ -8,9 +8,13 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+
     <script src="js/layer.js"></script>
+
+    <script src="js/vue.js"></script>
+
+
+
 </head>
 <body>
 
@@ -45,12 +49,12 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab-hot">
                             <div class="list-group" id="better">
-
+                                <question-item v-for="item in question" v-bind:question="item"></question-item>
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-unsolve">
-                            <div class="list-group " id="question">
-
+                            <div class="list-group " id="unsolve">
+                                <question-item v-for="item in unsolve_question" v-bind:question="item"></question-item>
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-recent">
@@ -80,55 +84,87 @@
     </div>
 </div>
 
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
 
-    listQuestion();
-    function listQuestion() {
-
-        var allQuestions = getAllQuestions(1);
-
-        for(var i=0;i<allQuestions.length;i++){
-
-            var Data = formatDate(allQuestions[i].publishTime);
-            var user = getUser(allQuestions[i].userId);
-
-            var html = "";
-            html += '<div class="list-group-item">'+
+    Vue.component('question-item',{
+        props: ['question'],
+        template:'<div class="list-group-item">'+
                     //onClick中的函数需要修改，等端口写好之后，修改，根据id获取问题
-                 '<div class="pull-right" >'+
-                '<span class="label label-info">java</span>  '+
-                '<span class="label label-info">计划书</span>'+
-                '</div>'+
-                ' <h3 onclick="getAllQuestions('+allQuestions[i].id+')">'+allQuestions[i].title+' </h3>'+
-                '<p>'+allQuestions[i].questionContent+' </p>'+
-                ' <span class="text-muted">悬赏积分：</span>'+allQuestions[i].score+' &nbsp&nbsp&nbsp'+
-                ' <span class="text-muted">状态：</span>'+allQuestions[i].state+' &nbsp&nbsp&nbsp<p>'+
-                '<span class="text-muted">回答数：</span>'+allQuestions[i].answerNum+' &nbsp&nbsp&nbsp'+
-                ' <span class="text-muted">发表时间：</span>'+Data+' &nbsp&nbsp&nbsp'+
-                '<span class="text-muted">提问者：</span>'+user+' &nbsp&nbsp&nbsp'+
-                '</div>'+
-                '<hr>';
+                 //'<div class="pull-right" >'+
+                ' <h3>{{ question.title }}</h3>'+
+                '<p>{{ question.questionContent }}</p>'+
+                ' <span class="text-muted">悬赏积分：{{ question.score }}</span> &nbsp&nbsp&nbsp'+
+                ' <span class="text-muted">状态：{{ question.state }}</span>&nbsp&nbsp&nbsp'+
+                '<span class="text-muted">回答数：{{ question.answerNum }}</span> &nbsp&nbsp&nbsp'+
+                ' <span class="text-muted">发表时间：{{ question.publish_time }}</span> &nbsp&nbsp&nbsp'+
+                '<span class="text-muted">提问者：{{ question.anthor }}</span> &nbsp&nbsp&nbsp'+
+                '<hr>'+
+                '</div>'
 
-            if(allQuestions[i].answerNum>100)
-            {
-                var id = "better";
-                var questionArea = document.getElementById(id);
-                questionArea.innerHTML += html;
-            }
-            else
-            {
-                var id = "question";
-                var questionArea = document.getElementById(id);
-                questionArea.innerHTML += html;
-            }
+    })
+
+
+    var question = new Vue({
+        el: "#better",
+        data:{
+            question:questionContent()
         }
+    })
+
+    var unsolve_question = new Vue({
+        el: "#unsolve",
+        data:{
+            unsolve_question:unsolve_questionContent()
+        }
+    })
+
+    function questionContent() {
+        var questionData = getAllQuestions(1);
+//        layer.msg(blogData.userId);
+
+        for(var i = 0; i<questionData.length;i++) {
+            var user = getUser(questionData[i].userId);
+            var Date = formatDate(questionData[i].publishTime);
+            questionData[i].publish_time = Date;
+            questionData[i].anthor = user.userName;
+        }
+       return questionData;
+
     }
 
 
+    function unsolve_questionContent()
+    {
+        var unsolve = getAllQuestions(1);
+        //满足要求的放入temp
+        var temp=[{}];
+        for(var i=0;i<unsolve.length;i++)
+        {
+            if(unsolve[i].state!=0)
+            {
+                var user = getUser(unsolve[i].userId);
+                var Date = formatDate(unsolve[i].publishTime);
+                unsolve[i].publish_time = Date;
+                unsolve[i].anthor = user.userName;
+                temp[i]=unsolve[i];
+            }
+
+        }
+        return  temp;
+    }
+
     function getAllQuestions(id) {
-        var questions = null;
+        var question = null;
         var nothing = {};
-        nothing.userId=id;
+        if(id==null)
+        {
+            nothing.userId=1;
+        }
+        else
+            nothing.userId=id;
         $.ajax({
             async : false, //设置同步
             type : 'POST',
@@ -137,26 +173,26 @@
             dataType : 'json',
             success : function(result) {
                 if (result!=null) {
-                    questions = result.questions;
+                    question = result.questions;
                 }
                 else{
-                    layer.alert('查询错误!!');
+                   alert('查询错误!!');
                 }
             },
             error : function(resoult) {
-                layer.alert('服务器异常');
+                alert('服务器异常');
             }
         });
         //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-        questions = eval("("+questions+")");
-        return questions;
+        question = eval("("+question+")");
+        return question;
     }
 
 
     function getUser(id) {
         var user = null;
         var users = {};
-        users.userId = id;
+        users.userId = 1;
 
         $.ajax({
             async : false, //设置同步
@@ -167,18 +203,19 @@
             success : function(result) {
                 if (result!=null) {
                     user = result.user;
+
                 }
                 else{
-                    alert('查询错误');
+                    alert('查询错误~~');
                 }
             },
             error : function(result) {
-                alert('查询错误!!');
+                alert('服务器查询错误!!');
             }
         });
         //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-        // user = eval("("+user+")");
-        return user.userName;
+
+        return user;
     }
 
 
@@ -195,5 +232,7 @@
     }
 
 </script>
+
+
 </body>
 </html>
