@@ -9,7 +9,8 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body style="padding-top: 50px">
 <!-- 顶部导航 -->
@@ -67,57 +68,64 @@
 <!-- 首页推荐-->
 <div class="container">
     <div class="row ">
-        <div class="col-sm-10 col-md-10 col-lg-10 col-sm-offset-1 col-sm-offset-1 col-sm-offset-1">
-            <div class="panel panel-default">
-                <div class="list-group">
-                    <div class="list-group-item">
-                        <a class="" href=""><img src="img/display-photo.jpg" class="img-circle img-md"></a>
-                        <span>小民同学</span>
-                        <span class="pull-right">7小时前</span>
-                        <h3>深夜食堂故事集</h3>
-                        <p>
-                            吃东西如果总是快乐的就好了，毕竟这是人们最容易实现的愿望。
-                            任何时候，它都不会辜负你。有些食物是不可实现的愿望。这些食物，往往带着非常复杂的往事...
-                        </p>
-                        <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">
-                            <button type="button" class="btn btn-default no-border">
-                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 128
-                            </button>
-                            <button type="button" class="btn btn-default no-border">
-                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 13
-                            </button>
-                            <button type="button" class="btn btn-default no-border">
-                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 13
-                            </button>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="list-group-item">
-                        <a class="" href=""><img src="img/display-photo.jpg" class="img-circle img-md"></a>
-                        <span>小李同学</span>
-                        <span class="pull-right">10小时前</span>
-                        <h3>深夜食堂故事集</h3>
-                        <p>
-                            吃东西如果总是快乐的就好了，毕竟这是人们最容易实现的愿望。
-                            任何时候，它都不会辜负你。有些食物是不可实现的愿望。这些食物，往往带着非常复杂的往事...
-                        </p>
-                        <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">
-                            <button type="button" class="btn btn-default no-border">
-                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 128
-                            </button>
-                            <button type="button" class="btn btn-default no-border">
-                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 13
-                            </button>
-                            <button type="button" class="btn btn-default no-border">
-                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 13
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-sm-10 col-md-10 col-lg-10 col-sm-offset-1 col-sm-offset-1 col-sm-offset-1" id="blogArea">
+            <blog-recommend v-for="item in blogs" v-bind:blog="item"></blog-recommend>
         </div>
     </div>
 </div>
 
+<script type="text/javascript">
+    Vue.component('blog-recommend', {
+        props: ['blog'],
+        template: '<div class="panel panel-default">'+
+        '                <div class="list-group">'+
+        '                    <div class="list-group-item">'+
+        '                        <a class="" href=""><img src="img/display-photo.jpg" class="img-circle img-md"></a>'+
+        '                        <span>{{ blog.authorName }}</span>'+
+        '                        <span class="pull-right">7小时前</span>'+
+        '                        <h3>{{ blog.blogTitle }}</h3>'+
+        '                        <p>{{ blog.blogContent }}</p>'+
+        '                        <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">'+
+        '                            <button type="button" class="btn btn-default no-border">'+
+        '                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ blog.viewTime }}'+
+        '                            </button>'+
+        '                            <button type="button" class="btn btn-default no-border">'+
+        '                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ blog.leaveNum }}'+
+        '                            </button>'+
+        '                            <button type="button" class="btn btn-default no-border">'+
+        '                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> {{ blog.goodNum}}'+
+        '                            </button>'+
+        '                        </div>'+
+        '                    </div>'+
+        '                </div>'+
+        '            </div>'
+    })
+
+    var blogArea = new Vue({
+        el:'#blogArea',
+        data:{
+            blogs:[
+                {
+                    authorName: '未命名',
+                    blogTitle: '标题',
+                    blogContent: '博客内容',
+                    viewTime: '0',
+                    leaveNum: '0',
+                    goodNum: '0'
+
+                },
+                {
+                    authorName: '未命名',
+                    blogTitle: '标题',
+                    blogContent: '博客内容',
+                    viewTime: '0',
+                    leaveNum: '0',
+                    goodNum: '0'
+
+                }
+            ]
+        }
+    })
+</script>
 </body>
 </html>

@@ -20,7 +20,6 @@ public class ViewController {
 
     @RequestMapping(value = "/index")
     public String index(){
-        System.out.println("233333");
         return "index.html";
     }
 

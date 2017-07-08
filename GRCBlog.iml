@@ -73,7 +73,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.3.9.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.42" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.24" level="project" />
-    <orderEntry type="library" name="Maven: io.jsonwebtoken:jjwt:0.7.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:1.5.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.5.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:1.5.4.RELEASE" level="project" />
