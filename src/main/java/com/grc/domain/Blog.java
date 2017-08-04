@@ -19,6 +19,7 @@ public class Blog {
     private Integer blogId;
     private Integer userId;
     private String title;
+    private String briefContent;
     private String blogContent;
     private Integer classifyId;
     private Integer itClassifyId;

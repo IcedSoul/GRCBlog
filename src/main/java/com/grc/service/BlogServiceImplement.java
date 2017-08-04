@@ -27,6 +27,11 @@ public class BlogServiceImplement implements BlogService {
     }
 
     @Override
+    public List<Blog> getUserClassifyBlog(Integer userId, Integer classifyId) {
+        return blogRepository.findByUserIdAndClassifyId(userId,classifyId);
+    }
+
+    @Override
     public Blog getBlog(Integer blogId) {
         return blogRepository.findOne(blogId);
     }

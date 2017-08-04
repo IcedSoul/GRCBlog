@@ -66,7 +66,7 @@
         '                        <span>{{ blog.userName }}</span>'+
         '                        <span class="pull-right">7小时前</span>'+
         '                        <h3>{{ blog.title }}</h3>'+
-        '                        <p>{{ blog.blogContent }}</p>'+
+        '                        <p>{{ blog.briefContent }}</p>'+
         '                        <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">'+
         '                            <button type="button" class="btn btn-default no-border">'+
         '                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ blog.viewNum }}'+
@@ -95,7 +95,7 @@
         },
         created: function () {
             var user = {};
-            user.userId = cookie.get('currentUserId');
+            user.userId = cookie.get('userId');
             var blogs = '';
             $.ajax({
                 async : false,

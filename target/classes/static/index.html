@@ -95,7 +95,7 @@
         },
         created: function () {
             var user = {};
-            user.userId = cookie.get('currentUserId');
+            user.userId = cookie.get('userId');
             var blogs = '';
             $.ajax({
                 async : false,

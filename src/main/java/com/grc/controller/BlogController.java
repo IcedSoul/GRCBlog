@@ -71,6 +71,22 @@ public class BlogController {
     }
 
     /**
+     * 获取用户某个分类的所有博客
+     * @param userId
+     * @return
+     */
+    @PostMapping(value = "/getUserClassifyBlogs")
+    public Map<String,Object> getUserClassifyBlogs(@RequestParam("userId")Integer userId,
+                                                   @RequestParam("classifyId")Integer classifyId){
+        String result = "";
+        List<Blog> blogList = blogService.getUserClassifyBlog(userId,classifyId);
+        result = JSONArray.toJSONString(blogList, SerializerFeature.UseSingleQuotes);
+        Map<String,Object> response = new HashMap<String, Object>();
+        response.put("blogs",result);
+        return response;
+    }
+
+    /**
      * 根据博客Id获取博客
      * @param blogId
      * @return

@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface BlogRepository extends JpaRepository<Blog,Integer> {
     public List<Blog> findByUserId(Integer userId);
+    public List<Blog> findByUserIdAndClassifyId(Integer userId,Integer classifyId);
 }

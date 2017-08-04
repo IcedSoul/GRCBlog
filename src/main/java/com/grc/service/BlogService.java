@@ -10,6 +10,7 @@ import java.util.List;
 public interface BlogService {
     List<Blog> getAllBlog(Integer userId);
     List<Blog> getUserBlog(Integer userId);
+    List<Blog> getUserClassifyBlog(Integer userId,Integer classifyId);
     Blog getBlog(Integer blogId);
     void addBlog(Blog blog);
     void deleteBlog(Integer blogId);
