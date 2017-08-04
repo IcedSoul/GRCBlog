@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,9 +8,10 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
-    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.cropit.js"></script>
+    <script src="js/vue.js"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -21,77 +22,83 @@
                 <div class="panel-body">
                     <div class="list-group-item">
                         <h2 style="text-align: center"> 个人信息</h2>
-                        <form action="" method="post">
+                        <div id="modifyUserInfo">
                             <div class="form-group">
                                 <label>头像：</label>
                                 <br>
-                                <a style="cursor: pointer" data-toggle="modal" data-target="#myModal"
-                                   id="show-photo"><img src="img/display-photo.jpg" class="img-circle img-lg"></a>
+                                <a style="cursor: pointer" data-toggle="modal" data-target="#myModal" id="show-photo">
+                                        <img src="img/display-photo.jpg" class="img-circle img-lg">
+                                </a>
                             </div>
                             <div class="form-group">
                                 <label>用户名：</label>
-                                <input type="text" id="name" value="" class="form-control"/>
+                                 <input type="text" id="name" v-model="userName" class="form-control" readonly/>
                                 <span class="spa-name"></span>
                             </div>
                             <div class="form-group">
                                 <label>密码：</label>
-                                <input type="password" id="pwd" value="" class="form-control"/>
+                                <input type="password" id="pwd" v-model="userPassword" class="form-control"/>
                                 <span class="spa spa-pwd"></span>
                             </div>
                             <div class="form-group">
+                                <label>新密码：</label>
+                                <input type="password" id="new-pwd" v-model="userNewPassword" class="form-control"/>
+                                <span class="spa spa-new-pwd"></span>
+                            </div>
+                            <div class="form-group">
                                 <label>确认密码：</label>
-                                <input type="password" id="check-pwd" value="" class="form-control"/>
+                                <input type="password" id="check-pwd" v-model="userConfirmPassword" class="form-control"/>
                                 <span class="spa spa-check-pwd"></span>
                             </div>
                             <div class="form-group">
                                 <label>生日：</label>
-                                <input type="date" id="birthday" value="" class="form-control"/>
+                                <input type="date" id="birthday" v-model="userBirthday" class="form-control"/>
                                 <span class="spa spa-birthday"></span>
                             </div>
                             <div class="form-group">
                                 <label>性别：</label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="sex" id="inlineRadio1" value="option1"> 男
+                                    <input type="radio" name="sex" id="inlineRadio1" value="男" v-model="userSex"> 男
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="sex" id="inlineRadio2" value="option2"> 女
+                                    <input type="radio" name="sex" id="inlineRadio2" value="女" v-model="userSex"> 女
                                 </label>
                                 <span class="spa spa-sex"></span>
                             </div>
                             <div class="form-group">
                                 <label>职业：</label>
-                                <input type="text" id="job" value="" class="form-control"/>
+                                <input type="text" id="job" v-model="userJob" class="form-control"/>
                                 <span class="spa spa-job"></span>
                             </div>
                             <div class="form-group">
                                 <label>邮箱：</label>
-                                <input type="text" id="email" value="" class="form-control"/>
+                                <input type="text" id="email" v-model="userEmail" class="form-control"/>
                                 <span class="spa spa-email"></span>
                             </div>
                             <div class="form-group">
                                 <label>手机号：</label>
-                                <input type="text" id="phone" value="" class="form-control"/>
+                                <input type="text" id="phone" v-model="userPhoneNumber" class="form-control"/>
                                 <span class="spa spa-phone"></span>
                             </div>
                             <div class="form-group">
                                 <label>联系地址:</label>
-                                <input type="text" id="address" value="" class="form-control"/>
+                                <input type="text" id="address" v-model="userAddress" class="form-control"/>
                                 <span class="spa spa-address"></span>
                             </div>
                             <div class="form-group">
                                 <label>兴趣爱好：</label>
-                                <input type="text" id="interest" value="" class="form-control"/>
+                                <input type="text" id="interest" v-model="userFavorite" class="form-control"/>
                                 <span class="spa spa-interest"></span>
                             </div>
                             <div class="form-group">
                                 <label>个性签名：</label>
-                                <textarea class="form-control" rows="3"></textarea>
+                                <textarea class="form-control" rows="3" v-model="userSignature"></textarea>
                                 <span class="spa spa-remark"></span>
                             </div>
                             <div class="form-group" style="float: right">
                                 <button type="button" class="btn btn-primary">保存</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -227,6 +234,24 @@
                 $(".spa-check-pwd").text('请再次填写密码')
             }
             return false;
+        }
+    })
+
+    var modifyUserInfo = new Vue({
+        el:"#modifyUserInfo",
+        data:{
+            userName:'未命名',
+            userPassword:'***',
+            userNewPassword:'***',
+            userConfirmPassword:'***',
+            userBirthday:'1996-10-01',
+            userSex:'男',
+            userJob:'学生',
+            userEmail:'example@example.com',
+            userAddress:'上海市宝山区上海大学校内',
+            userPhoneNumber:'13120537282',
+            userFavorite: '编程',
+            userSignature:'我爱学习，学习爱我'
         }
     })
 </script>

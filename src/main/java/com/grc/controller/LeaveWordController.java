@@ -2,6 +2,7 @@ package com.grc.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.grc.domain.LeaveWord;
 import com.grc.service.LeaveWordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +34,10 @@ public class LeaveWordController {
     @PostMapping(value = "/getBlogLeaveWords")
     public Map<String,Object> getBlogLeaveWords(@RequestParam("blogId")Integer blogId){
         String result = "";
-        List<LeaveWord> leaveWordList = leaveWordService.getBlogLeaveWords(blogId);
-        result = JSONArray.toJSONString(leaveWordList);
+        ArrayList leaveWordList = leaveWordService.getBlogLeaveWords(blogId);
+        result = JSONArray.toJSONString(leaveWordList, SerializerFeature.UseSingleQuotes);
         Map<String,Object> response = new HashMap<String, Object>();
+        System.out.println("I return ------------------"+result);
         response.put("leaveWords",result);
         return response;
     }
@@ -66,17 +69,20 @@ public class LeaveWordController {
     public Map<String,Object> addLeaveWord(@RequestParam("userId")Integer userId,
                                       @RequestParam("blogId")Integer blogId,
                                       @RequestParam("leaveContent")String leaveContent,
-                                      @RequestParam("answerId")Integer answerId){
+                                      @RequestParam("answerId")Integer answerId,
+                                      @RequestParam("answerId")Integer level){
         LeaveWord leaveWord = new LeaveWord();
         leaveWord.setAnswerId(answerId);
         leaveWord.setLeaveContent(leaveContent);
         leaveWord.setUserId(userId);
         leaveWord.setBlogId(blogId);
+        leaveWord.setLevel(level);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         leaveWord.setLeaveTime(timestamp);
-        leaveWordService.addLeaveWord(leaveWord);
+        LeaveWord leaveWord1 = leaveWordService.addLeaveWord(leaveWord);
         Map<String,Object> response = new HashMap<String, Object>();
         response.put("addResult","success");
+        response.put("leaveWord",JSON.toJSONString(leaveWord));
         return response;
     }
 

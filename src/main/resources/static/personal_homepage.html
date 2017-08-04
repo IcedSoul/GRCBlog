@@ -7,8 +7,9 @@
     <title>我的主页</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
 
 </head>
 <body>
@@ -71,20 +72,18 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="row" >
+                    <div class="row" id="userInfo">
                         <div class="col-md-3 " style="text-align: center;padding-top: 50px">
                             <img src="img/display-photo.jpg" class="img-circle img-lg">
                         </div>
                         <div class="col-md-9 ">
-                            <p class="pull-right" ><span class="badge">积分:42</span></p>
-                            <h3 style="font-weight: bold">小民同学</h3>
+                            <!--<p class="pull-right" ><span class="badge">积分:42</span></p>-->
+                            <h3 style="font-weight: bold">{{ user_name }}</h3>
 
-                            <p><span class="text-muted">性别：</span>女</p>
-                            <p>  <span class="text-muted">职业：</span>java工程师</p>
-                            <p>   <span class="text-muted">兴趣：</span>编程</p>
-                            <p><span class="text-muted">个性签名：</span>【暮色夜色，雪和雨，云与湿润雾气，幻想，谜 】
-                                【你知道，人的一生，既不是人们想象的那么好，也不是那么坏】
-                                【本人已委托维权骑士（http://www.rightknights.com）为我的文章进行维权&nbsp&nbsp&nbsp</p>
+                            <p><span class="text-muted">性别：</span>{{ user_sex }}</p>
+                            <p><span class="text-muted">职业：</span>{{ user_job }}</p>
+                            <p><span class="text-muted">兴趣：</span>{{ user_favorite }}</p>
+                            <p><span class="text-muted">个性签名：</span>{{ user_signature }}</p>
                         </div>
                     </div>
                 </div>
@@ -96,48 +95,11 @@
             <div class="col-sm-3 col-md-3 col-lg-3 ">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <ul class="list-group">
+                        <ul class="list-group" id="blogClassify">
                             <li class="list-group-item">我的分类</li>
-                            <li class="list-group-item">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default no-border" id="JavaBtn">
-                                        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Java
-                                    </button>
+                            <blog-classify v-for="item in classifys" v-bind:classify="item"></blog-classify>
 
-                                    <button  class="btn btn-default no-border" onclick="RemoveOne('Java')" id="Java" style="display: none">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>
-                                    </button>
-                                    <button  class="btn btn-default no-border" id="JavaEdit" style="display:none;">
-                                        <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-                                    </button>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default no-border"  id="pythonBtn">
-                                        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> python
-                                    </button>
-                                    <button  class="btn btn-default no-border" onclick="RemoveOne('python')"  id="python" style="display: none">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>
-                                    </button>
-                                    <button  class="btn btn-default no-border" id="pythonEdit" style="display: none">
-                                        <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-                                    </button>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default no-border" id="J2EEBtn" >
-                                        <span class="glyphicon glyphicon-book" aria-hidden="true" ></span> J2EE
-                                    </button>
-                                    <button  class="btn btn-default no-border" onclick="RemoveOne('J2EE')" id="J2EE" style="display: none">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    </button>
-                                    <button  class="btn btn-default no-border" id="J2EEEdit" style="display: none">
-                                        <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>
-                                    </button>
-                                </div>
-                            </li>
+
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default no-border" data-toggle="modal" data-target=".bs-example-modal-sm">
                                     新增
@@ -173,115 +135,18 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab-article">
-                            <div class="list-group">
-                                <div class="list-group-item">
-                                    <a class="" href=""><img src="img/display-photo.jpg"
-                                                             class="img-circle img-md"></a>
-                                    <span>小民同学</span>
-                                    <span class="pull-right">7小时前</span>
-                                    <h3>深夜食堂故事集</h3>
-                                    <p>
-                                        吃东西如果总是快乐的就好了，毕竟这是人们最容易实现的愿望。
-                                        任何时候，它都不会辜负你。有些食物是不可实现的愿望。这些食物，往往带着非常复杂的往事...
-                                    </p>
-                                    <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">
-                                        <button type="button" class="btn btn-default no-border">
-                                                    <span class="glyphicon glyphicon-eye-open"
-                                                          aria-hidden="true"></span>
-                                            128
-                                        </button>
-                                        <button type="button" class="btn btn-default no-border">
-                                            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-                                            13
-                                        </button>
-                                        <button type="button" class="btn btn-default no-border">
-                                                    <span class="glyphicon glyphicon-thumbs-up"
-                                                          aria-hidden="true"></span>
-                                            13
-                                        </button>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="list-group-item">
-                                    <a class="" href=""><img src="img/display-photo.jpg"
-                                                             class="img-circle img-md"></a>
-                                    <span>小李同学</span>
-                                    <span class="pull-right">10小时前</span>
-                                    <h3>深夜食堂故事集</h3>
-                                    <p>
-                                        吃东西如果总是快乐的就好了，毕竟这是人们最容易实现的愿望。
-                                        任何时候，它都不会辜负你。有些食物是不可实现的愿望。这些食物，往往带着非常复杂的往事...
-                                    </p>
-                                    <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">
-                                        <button type="button" class="btn btn-default no-border">
-                                                    <span class="glyphicon glyphicon-eye-open"
-                                                          aria-hidden="true"></span>
-                                            128
-                                        </button>
-                                        <button type="button" class="btn btn-default no-border">
-                                            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-                                            13
-                                        </button>
-                                        <button type="button" class="btn btn-default no-border">
-                                                    <span class="glyphicon glyphicon-thumbs-up"
-                                                          aria-hidden="true"></span>
-                                            13
-                                        </button>
-                                    </div>
-                                </div>
+                            <div class="list-group" id = "blogArea">
+                                <blog-brief v-for="item in blogs" v-bind:blog="item"></blog-brief>
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-resource">
-                            <div class="list-group">
-                                <div class="list-group-item">
-                                    <div class="pull-right">
-                                        <span class="label label-info">java</span>
-                                        <span class="label label-info">计划书</span>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <svg width="64" height="64" version="1.1"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <rect width="50" height="60" style="fill:gray;"/>
-                                                <polygon style="fill:#FFFFFF;" points="35,0 50,0 50,15 "/>
-                                                <polygon style="fill:#FFFFFF;" points="30,3 45,20 30,20 "/>
-                                                <text x="5" y="40" font-size="15" style="fill:white">RAR</text>
-                                            </svg>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 style="">java软件开发计划书</h4>
-                                            <p>java软件开发计划书java软件开发计划书java软件开发计划书java软件开发计划书
-                                                java软件开发计划书java软件开发计划书java软件开发计划书
-                                            </p>
-                                            <br>
-                                            <span class="text-muted">所需积分：</span>1&nbsp&nbsp&nbsp
-                                            <span class="text-muted">下载次数：</span>123&nbsp&nbsp&nbsp
-                                            <span class="text-muted">上传时间：</span>7小时前&nbsp&nbsp&nbsp
-                                            <span class="text-muted">上传者：</span>小民
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
+                            <div class="list-group" id = "uploadArea">
+                                <upload-brief v-for="item in uploads" v-bind:upload="item"></upload-brief>
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-question">
-                            <div class="list-group ">
-                                <div class="list-group-item">
-                                    <div class="pull-right">
-                                        <span class="label label-info">java</span>
-                                        <span class="label label-info">计划书</span>
-                                    </div>
-                                    <h3>怎么写java开发计划书？</h3>
-                                    <p>
-                                        如题，给个思路
-                                    </p>
-                                    <span class="text-muted">悬赏积分：</span>3&nbsp&nbsp&nbsp
-                                    <span class="text-muted">状态：</span>未解决&nbsp&nbsp&nbsp
-                                    <span class="text-muted">回答数：</span>123&nbsp&nbsp&nbsp
-                                    <span class="text-muted">发表时间：</span>7小时前&nbsp&nbsp&nbsp
-                                    <span class="text-muted">提问者：</span>小民&nbsp&nbsp&nbsp
-                                </div>
-                                <hr>
+                            <div class="list-group" id="questionArea">
+                                <question-brief v-for="item in questions" v-bind:question="item"></question-brief>
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-answer">
@@ -370,6 +235,177 @@
             currentBtn.style.display = "none";
         }
     }
+
+
+    var userInfo = new Vue({
+        el: "#userInfo",
+        data: {
+            user_name: '佚名',
+            user_sex: '男',
+            user_job: '学生',
+            user_favorite: '编程',
+            user_signature: '没有签名'
+        }
+    })
+
+    Vue.component('blog-classify',{
+        props:['classify'],
+        template:' <li class="list-group-item">'+
+        '                                <div class="btn-group">'+
+        '                                    <button type="button" class="btn btn-default no-border" v-bind:id="classify.classifyId" >'+
+        '                                        <span class="glyphicon glyphicon-book" aria-hidden="true" ></span> {{ classify.classifyName }}'+
+        '                                    </button>'+
+        '                                    <button  class="btn btn-default no-border" onclick="RemoveOne($event)" style="display: none">'+
+        '                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'+
+        '                                    </button>'+
+        '                                    <button  class="btn btn-default no-border" id="J2EEEdit" style="display: none">'+
+        '                                        <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>'+
+        '                                    </button>'+
+        '                                </div>'+
+        '                            </li>'
+    })
+    var blogClassify = new Vue({
+        el: '#blogClassify',
+        data:{
+            classifys:[
+                {
+                    classifyId: '1',
+                    classifyName: 'Java'
+                },
+            ]
+        }
+    })
+
+    Vue.component('blog-brief',{
+        props:['blog'],
+        template:'<div class="list-group-item">'+
+        '                                    <a class="" href=""><img src="img/display-photo.jpg" class="img-circle img-md"></a>'+
+        '                                    <span>{{ blog.authorName }} </span>'+
+        '                                    <h3>{{ blog.blogTitle }}</h3>'+
+        '                                    <p>{{ blog.blogContent }}</p>'+
+        '                                    <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">'+
+        '                                        <button type="button" class="btn btn-default no-border">'+
+        '                                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>'+
+        '                                            {{ blog.viewNum }}'+
+        '                                        </button>'+
+        '                                        <button type="button" class="btn btn-default no-border">'+
+        '                                            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>'+
+        '                                            {{ blog.leaveNum }}'+
+        '                                        </button>'+
+        '                                        <button type="button" class="btn btn-default no-border">'+
+        '                                                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>'+
+        '                                            {{ blog.goodNum }}'+
+        '                                        </button>'+
+        '                                    </div>'+
+        '                                    <hr/>'+
+        '                                </div>'
+    })
+
+    var blogArea = new Vue({
+        el:"#blogArea",
+        data:{
+            blogs:[
+                {
+                    authorName: '未命名',
+                    blogTitle: '标题',
+                    blogContent: '没有简介',
+                    viewNum: '0',
+                    leaveNum:'0',
+                    goodNum:'0'
+                }
+
+            ]
+        }
+    })
+
+    Vue.component('upload-brief',{
+        props:['upload'],
+        template:'<div class="list-group">'+
+        '                                <div class="list-group-item">'+
+        '                                    <div class="pull-right">'+
+        '                                        <span class="label label-info" style="margin-right: 3px;" v-for="tag in upload.tags">{{ tag.text }}</span>'+
+        '                                    </div>'+
+        '                                    <div class="media">'+
+        '                                        <div class="media-left">'+
+        '                                            <svg width="64" height="64" version="1.1" xmlns="http://www.w3.org/2000/svg">'+
+        '                                                <rect width="50" height="60" style="fill:gray;"/>'+
+        '                                                <polygon style="fill:#FFFFFF;" points="35,0 50,0 50,15 "/>'+
+        '                                                <polygon style="fill:#FFFFFF;" points="30,3 45,20 30,20 "/>'+
+        '                                                <text x="5" y="40" font-size="15" style="fill:white">RAR</text>'+
+        '                                            </svg>'+
+        '                                        </div>'+
+        '                                        <div class="media-body">'+
+        '                                            <h4 style="">{{ upload.name}}</h4>'+
+        '                                            <p>{{ upload.description }}</p>'+
+        '                                            <br>'+
+        '                                            <span class="text-muted">所需积分：</span>{{ upload.score }}&nbsp&nbsp&nbsp'+
+        '                                            <span class="text-muted">下载次数：</span>{{ upload.downNum }}&nbsp&nbsp&nbsp'+
+        '                                            <span class="text-muted">上传时间：</span>{{ upload.uploadTime }}&nbsp&nbsp&nbsp'+
+        '                                            <span class="text-muted">上传者：</span> {{ upload.userName }}'+
+        '                                        </div>'+
+        '                                    </div>'+
+        '                                </div>'+
+        '                                <hr>'+
+        '                            </div>'
+    })
+
+    var uploadArea = new Vue({
+        el:"#uploadArea",
+        data:{
+            uploads:[{
+                name: '未命名',
+                description:'没有描述',
+                score:'0',
+                downNum:'0',
+                uploadTime:'2017-07-01 00:00:00',
+                userName:'没有上传者',
+                tags:[
+                    {text:'java'},
+                    {text:'c++'}
+                ]
+            }]
+        }
+    })
+
+    Vue.component('question-brief',{
+        props:['question'],
+        template:'<div class="list-group-item">'+
+        '                                    <div class="pull-right">'+
+        '                                        <span class="label label-info" v-for="tag in question.tags">{{ tag.text }}</span>'+
+        '                                    </div>'+
+        '                                    <h3>{{ question.title }}</h3>'+
+        '                                    <p>{{ question.questionContent }}</p>'+
+        '                                    <span class="text-muted">悬赏积分：</span>{{ question.score }}&nbsp&nbsp&nbsp'+
+        '                                    <span class="text-muted">状态：</span>{{ question.status }}&nbsp&nbsp&nbsp'+
+        '                                    <span class="text-muted">回答数：</span>{{ question.ansNum }}&nbsp&nbsp&nbsp'+
+        '                                    <span class="text-muted">发表时间：</span>{{ question.publishTime }}&nbsp&nbsp&nbsp'+
+        '                                    <span class="text-muted">提问者：</span>{{ question.userName }}&nbsp&nbsp&nbsp'+
+        '                                    <hr>'+
+        '                                </div>'
+    })
+
+    var questionArea = new Vue({
+        el:"#questionArea",
+        data:{
+            questions:[
+                {
+                    title: '未命名',
+                    questionContent:'问题描述',
+                    score:'0',
+                    status:'待解决',
+                    ansNum:'0',
+                    publishTime:'2017-07-01 00:00:00',
+                    userName:'佚名',
+                    tags:[
+                        {text:'java'},
+                        {text:'c++'}
+                    ]
+
+                }
+            ]
+        }
+    })
+
 </script>
 
 </body>

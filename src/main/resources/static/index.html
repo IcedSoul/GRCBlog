@@ -13,43 +13,7 @@
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body style="padding-top: 50px">
-<!-- 顶部导航 -->
-<div class="navbar navbar-fixed-top" role="navigation" id="menu-nav">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">切换导航</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"> <img alt="Brand" src="img/brand.jpg"></a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="" class="black-feature">首页</a></li>
-                <li class="active"><a href="" class="black-feature">消息</a></li>
-            </ul>
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索">
-                    <button type="submit" class="btn btn-link">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </div>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <button class="btn btn-info btn-info-nav ">登录</button>
-                <li>
-                    <button class="btn btn-info btn-info-nav ">注册</button>
-            </ul>
-        </div>
-        <hr class="navhr">
-    </div>
-</div>
-<!-- 广告图片-->
+<script src="js/header.js"></script>
 <div id="ad-carousel" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
         <div class="item active">
@@ -73,21 +37,39 @@
         </div>
     </div>
 </div>
+<script src="js/footer.js"></script>
 
 <script type="text/javascript">
+    var cookie = new Vue({
+        methods:{
+            set: function (name, value, days) {
+                var d = new Date;
+                d.setTime(d.getTime() + 24*60*60*1000*days);
+                window.document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+            },
+            get: function (name) {
+                var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+                return v ? v[2] : null;
+            },
+            delete: function (name) {
+                this.set(name, '', -1);
+            }
+        }
+    })
+
     Vue.component('blog-recommend', {
         props: ['blog'],
-        template: '<div class="panel panel-default">'+
+        template: '<div class="panel panel-default" style="cursor: pointer" v-on:click="blogDetail(blog.blogId)">'+
         '                <div class="list-group">'+
         '                    <div class="list-group-item">'+
         '                        <a class="" href=""><img src="img/display-photo.jpg" class="img-circle img-md"></a>'+
-        '                        <span>{{ blog.authorName }}</span>'+
+        '                        <span>{{ blog.userName }}</span>'+
         '                        <span class="pull-right">7小时前</span>'+
-        '                        <h3>{{ blog.blogTitle }}</h3>'+
+        '                        <h3>{{ blog.title }}</h3>'+
         '                        <p>{{ blog.blogContent }}</p>'+
         '                        <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">'+
         '                            <button type="button" class="btn btn-default no-border">'+
-        '                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ blog.viewTime }}'+
+        '                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{ blog.viewNum }}'+
         '                            </button>'+
         '                            <button type="button" class="btn btn-default no-border">'+
         '                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ blog.leaveNum }}'+
@@ -98,34 +80,88 @@
         '                        </div>'+
         '                    </div>'+
         '                </div>'+
-        '            </div>'
-    })
+        '            </div>',
+        methods:{
+            blogDetail: function (blogId) {
+                window.location.href = url.makeURL('http://localhost:8080/GRCBlog/blog_content.html','blogId',blogId);
+            }
+        }
+    });
 
     var blogArea = new Vue({
         el:'#blogArea',
         data:{
-            blogs:[
-                {
-                    authorName: '未命名',
-                    blogTitle: '标题',
-                    blogContent: '博客内容',
-                    viewTime: '0',
-                    leaveNum: '0',
-                    goodNum: '0'
-
+            blogs:[]
+        },
+        created: function () {
+            var user = {};
+            user.userId = cookie.get('currentUserId');
+            var blogs = '';
+            $.ajax({
+                async : false,
+                type : 'POST',
+                url : 'http://localhost:8080/GRCBlog/getAllBlogs',
+                data : user,
+                dataType : 'json',
+                success : function(result) {
+                    blogs = result.blogs;
                 },
-                {
-                    authorName: '未命名',
-                    blogTitle: '标题',
-                    blogContent: '博客内容',
-                    viewTime: '0',
-                    leaveNum: '0',
-                    goodNum: '0'
-
+                error : function(result) {
+                    alert('服务器异常');
                 }
-            ]
+            });
+            if(blogs!==''){
+                blogs = eval('('+blogs+')');
+                this.blogs = blogs;
+            }
         }
-    })
+    });
+
+    var user = new Vue({
+        methods:{
+            getUser:function (userId) {
+                var userInfo = {};
+                userInfo.userId = userId;
+                var users;
+                $.ajax({
+                    async : false,
+                    type : 'POST',
+                    url : 'http://localhost:8080/GRCBlog/getUser',
+                    data : userInfo,
+                    dataType : 'json',
+                    success : function(result) {
+                        users = result.user;
+                    },
+                    error : function(result) {
+                        alert('服务器异常');
+                    }
+                });
+                return users;
+            }
+        }
+    });
+
+    var url = new Vue({
+        methods:{
+            makeURL: function (url,name,value) {
+                return url+"?"+name+"="+value;
+            },
+            parseURL: function (name) {
+                var url = location.search;
+                var request = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    var strs = str.split("&");
+                    for(var i = 0; i < strs.length; i ++) {
+                        var value = strs[i].split("=");
+                        if( value[0] == name)
+                            return value[1];
+                    }
+                }
+                return null;
+            }
+        }
+    });
 </script>
 </body>
 </html>

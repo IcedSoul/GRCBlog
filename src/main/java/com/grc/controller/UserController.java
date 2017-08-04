@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.grc.domain.User;
 import com.grc.domain.UserDetail;
 import com.grc.service.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +32,10 @@ public class UserController {
      * @param httpSession
      * @return
      */
+    @ApiOperation(value = "用户登录",httpMethod ="POST", notes = "user")
     @PostMapping(value = "/doLogin")
-    public Map<String,Object> doLogin(@RequestParam("userName")String userName,
-                                      @RequestParam("userPassword")String userPassword,HttpSession httpSession){
+    public Map<String,Object> doLogin(@ApiParam(value = "用户名",required = true)@RequestParam("userName")String userName,
+                                      @ApiParam(value = "用户密码",required = true)@RequestParam("userPassword")String userPassword,HttpSession httpSession){
         System.out.println("I receive the userName "+userName+" and userPassword "+userPassword);
         String result = "fail";
         User user = userService.findByUserName(userName);
@@ -59,6 +62,7 @@ public class UserController {
      * 用户注销登录
      * @param httpSession
      */
+    @ApiOperation(value = "用户注销登录",httpMethod ="GET", notes = "user")
     @GetMapping(value = "/doLogout")
     public void doLogout(HttpSession httpSession){
         httpSession.setAttribute("currentUser","");
@@ -78,17 +82,18 @@ public class UserController {
      * @param job
      * @return
      */
+    @ApiOperation(value = "用户注册",httpMethod ="POST", notes = "user")
     @PostMapping(value = "/doRegister")
-    public Map<String,Object> doRegister(@RequestParam("userName")String userName,
-                                         @RequestParam("userPassword")String userPassword,
-                                         @RequestParam("email")String email,
-                                         @RequestParam("sex")String sex,
-                                         @RequestParam("phone")String phone,
-                                         @RequestParam("address")String address,
-                                         @RequestParam("interest")String interest,
-                                         @RequestParam("birthday")String birthday,
-                                         @RequestParam("remark")String remark,
-                                         @RequestParam("job")String job
+    public Map<String,Object> doRegister(@ApiParam(value = "用户名",required = true)@RequestParam("userName")String userName,
+                                         @ApiParam(value = "用户密码",required = true)@RequestParam("userPassword")String userPassword,
+                                         @ApiParam(value = "邮箱",required = true)@RequestParam("email")String email,
+                                         @ApiParam(value = "性别",required = true)@RequestParam("sex")String sex,
+                                         @ApiParam(value = "手机号",required = true)@RequestParam("phone")String phone,
+                                         @ApiParam(value = "地址",required = true)@RequestParam("address")String address,
+                                         @ApiParam(value = "兴趣爱好",required = true)@RequestParam("interest")String interest,
+                                         @ApiParam(value = "生日",required = true)@RequestParam("birthday")String birthday,
+                                         @ApiParam(value = "标签",required = true)@RequestParam("remark")String remark,
+                                         @ApiParam(value = "工作",required = true)@RequestParam("job")String job
                                          ){
 
         //在此之前应做校验，因此此处不再校验，校验模块待完善时添加
@@ -100,13 +105,14 @@ public class UserController {
         user.setEmail(email);
         user.setScore(0);
         user.setImg("");
-
         UserDetail userDetail = new UserDetail();
-
         userDetail.setAddress(address);
-        birthday = birthday+" 00:00:00";
-        Timestamp timestamp = Timestamp.valueOf(birthday);
-        userDetail.setBirthday(timestamp);
+        if(!birthday.isEmpty() && !birthday.equals("")){
+            birthday = birthday+" 00:00:00";
+            System.out.println(birthday);
+            Timestamp timestamp = Timestamp.valueOf(birthday);
+            userDetail.setBirthday(timestamp);
+        }
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
         userDetail.setRegisterTime(timestamp1);
         userDetail.setInterest(interest);
@@ -128,8 +134,9 @@ public class UserController {
      * @param userId
      * @return
      */
+    @ApiOperation(value = "获取用户信息",httpMethod ="POST", notes = "user")
     @PostMapping(value = "/getUser")
-    public Map<String,Object> getUser(@RequestParam("userId")Integer userId){
+    public Map<String,Object> getUser(@ApiParam(value = "用户ID",required = true)@RequestParam("userId")Integer userId){
         User user = userService.findUser(userId);
         user.setUserPassword("");
         UserDetail userDetail = userService.findUserDetail(userId);

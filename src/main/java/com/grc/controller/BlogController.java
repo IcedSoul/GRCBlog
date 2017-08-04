@@ -2,8 +2,12 @@ package com.grc.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.grc.domain.Blog;
 import com.grc.service.BlogService;
+import com.grc.service.UserService;
+import com.grc.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +28,9 @@ public class BlogController {
     @Autowired
     BlogService blogService;
 
+    @Autowired
+    UserService userService;
+
     /**
      *
      * @param userId
@@ -34,7 +41,16 @@ public class BlogController {
         String result = "";
         List<Blog> blogList = blogService.getAllBlog(userId);
         result = JSONArray.toJSONString(blogList);
+        JSONArray blogs = JSON.parseArray(result);
+        for(int i=0;i<blogs.size();i++){
+            JSONObject blog = (JSONObject) blogs.get(i);
+            Integer userId1 = Integer.valueOf(blog.get("userId").toString());
+            String userName = userService.findUser(userId1).getUserName();
+            blog.put("userName",userName);
+        }
+        result = blogs.toJSONString();
         Map<String,Object> response = new HashMap<String, Object>();
+
         response.put("blogs",result);
         return response;
     }
@@ -48,7 +64,7 @@ public class BlogController {
     public Map<String,Object> getUserBlogs(@RequestParam("userId")Integer userId){
         String result = "";
         List<Blog> blogList = blogService.getUserBlog(userId);
-        result = JSONArray.toJSONString(blogList);
+        result = JSONArray.toJSONString(blogList, SerializerFeature.UseSingleQuotes);
         Map<String,Object> response = new HashMap<String, Object>();
         response.put("blogs",result);
         return response;
@@ -64,6 +80,9 @@ public class BlogController {
         String result = "";
         Blog blog = blogService.getBlog(blogId);
         result = JSON.toJSONString(blog);
+        JSONObject blog1 = JSON.parseObject(result);
+        blog1.put("userName",userService.findUser(blog.getUserId()).getUserName());
+        result = blog1.toJSONString();
         Map<String,Object> response = new HashMap<String, Object>();
         response.put("blog",result);
         return response;
@@ -93,6 +112,8 @@ public class BlogController {
         blog.setClassifyId(classifyId);
         blog.setItClassifyId(itClassifyId);
         blog.setLeaveNum(0);
+        blog.setViewNum(0);
+        blog.setGoodNum(0);
         blog.setTags(tags);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         blog.setPublishTime(timestamp);

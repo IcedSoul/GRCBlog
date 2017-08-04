@@ -33,6 +33,11 @@
           <fork>true</fork>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+        <version>1.16.6.1</version>
+      </plugin>
     </plugins>
   </build>
 
@@ -60,11 +65,42 @@
       <artifactId>fastjson</artifactId>
       <version>1.2.24</version>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.8</version>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
       <optional>true</optional>
+    </dependency>
+
+    <!-- Swagger -->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>2.6.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>2.6.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-core</artifactId>
+      <version>1.5.12</version>
+    </dependency>
+
+    <!-- 使用bootstrap风格-->
+    <dependency>
+      <groupId>com.drore.cloud</groupId>
+      <artifactId>swagger-bootstrap-ui</artifactId>
+      <version>1.3</version>
     </dependency>
     <!--<dependency>-->
       <!--<groupId>org.springframework.boot</groupId>-->

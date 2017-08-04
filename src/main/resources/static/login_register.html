@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +9,8 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/layer.js"></script>
 </head>
 <body>
 <div class="container">
@@ -27,13 +29,12 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab-login">
-                                    <form>
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                                                 </div>
-                                                <input type="email" class="form-control" id="userName" placeholder="用户名">
+                                                <input class="form-control" placeholder="用户名" v-model="userName">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -41,23 +42,21 @@
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                                                 </div>
-                                                <input type="password" class="form-control" id="userPassword" placeholder="密码">
+                                                <input type="password" class="form-control" v-model="userPassword" placeholder="密码">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="form-control btn btn-primary" onclick="doLogin()">登录</button>
+                                            <button type="submit" class="form-control btn btn-primary" v-on:click="login">登录</button>
                                         </div>
-                                    </form>
                                 </div>
                                 <div class="tab-pane" id="tab-register">
-                                    <form action="" method="post">
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-user"
                                                           aria-hidden="true"></span>
                                                 </div>
-                                                <input type="text" id="name" value="" placeholder="用户名"
+                                                <input type="text" v-model="userName" placeholder="用户名"
                                                        class="form-control" data-toggle="tooltip"
                                                        title="请填写用户名" data-trigger="manual"/>
                                             </div>
@@ -68,7 +67,7 @@
                                                     <span class="glyphicon glyphicon-lock"
                                                           aria-hidden="true"></span>
                                                 </div>
-                                                <input type="password" id="pwd" value="" placeholder="密码"
+                                                <input type="password" v-model="userPassword" value="" placeholder="密码"
                                                        class="form-control"
                                                        data-toggle="tooltip" title="请保证密码以字母开头，长度在6~18之间，只能包含字符、数字和下划线"
                                                        data-trigger="manual"/>
@@ -80,17 +79,16 @@
                                                     <span class="glyphicon glyphicon-lock"
                                                           aria-hidden="true"></span>
                                                 </div>
-                                                <input type="password" id="check-pwd" value="" placeholder="确认密码"
+                                                <input type="password" v-model="userCheckPassword" placeholder="确认密码"
                                                        class="form-control" data-toggle="tooltip"
                                                        title="请确认密码，两次输入的密码需相同" data-trigger="manual"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="form-control btn btn-success" id="register">
+                                            <button type="submit" class="form-control btn btn-success" v-on:click="register">
                                                 注册
                                             </button>
                                         </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -102,91 +100,166 @@
 </div>
 
 <script type="text/javascript">
-    $(function () {
-        $("[data-toggle='tooltip']").tooltip();
-    });
-    /************************  失焦判断  **********************************/
-    $("input").blur(function () {
-        if ($(this).is("#pwd")) {               //密码判断
-            var ad = /^[a-zA-Z]\w{5,17}$/;
-            if ($("#pwd").val() != "") {
-                if (!(ad.test($("#pwd").val()))) {
-                    $('#pwd').tooltip('show');
-                    return false;
-                } else if (ad) {
-                    $('#pwd').tooltip('hide');
-                    return true;
-                }
-            } else {
-                return true;
-            }
-        }
-        if ($(this).is("#check-pwd")) {            //确认密码判断
-            if ($("#check-pwd").val() != "") {
-                if ($("#pwd").val() != $("#check-pwd").val()) {
-                    $('#check-pwd').tooltip('show');
-                    return false;
-                } else {
-                    $('#check-pwd').tooltip('hide');
-                    return true;
-                }
-            } else {
-                return true;
-            }
-        }
-    })
+//    $(function () {
+//        $("[data-toggle='tooltip']").tooltip();
+//    });
+//    $("input").blur(function () {
+//        if ($(this).is("#pwd")) {               //密码判断
+//            var ad = /^[a-zA-Z]\w{5,17}$/;
+//            if ($("#pwd").val() != "") {
+//                if (!(ad.test($("#pwd").val()))) {
+//                    $('#pwd').tooltip('show');
+//                    return false;
+//                } else if (ad) {
+//                    $('#pwd').tooltip('hide');
+//                    return true;
+//                }
+//            } else {
+//                return true;
+//            }
+//        }
+//        if ($(this).is("#check-pwd")) {            //确认密码判断
+//            if ($("#check-pwd").val() != "") {
+//                if ($("#pwd").val() != $("#check-pwd").val()) {
+//                    $('#check-pwd').tooltip('show');
+//                    return false;
+//                } else {
+//                    $('#check-pwd').tooltip('hide');
+//                    return true;
+//                }
+//            } else {
+//                return true;
+//            }
+//        }
+//    })
+//
+//    $("#register").click(function () {
+//        var em = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;   //邮箱正则
+//        var pw = /^[a-zA-Z]\w{5,17}$/;     //密码正则
+//        if (em.test($("#email").val()) && $("#pwd").val() == $("#check-pwd").val() && pw.test($("#pwd").val())) {
+//            return true;
+//        } else {
+//            if ($("#name").val() == "") {
+//                $('#name').tooltip('show');
+//            }
+//            else if ($("#pwd").val() == "") {
+//                $('#pwd').tooltip('show');
+//            }
+//            else if ($("#check-pwd").val() == "") {
+//                $('#check-pwd').tooltip('show');
+//            }
+//            return false;
+//        }
+//    })
 
-    /*********************** 提交验证 ***************************/
-    $("#register").click(function () {
-        var em = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;   //邮箱正则
-        var pw = /^[a-zA-Z]\w{5,17}$/;     //密码正则
-        if (em.test($("#email").val()) && $("#pwd").val() == $("#check-pwd").val() && pw.test($("#pwd").val())) {
-            return true;
-        } else {
-            if ($("#name").val() == "") {
-                $('#name').tooltip('show');
-            }
-            else if ($("#pwd").val() == "") {
-                $('#pwd').tooltip('show');
-            }
-            else if ($("#check-pwd").val() == "") {
-                $('#check-pwd').tooltip('show');
-            }
-            return false;
-        }
-    })
 
-    function doLogin() {
-        var userName = document.getElementById("userName").value;
-        var userPassword = document.getElementById("userPassword").value;
-
-        var user = {};
-        user.userName = userName;
-        user.userPassword = userPassword;
-
-        var loginResult;
-        $.ajax({
-            async : false,
-            type : 'POST',
-            url : 'http://localhost:8080/GRCBlog/doLogin',
-            data : user,
-            dataType : 'json',
-            success : function(result) {
-                loginResult = result.loginResult;
+    var cookie = new Vue({
+        methods:{
+            set: function (name, value, days) {
+                var d = new Date;
+                d.setTime(d.getTime() + 24*60*60*1000*days);
+                window.document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
             },
-            error : function(result) {
-                alert('服务器异常');
+            get: function (name) {
+                var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+                return v ? v[2] : null;
+            },
+            delete: function (name) {
+                this.set(name, '', -1);
             }
-        });
-        if(loginResult == "success")
-            window.location.href="http://localhost:8080/GRCBlog/index.html";
-        else if(loginResult == "error")
-            alert("密码错误");
-        else if(loginResult == "non-existent")
-            alert("用户还不存在");
-    }
+        }
+    });
 
+    var login = new Vue({
+        el:'#tab-login',
+        data:{
+            userName:'',
+            userPassword:''
+        },
+        methods:{
+            login :function () {
+                var user = {};
+                user.userName = login.userName;
+                user.userPassword = login.userPassword;
 
+                var loginResult = '';
+                var currentUser = '';
+                $.ajax({
+                    async : false,
+                    type : 'POST',
+                    url : 'http://localhost:8080/GRCBlog/doLogin',
+                    data : user,
+                    dataType : 'json',
+                    success : function(result) {
+                        loginResult = result.loginResult;
+                        if(loginResult == "success")
+                            currentUser = result.currentUser;
+                    },
+                    error : function(result) {
+                        alert('服务器异常');
+                    }
+                });
+                if(loginResult == "success") {
+                    document.cookie = "userId="+currentUser.userId;
+                    layer.msg('登陆成功',{icon:1});
+                    window.location.href = "http://localhost:8080/GRCBlog/index.html";
+                }
+                else if(loginResult == "error")
+                    layer.msg("密码错误",{icon:2});
+                else if(loginResult == "non-existent")
+                    layer.msg("用户不存在",{icon:2});
+            }
+        }
+    });
+
+    var register = new Vue({
+        el:'#tab-register',
+        data:{
+            userName:'',
+            userPassword:'',
+            userCheckPassword:''
+        },
+        methods: {
+            register: function () {
+                var user = {};
+                user.userName = register.userName;
+                user.userPassword = register.userPassword;
+                user.email = '';
+                user.sex = '';
+                user.phone = '';
+                user.address = '';
+                user.interest = '';
+                user.birthday = '';
+                user.remark = '';
+                user.job = '';
+
+                var registerResult = '';
+                var currentUser = '';
+                $.ajax({
+                    async: false,
+                    type: 'POST',
+                    url: 'http://localhost:8080/GRCBlog/doRegister',
+                    data: user,
+                    dataType: 'json',
+                    success: function (result) {
+                        registerResult = result.registerResult;
+                        currentUser = result.currentUser;
+                    },
+                    error: function (result) {
+                        layer.msg('服务器异常');
+                    }
+                });
+                if (registerResult == "success") {
+                    layer.msg('注册成功',{icon:1});
+                    currentUser = eval('('+currentUser+')');
+                    cookie.set('currentUserId',currentUser.userId,1);
+                    window.location.href = "http://localhost:8080/GRCBlog/login_register.html";
+                }
+                else
+                    layer.msg('注册错误',{icon:2});
+            }
+        }
+    });
 
 </script>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +10,15 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/vue.js"></script>
     <script src="js/layer.js"></script>
-    <title>博客首页</title>
+    <title>博客内容</title>
 
 </head>
 <body>
+    <script src="js/header.js"></script>
     <div class="container"  id="blog">
         <div class="title">
             <div class="col-md-6 col-md-offset-2">
-                <h2>{{ blog_title }}</h2>
+                <h2>{{ title }}</h2>
                 <!--<span class="label label-primary"> 标签</span>-->
             </div>
         </div>
@@ -31,13 +32,13 @@
                     </div>
 
                     <div class="col-md-8 col-md-offset-1">
-                        <span class="text label-offset">{{ author_name }}</span>
+                        <span class="text label-offset">{{ userName }}</span>
                         <div>
                             <span class="label label-info label-offset" v-for="tag in tags"> {{ tag.text }}</span>
                         </div>
                         <p>
                         </p>
-                        <p class="text-muted label-offset">发布时间：{{ publish_time }}</p>
+                        <p class="text-muted label-offset">发布时间：{{ publishTime }}</p>
                      </div>
                 </div>
 
@@ -53,7 +54,7 @@
         <div class="container-content">
             <div class="list-group-item-content">
                 <div class="col-md-8 col-md-offset-2">
-                    <p>{{ blog_content }}</p>
+                    <p>{{ blogContent }}</p>
                 </div>
             </div>
         </div>
@@ -61,29 +62,23 @@
 
         <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2" />
     <div>
-         <div class="container">
-             <div class="row">
+         <div class="container" id="newLeaveWord">
+             <div class="row" v-if="seen">
                  <div class="col-md-4 col-md-offset-2">
                      <div class="col-md-2 col-md-offset-0">
                          <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>
                      </div>
 
-                     <div class="col-md-8 col-md-offset-1">
+                     <div class="col-md-8 col-md-offset-1" >
                          <div class="input-group col-sm-12 col-md-12 col-lg-12 ">
-                             <textarea rows="3" cols="20" type="text" class="form-control" placeholder="看了博客之后说几句吧..."
+                             <textarea rows="3" cols="20" type="text" v-model="newLeaveContent" class="form-control" placeholder="看了博客之后说几句吧..."
                                        aria-describedby="basic-addon1"></textarea>
+                             <button type="button" class="btn btn-default" href="#">
+                                 <span class="glyphicon glyphicon-send" style="color: #337ab7" v-on:click="addNewLeaveWord()">发送</span>
+                             </button>
                          </div>
                      </div>
                  </div>
-             </div>
-
-             <div class="col-md-6 col-md-offset-3">
-                 <button type="button" class="btn btn-default">
-                     <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color: #8c8c8c">取消</span>
-                 </button>
-                 <button type="button" class="btn btn-default" href="#">
-                     <span class="glyphicon glyphicon-send" aria-hidden="true" style="color: #337ab7">发送</span>
-                 </button>
              </div>
 
          </div>
@@ -95,19 +90,77 @@
     </div>
 
 <script type="text/javascript">
+
+    var url = new Vue({
+        methods:{
+            makeURL: function (url,name,value) {
+                return url+"?"+name+"="+value;
+            },
+            parseURL: function (name) {
+                var url = location.search;
+                var request = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    var strs = str.split("&");
+                    for(var i = 0; i < strs.length; i ++) {
+                        var value = strs[i].split("=");
+                        if( value[0] == name)
+                            return value[1];
+                    }
+                }
+                return null;
+            },
+            getCookie: function (name) {
+                var search = name + "=";
+                if (document.cookie.length > 0) {
+                    sd = document.cookie.indexOf(search);
+                    if (sd!= -1) {
+                        sd += search.length;
+                        end = document.cookie.indexOf(";", sd);
+                        if (end == -1)
+                            end = document.cookie.length;
+                        returnvalue=unescape(document.cookie.substring(sd, end))
+                    }
+                }
+                return returnvalue;
+            }
+        }
+    });
+
     var blog = new Vue({
         el: "#blog",
         data:{
-            blog_title: '标题',
-            author_name: '佚名',
-            publish_time: '2017-07-01 00:00:00',
-            tags:[
-                {text:'标签一'},
-                {text:'标签二'}
-                ],
-            blog_content: '空'
+            title: '',
+            userName: '',
+            publishTime: '',
+            tags:[],
+            blogContent: ''
+        },
+        created:function () {
+            var blogInfo = {};
+            blogInfo.blogId = url.parseURL('blogId');
+            var blogs = '';
+            $.ajax({
+                async : false,
+                type : 'POST',
+                url : 'http://localhost:8080/GRCBlog/getBlog',
+                data : blogInfo,
+                dataType : 'json',
+                success : function(result) {
+                    blogs = result.blog;
+                },
+                error : function(result) {
+                    layer.msg('服务器异常');
+                }
+            });
+            blogs = JSON.parse(blogs);
+            this.title = blogs.title;
+            this.userName = blogs.userName;
+            this.publishTime = blogs.publishTime;
+            this.tags = blogs.tags;
+            this.blogContent = blogs.blogContent;
         }
-    })
+    });
 
     Vue.component('word-item',{
         props: ['word'],
@@ -119,7 +172,7 @@
         '                         <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>'+
         '                     </div>'+
         '                     <div class="col-md-8 col-md-offset-1">'+
-        '                         <span class="text">{{ word.userId }}</span>'+
+        '                         <span class="text">{{ word.userName }}</span>'+
         '                         <p class="text-muted">评论时间：{{ word.leaveTime }}</p>'+
         '                     </div>'+
         '                 </div>'+
@@ -129,105 +182,131 @@
         '             </div>'+
         '             <div class="col-md-6 col-md-offset-3 p-t-10">'+
         '                 <button type="button" class="btn btn-default">'+
-        '                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style="color: #337ab7">点赞</span>'+
+        '                     <span class="glyphicon glyphicon-thumbs-up" style="color: #337ab7">点赞</span>'+
         '                 </button>'+
         '                 <button type="button" class="btn btn-default" href="#">'+
-        '                     <span class="glyphicon glyphicon-comment" aria-hidden="true" style="color: #337ab7">回复</span>'+
+        '                     <span class="glyphicon glyphicon-comment" style="color: #337ab7" v-on:click="showInput">回复</span>'+
+        '                 </button>'+
+        '             </div>'+
+        '           <div v-if="seen" class="col-md-6 col-md-offset-3 p-t-10">'+
+        '           <textarea rows="3" cols="20" type="text" class="form-control" v-model="leaveContent" placeholder="看了博客之后说几句吧..."\n' +
+        '                                       aria-describedby="basic-addon1"></textarea>'+
+        '                 <button type="button" class="btn btn-default">'+
+        '                     <span class="glyphicon glyphicon-remove-sign" style="color: #8c8c8c" v-on:click="unShowInput">取消</span>'+
+        '                 </button>'+
+        '                 <button type="button" class="btn btn-default" href="#">'+
+        '                     <span class="glyphicon glyphicon-send" style="color: #337ab7" v-on:click="addLeaveWord(word.wordId,word.level)">发送</span>'+
         '                 </button>'+
         '             </div>'+
         '         </div>'+
-        '        <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2"/> >' +
-        '</div>'
+        '        <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2"/>' +
+        '        <div class="col-md-offset-2 p-t-10">'+
+        '           <word-item v-for="item in word.childWord" v-bind:word="item"></word-item>'+
+        '       </div>'+
+        '</div>',
+        data:function () {
+          return {
+              leaveContent:"",  
+              seen:false
+          }
+        },
+        methods:{
+            showInput: function () {
+                this.seen = true;
+            },
+            unShowInput: function () {
+                this.seen = false;
+            },
+            addLeaveWord: function (answerId,level) {
+                leaveWord.addLeaveWord(answerId,level,this.leaveContent);
+                this.seen = false;
+                leaveWord.updateLeaveWords();
+            }
+
+        }
     })
 
     var leaveWord = new Vue({
         el: '#leaveWordArea',
         data: {
-            leaveWords: [
-                {
-                    userId:'1',
-                    leaveTime:'2017-07-02 20:00:00',
-                    leaveContent:'我闲的没事就是想留个言'
-                },
-                {
-                    userId:'2',
-                    leaveTime:'2017-07-02 20:00:00',
-                    leaveContent:'我闲的没事又想留个言'
+            leaveWords: []
+        },
+        created:function () {
+            this.updateLeaveWords();
+        },
+        methods:{
+            updateLeaveWords: function () {
+                var blogInfo = {};
+                blogInfo.blogId = url.parseURL('blogId');
+                var words = '';
+                $.ajax({
+                    async : false,
+                    type : 'POST',
+                    url : 'http://localhost:8080/GRCBlog/getBlogLeaveWords',
+                    data : blogInfo,
+                    dataType : 'json',
+                    success : function(result) {
+                        words = result.leaveWords;
+                    },
+                    error : function(result) {
+                        layer.msg('服务器异常');
+                    }
+                });
+                words = eval('('+words+')');
+                this.leaveWords = words;
+            },
+            addLeaveWord:function (answerId,level,leaveContent) {
+                var leaveWord1 = {};
+                leaveWord1.answerId = answerId;
+                leaveWord1.blogId = url.parseURL('blogId');
+                leaveWord1.userId = url.getCookie('userId');
+                leaveWord1.level = level+1;
+                leaveWord1.leaveContent = leaveContent;
+
+                var addResult = '';
+                $.ajax({
+                    async : false,
+                    type : 'POST',
+                    url : 'http://localhost:8080/GRCBlog/addLeaveWord',
+                    data : leaveWord1,
+                    dataType : 'json',
+                    success : function(result) {
+                        addResult = result.addResult;
+                        if(addResult == "success")
+                            leaveWord1 = result.leaveWord;
+                    },
+                    error : function(result) {
+                        layer.msg('服务器异常');
+                    }
+                });
+                if(addResult == "success"){
+                    layer.msg('留言成功',{icon:1});
                 }
-            ]
-        }
-    })
-
-    
-    initBlogContent();
-    
-    function initBlogContent() {
-        var blogData = getBlog();
-//        layer.msg(blogData.userId);
-        var author = getUser(blogData.userId);
-        blog.blog_title = blogData.title;
-        blog.author_name = author.userName;
-        blog.publish_time = blogData.publishTime;
-        blogData.tags = blogData.tags;
-        blog.blog_content = blogData.blogContent;
-        
-    }
-    
-    function getBlog() {
-        var blogInfo = {};
-        blogInfo.blogId = getRequest("blogId");
-        var blog;
-        $.ajax({
-            async : false,
-            type : 'POST',
-            url : 'http://localhost:8080/GRCBlog/getBlog',
-            data : blogInfo,
-            dataType : 'json',
-            success : function(result) {
-                blog = result.blog;
-            },
-            error : function(result) {
-                alert('服务器异常');
-            }
-        });
-//        alert(blog);
-        return eval('('+blog+')');
-    }
-    
-    function getUser(userId) {
-        var userInfo = {};
-        userInfo.userId = userId;
-        var users;
-        $.ajax({
-            async : false,
-            type : 'POST',
-            url : 'http://localhost:8080/GRCBlog/getUser',
-            data : userInfo,
-            dataType : 'json',
-            success : function(result) {
-                users = result.user;
-            },
-            error : function(result) {
-                alert('服务器异常');
-            }
-        });
-        return users;
-    }
-
-    function getRequest(name) {
-        var url = location.search;
-        var request = new Object();
-        if (url.indexOf("?") != -1) {
-            var str = url.substr(1);
-            var strs = str.split("&");
-            for(var i = 0; i < strs.length; i ++) {
-                var value = strs[i].split("=");
-                if( value[0] == name)
-                    return value[1];
             }
         }
-        return null;
-    }
+    });
+
+    var newLeaveWord = new Vue({
+        el:'#newLeaveWord',
+        data:{
+            newLeaveContent:'',
+            seen:false
+        },
+        created:function () {
+            var userId = url.getCookie("userId");
+          if(userId==null || userId==undefined || userId =='' )
+              this.seen = false;
+          else
+              this.seen = true;
+        },
+        methods:{
+            addNewLeaveWord:function () {
+                leaveWord.addLeaveWord(-1,-1,this.newLeaveContent);
+                leaveWord.updateLeaveWords();
+            }
+        }
+        })
+
 
 </script>
 
