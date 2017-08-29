@@ -50,7 +50,6 @@ public class BlogController {
         }
         result = blogs.toJSONString();
         Map<String,Object> response = new HashMap<String, Object>();
-
         response.put("blogs",result);
         return response;
     }
@@ -133,9 +132,10 @@ public class BlogController {
         blog.setTags(tags);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         blog.setPublishTime(timestamp);
-        blogService.addBlog(blog);
+        blog = blogService.addBlog(blog);
         Map<String,Object> response = new HashMap<String, Object>();
         response.put("addResult","success");
+        response.put("blog",JSON.toJSONString(blog));
         return response;
     }
 

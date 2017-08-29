@@ -17,6 +17,9 @@ body {
     padding-top: 0px;
     margin-top: 0px;
 }
+.blog img {
+   width: 100%;
+}
 .img-circle.img-md {
     height: 50px;
     margin-right: 5px;

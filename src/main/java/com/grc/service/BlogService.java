@@ -12,6 +12,6 @@ public interface BlogService {
     List<Blog> getUserBlog(Integer userId);
     List<Blog> getUserClassifyBlog(Integer userId,Integer classifyId);
     Blog getBlog(Integer blogId);
-    void addBlog(Blog blog);
+    Blog addBlog(Blog blog);
     void deleteBlog(Integer blogId);
 }

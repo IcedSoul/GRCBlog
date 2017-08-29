@@ -1,70 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>我的主页</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/vue.js"></script>
 
+    <script src="js/src.js"></script>
+    <script src="js/util.js"></script>
 </head>
 <body>
-<!-- 顶部导航 -->
-<div class="navbar navbar-fixed-top" role="navigation" id="menu-nav">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">切换导航</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"> <img alt="Brand" src="img/brand.jpg"></a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="" class="black-feature">首页</a></li>
-            </ul>
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索">
-                    <button  class="btn btn-link">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </div>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <button class="btn btn-info btn-info-nav ">写博客</a></button>
-                <li>
-                    <button class="btn btn-info btn-info-nav ">分享资源</a></button>
-                <li>
-                    <button class="btn btn-info btn-info-nav ">提问</a></button>
-                <li class="dropdown">
-                    <button class="btn-nav dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="true">
-                        <img src="img/display-photo.jpg" class="img-circle img-sm">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href=""><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 我的主页</a></li>
-                        <li><a data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-cog"
-                                                                                aria-hidden="true"></span> 个人信息</a>
-
-                        </li>
-                        <li><a href=""><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <hr class="navhr">
-    </div>
-</div>
+<script src="js/header.js"></script>
 <!-- 基本资料 -->
 </div>
 <div class="container">
@@ -78,12 +24,11 @@
                         </div>
                         <div class="col-md-9 ">
                             <!--<p class="pull-right" ><span class="badge">积分:42</span></p>-->
-                            <h3 style="font-weight: bold">{{ user_name }}</h3>
-
-                            <p><span class="text-muted">性别：</span>{{ user_sex }}</p>
-                            <p><span class="text-muted">职业：</span>{{ user_job }}</p>
-                            <p><span class="text-muted">兴趣：</span>{{ user_favorite }}</p>
-                            <p><span class="text-muted">个性签名：</span>{{ user_signature }}</p>
+                            <h3 style="font-weight: bold">{{ authorName }}</h3>
+                            <p><span class="text-muted">性别：</span>{{ authorSex }}</p>
+                            <p><span class="text-muted">职业：</span>{{ authorJob }}</p>
+                            <p><span class="text-muted">兴趣：</span>{{ authorFavorite }}</p>
+                            <p><span class="text-muted">个性签名：</span>{{ authorSignature }}</p>
                         </div>
                     </div>
                 </div>
@@ -98,16 +43,14 @@
                         <ul class="list-group" id="blogClassify">
                             <li class="list-group-item">我的分类</li>
                             <blog-classify v-for="item in classifys" v-bind:classify="item"></blog-classify>
-
-
                             <div class="btn-group">
-                                <button type="button" class="btn btn-default no-border" data-toggle="modal" data-target=".bs-example-modal-sm">
+                                <button type="button" v-on:click="addClassify" class="btn btn-default no-border">
                                     新增
                                 </button>
-                                <button type="button" id="EditTag" onclick="EditTag()" class="btn btn-default no-border">
+                                <button type="button" v-on:click="showEdit" class="btn btn-default no-border">
                                     编辑
                                 </button>
-                                <button type="button" id="DeleteTag" onclick="ChangeBtn()" class="btn btn-default no-border">
+                                <button type="button" v-on:click="showDelete" class="btn btn-default no-border">
                                     删除
                                 </button>
                             </div>
@@ -175,76 +118,42 @@
         </div>
     </div>
 </div>
-<div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabe2">输入新分类</h4>
-        </div>
-        <div class="modal-body">
-            <input type="text" class="form-control"/>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="submit" class="btn btn-success" data-dismiss="modal" >确定</button>
-        </div>
-    </div>
-    </div>
-</div>
 <script>
-    var btnname=["Java","python","J2EE"];
-    function ChangeBtn(){
-        var Btn=document.getElementById("DeleteTag");
-        var BtnVal=Btn.innerHTML;
-        for(i=0;i<btnname.length;i++){
-            DisplayOrHiddenBtn(btnname[i]);
-        }
-        if(BtnVal.indexOf("删除") >= 0){
-            Btn.innerHTML="完成";
-        }
-        if(BtnVal.indexOf("完成")>=0){
-            Btn.innerHTML="删除";
-        }
-    }
-    function EditTag(){
-        var Btn=document.getElementById("EditTag");
-        var BtnVal=Btn.innerHTML;
-        for(i=0;i<btnname.length;i++){
-            DisplayOrHiddenBtn(btnname[i]+"Edit");
-        }
-        if(BtnVal.indexOf("编辑") >= 0){
-            Btn.innerHTML="完成";
-        }
-        if(BtnVal.indexOf("完成")>=0){
-            Btn.innerHTML="编辑";
-        }
-    }
-    function RemoveOne(name) {
-        var btn = name + "Btn";
-        var parent = document.getElementById(name).parentNode;
-        parent.parentNode.parentNode.removeChild(parent.parentNode);
-
-    }
-    function DisplayOrHiddenBtn(btnId) {
-        var currentBtn = document.getElementById(btnId);
-        if (currentBtn.style.display == "none") {
-            currentBtn.style.display = "block"; //style中的display属性
-        }
-        else {
-            currentBtn.style.display = "none";
-        }
-    }
-
 
     var userInfo = new Vue({
         el: "#userInfo",
         data: {
-            user_name: '佚名',
-            user_sex: '男',
-            user_job: '学生',
-            user_favorite: '编程',
-            user_signature: '没有签名'
+            authorName:'',
+            authorSex:'',
+            authorJob:'',
+            authorFavorite:'',
+            authorSignature:''
+        },
+        created:function () {
+            var user = {};
+            var userDetail = "";
+            user.userId = url.getCookie("userId");
+            $.ajax({
+                async : false,
+                type : 'POST',
+                url : 'http://localhost:8080/GRCBlog/getUser',
+                data : user,
+                dataType : 'json',
+                success : function(result) {
+                    user = result.user;
+                    userDetail = result.userDetail;
+                },
+                error : function(result) {
+                    layer.msg('服务器异常');
+                }
+            });
+
+            this.authorName = user.userName;
+            this.authorSex = userDetail.sex;
+            this.authorJob= userDetail.job;
+            this.authorFavorite = userDetail.interest;
+            this.authorSignature = userDetail.remark;
+
         }
     })
 
@@ -252,37 +161,202 @@
         props:['classify'],
         template:' <li class="list-group-item">'+
         '                                <div class="btn-group">'+
-        '                                    <button type="button" class="btn btn-default no-border" v-bind:id="classify.classifyId" >'+
-        '                                        <span class="glyphicon glyphicon-book" aria-hidden="true" ></span> {{ classify.classifyName }}'+
+        '                                    <button type="button" class="btn btn-default no-border" >'+
+        '                                        <div v-if="this.input || classify.new">' +
+        '                                            <input class="form-control" autofocus="autofocus" v-model="classifyName" v-on:blur="updateName(classify.classifyId,classify.new)"> ' +
+        '                                        </div>'+
+        '                                        <div v-else="this.input">' +
+        '                                           <span class="glyphicon glyphicon-book"></span> ' +
+        '                                            {{ classify.classifyName }}' +
+        '                                        </div>'+
         '                                    </button>'+
-        '                                    <button  class="btn btn-default no-border" onclick="RemoveOne($event)" style="display: none">'+
-        '                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'+
+        '                                    <button  class="btn btn-default no-border" v-show="classify.edit && this.edit" v-on:click="showInput">'+
+        '                                        <span class="glyphicon glyphicon-edit" ></span>'+
         '                                    </button>'+
-        '                                    <button  class="btn btn-default no-border" id="J2EEEdit" style="display: none">'+
-        '                                        <span class="glyphicon glyphicon-edit" aria-hidden="true" ></span>'+
+        '                                    <button  class="btn btn-default no-border" v-show="classify.delete && this.delete" v-on:click="deleteClassify(classify.classifyId)">'+
+        '                                        <span class="glyphicon glyphicon-remove" ></span>'+
         '                                    </button>'+
         '                                </div>'+
-        '                            </li>'
+        '                                </div>'+
+        '                            </li>',
+        data:function () {
+            return {
+                input: false,
+                edit: true,
+                delete: true,
+                classifyName:''
+            }
+        },
+        methods:{
+            showInput:function () {
+                this.input = true;
+                this.edit = false;
+                this.delete = false;
+            },
+            updateName:function (classifyId,isNew) {
+                this.input = false;
+                this.edit = true;
+                this.delete = true;
+                if(this.classifyName == "")
+                    layer.msg("分类名不能为空",{icon:1});
+                else{
+                    if(isNew){
+                        var classify = {};
+                        classify.userId = url.getCookie("userId");
+                        classify.classifyName = this.classifyName;
+                        var addResult = "";
+
+                        $.ajax({
+                            async: false,
+                            type: 'POST',
+                            url: 'http://localhost:8080/GRCBlog/addClassify',
+                            data: classify,
+                            dataType: 'json',
+                            success: function (result) {
+                                addResult = result.addResult;
+                            },
+                            error: function (result) {
+                                layer.msg('服务器异常');
+                            }
+                        });
+
+                        if (addResult == "success")
+                            layer.msg("添加分类成功", {icon: 1});
+                        else
+                            layer.msg("添加分类失败", {icon: 2});
+                    }
+                    else {
+                        var classify = {};
+                        classify.userId = url.getCookie("userId");
+                        classify.classifyName = this.classifyName;
+                        classify.classifyId = classifyId;
+                        var updateResult = "";
+
+                        $.ajax({
+                            async: false,
+                            type: 'POST',
+                            url: 'http://localhost:8080/GRCBlog/updateClassify',
+                            data: classify,
+                            dataType: 'json',
+                            success: function (result) {
+                                updateResult = result.addResult;
+                            },
+                            error: function (result) {
+                                layer.msg('服务器异常');
+                            }
+                        });
+
+                        if (updateResult == "success")
+                            layer.msg("修改分类成功", {icon: 1});
+                        else
+                            layer.msg("修改分类失败", {icon: 2});
+                    }
+                    blogClassify.initClassify();
+                }
+            },
+            deleteClassify:function (classifyId) {
+                var classify = {};
+                classify.classifyId = classifyId;
+                var deleteResult = "";
+
+                $.ajax({
+                    async : false,
+                    type : 'POST',
+                    url : 'http://localhost:8080/GRCBlog/deleteClassify',
+                    data : classify,
+                    dataType : 'json',
+                    success : function(result) {
+                        deleteResult = result.deleteResult;
+                    },
+                    error : function(result) {
+                        layer.msg('服务器异常');
+                    }
+                });
+                if(deleteResult == "success")
+                    layer.msg("删除分类成功",{icon:1});
+                else
+                    layer.msg("删除分类失败",{icon:2});
+                blogClassify.initClassify();
+            }
+        }
     })
+
+
     var blogClassify = new Vue({
         el: '#blogClassify',
         data:{
-            classifys:[
-                {
-                    classifyId: '1',
-                    classifyName: 'Java'
-                },
-            ]
+            classifys:[]
+        },
+        created:function () {
+            this.initClassify();
+        },
+        methods:{
+            initClassify:function () {
+                var user = {};
+                var classifys = "";
+                user.userId = url.getCookie("userId");
+                $.ajax({
+                    async : false,
+                    type : 'POST',
+                    url : 'http://localhost:8080/GRCBlog/getUserClassifys',
+                    data : user,
+                    dataType : 'json',
+                    success : function(result) {
+                        classifys = result.classifys;
+                    },
+                    error : function(result) {
+                        layer.msg('服务器异常');
+                    }
+                });
+                classifys = eval('('+classifys+')');
+                this.classifys = classifys;
+                this.classifys.forEach(function(item){
+                    item.edit = false;
+                    item.delete = false;
+                    item.new = false;
+                });
+            },
+            addClassify:function () {
+                this.classifys.push({
+                    userId:url.getCookie("userId"),
+                    classifyName:'',
+                    edit:false,
+                    delete:false,
+                    new:true
+                })
+
+            },
+            showEdit:function () {
+                this.classifys.forEach(function(item){
+                    item.classifyName = item.classifyName+" ";
+                    if(item.edit)
+                        item.edit = false;
+                    else
+                        item.edit = true;
+                    item.delete = false;
+                });
+            },
+            showDelete:function () {
+                this.classifys.forEach(function(item){
+                    item.classifyName = item.classifyName+" ";
+                    item.edit = false;
+                    if(item.delete)
+                        item.delete = false;
+                    else
+                        item.delete = true;
+                });
+            }
+
+
         }
+
     })
 
     Vue.component('blog-brief',{
         props:['blog'],
-        template:'<div class="list-group-item">'+
-        '                                    <a class="" href=""><img src="img/display-photo.jpg" class="img-circle img-md"></a>'+
-        '                                    <span>{{ blog.authorName }} </span>'+
-        '                                    <h3>{{ blog.blogTitle }}</h3>'+
-        '                                    <p>{{ blog.blogContent }}</p>'+
+        template:'<div class="list-group-item" style="cursor:pointer"  v-on:click="blogDetail(blog.blogId)">'+
+        '                                    <h3>{{ blog.title }}</h3>'+
+        '                                    <p>{{ blog.briefContent }}</p>'+
         '                                    <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">'+
         '                                        <button type="button" class="btn btn-default no-border">'+
         '                                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>'+
@@ -298,24 +372,42 @@
         '                                        </button>'+
         '                                    </div>'+
         '                                    <hr/>'+
-        '                                </div>'
+        '                                </div>',
+        methods:{
+            blogDetail: function (blogId) {
+                window.location.href = url.makeURL('http://localhost:8080/GRCBlog/blog_content.html','blogId',blogId);
+            }
+        }
     })
 
     var blogArea = new Vue({
         el:"#blogArea",
         data:{
-            blogs:[
-                {
-                    authorName: '未命名',
-                    blogTitle: '标题',
-                    blogContent: '没有简介',
-                    viewNum: '0',
-                    leaveNum:'0',
-                    goodNum:'0'
-                }
-
-            ]
+            blogs:[]
+        },
+        created:function () {
+        var user = {};
+        user.userId = url.getCookie('userId');
+        var blogs = '';
+        $.ajax({
+            async : false,
+            type : 'POST',
+            url : 'http://localhost:8080/GRCBlog/getUserBlogs',
+            data : user,
+            dataType : 'json',
+            success : function(result) {
+                blogs = result.blogs;
+            },
+            error : function(result) {
+                alert('服务器异常');
+            }
+        });
+        if(blogs!==''){
+            blogs = eval('('+blogs+')');
+            this.blogs = blogs;
         }
+    }
+
     })
 
     Vue.component('upload-brief',{

@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.grc.domain.Upload;
 import com.grc.service.UploadService;
+import com.grc.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -157,6 +159,11 @@ public class UploadController {
         Map<String,Object> response = new HashMap<String, Object>();
         response.put("deleteResult",result);
         return response;
+    }
+
+    @PostMapping(value = "/uploadFile")
+    public Response uploadFile(@RequestParam MultipartFile fileUpload, Integer userId){
+        return uploadService.uploadFile(fileUpload,userId);
     }
 
 }

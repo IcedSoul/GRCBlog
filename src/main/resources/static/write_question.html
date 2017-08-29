@@ -3,14 +3,10 @@
 <head>
     <meta charset="utf-8"/>
     <title>提问</title>
+    <script src="js/src.js"></script>
+    <script src="js/util.js"></script>
     <link rel="stylesheet" href="plugins/editor.md-master/examples/css/style.css"/>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="plugins/editor.md-master/css/editormd.css"/>
-    <link href="css/style.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/vue.js"></script>
-    <script src="js/layer.js"></script>
 </head>
 <body>
 <div id="layout">
@@ -32,6 +28,7 @@
 
 <script src="plugins/editor.md-master/editormd.min.js"></script>
 <script type="text/javascript">
+
     var testEditor;
     testEditor = $(function () {
         editormd("test-editormd", {
@@ -74,7 +71,7 @@
 
         var addResult = "";
         var Question = {};
-        Question.userId = '1';
+        Question.userId = url.getCookie("userId");
         Question.title = document.getElementById("title").value;
         Question.questionContent = document.getElementById("editormd").value;
         Question.score = score;
@@ -103,7 +100,7 @@
             return false;
         }
         else
-            alert('提交错误');
+            layer.alert('提交错误');
     }
 </script>
 </body>

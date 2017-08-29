@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/vue.js"></script>
-    <script src="js/layer.js"></script>
+
+    <script src="js/src.js"></script>
+    <script src="js/util.js"></script>
     <title>博客内容</title>
 
 </head>
@@ -53,8 +50,8 @@
 
         <div class="container-content">
             <div class="list-group-item-content">
-                <div class="col-md-8 col-md-offset-2">
-                    <p>{{ blogContent }}</p>
+                <div class="col-md-8 col-md-offset-2 blog" v-html="blogContent">
+                    {{ blogContent }}
                 </div>
             </div>
         </div>
@@ -90,42 +87,6 @@
     </div>
 
 <script type="text/javascript">
-
-    var url = new Vue({
-        methods:{
-            makeURL: function (url,name,value) {
-                return url+"?"+name+"="+value;
-            },
-            parseURL: function (name) {
-                var url = location.search;
-                var request = new Object();
-                if (url.indexOf("?") != -1) {
-                    var str = url.substr(1);
-                    var strs = str.split("&");
-                    for(var i = 0; i < strs.length; i ++) {
-                        var value = strs[i].split("=");
-                        if( value[0] == name)
-                            return value[1];
-                    }
-                }
-                return null;
-            },
-            getCookie: function (name) {
-                var search = name + "=";
-                if (document.cookie.length > 0) {
-                    sd = document.cookie.indexOf(search);
-                    if (sd!= -1) {
-                        sd += search.length;
-                        end = document.cookie.indexOf(";", sd);
-                        if (end == -1)
-                            end = document.cookie.length;
-                        returnvalue=unescape(document.cookie.substring(sd, end))
-                    }
-                }
-                return returnvalue;
-            }
-        }
-    });
 
     var blog = new Vue({
         el: "#blog",

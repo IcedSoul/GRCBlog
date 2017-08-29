@@ -5,11 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>博客分类</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/vue.js"></script>
+
+    <script src="js/src.js"></script>
+    <script src="js/util.js"></script>
+
 </head>
 <body>
 <script src="js/header.js"></script>
@@ -53,42 +52,6 @@
 </div>
 <script type="text/javascript">
 
-    var url = new Vue({
-        methods:{
-            makeURL: function (url,name,value) {
-                return url+"?"+name+"="+value;
-            },
-            parseURL: function (name) {
-                var url = location.search;
-                var request = new Object();
-                if (url.indexOf("?") != -1) {
-                    var str = url.substr(1);
-                    var strs = str.split("&");
-                    for(var i = 0; i < strs.length; i ++) {
-                        var value = strs[i].split("=");
-                        if( value[0] == name)
-                            return value[1];
-                    }
-                }
-                return null;
-            },
-            getCookie: function (name) {
-                var search = name + "=";
-                if (document.cookie.length > 0) {
-                    sd = document.cookie.indexOf(search);
-                    if (sd!= -1) {
-                        sd += search.length;
-                        end = document.cookie.indexOf(";", sd);
-                        if (end == -1)
-                            end = document.cookie.length;
-                        returnvalue=unescape(document.cookie.substring(sd, end))
-                    }
-                }
-                return returnvalue;
-            }
-        }
-    });
-
     var authorInfo = new Vue({
         el:'#authorInfo',
         data:{
@@ -128,12 +91,37 @@
 
     Vue.component('blog-classify',{
         props: ['classify'],
-        template: '<li class="list-group-item">'+
+        template: '<li class="list-group-item" v-on:click="changeBlogs(classify.classifyId)">'+
         '               <button type="button" class="btn btn-default no-border">'+
         '                   <span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;&nbsp;' +
         '                   {{ classify.classifyName }}'+
         '               </button>'+
-        '           </li>'
+        '           </li>',
+        methods:{
+            changeBlogs:function (classifyId) {
+                var user = {};
+                user.userId = url.getCookie('userId');
+                user.classifyId = classifyId;
+                var blogs = '';
+                $.ajax({
+                    async : false,
+                    type : 'POST',
+                    url : 'http://localhost:8080/GRCBlog/getUserClassifyBlogs',
+                    data : user,
+                    dataType : 'json',
+                    success : function(result) {
+                        blogs = result.blogs;
+                    },
+                    error : function(result) {
+                        alert('服务器异常');
+                    }
+                });
+                if(blogs!==''){
+                    blogs = eval('('+blogs+')');
+                    blogBrief.blogBriefs = blogs;
+                }
+            }
+        }
     })
 
     var blogClassify = new Vue({
@@ -161,12 +149,11 @@
             classifys = eval('('+classifys+')');
             this.classifys = classifys;
         }
-
     })
 
     Vue.component('blog-brief', {
         props: ['blog'],
-        template: '<div class="panel panel-default">'+
+        template: '<div class="panel panel-default" style="cursor:pointer"  v-on:click="blogDetail(blog.blogId)">'+
         '                <div class="panel-body">'+
         '                    <div class="list-group ">'+
         '                        <div class="list-group-item">'+
@@ -181,7 +168,12 @@
         '                        </div>'+
         '                    </div>'+
         '                </div>'+
-        '            </div>'
+        '            </div>',
+        methods:{
+            blogDetail: function (blogId) {
+                window.location.href = url.makeURL('http://localhost:8080/GRCBlog/blog_content.html','blogId',blogId);
+            }
+        }
     })
 
     var blogBrief = new Vue({

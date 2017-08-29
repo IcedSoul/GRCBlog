@@ -129,6 +129,56 @@ public class UserController {
         return response;
     }
 
+    @ApiOperation(value = "用户注册",httpMethod ="POST", notes = "user")
+    @PostMapping(value = "/updateUser")
+    public Map<String,Object> updateUser(@ApiParam(value = "用户Id",required = true)@RequestParam("userId")Integer userId,
+                                         @ApiParam(value = "用户名",required = true)@RequestParam("userName")String userName,
+                                         @ApiParam(value = "头像",required = true)@RequestParam("img")String img,
+                                         @ApiParam(value = "用户密码",required = true)@RequestParam("userPassword")String userPassword,
+                                         @ApiParam(value = "邮箱",required = false)@RequestParam("email")String email,
+                                         @ApiParam(value = "性别",required = false)@RequestParam("sex")String sex,
+                                         @ApiParam(value = "手机号",required = false)@RequestParam("phone")String phone,
+                                         @ApiParam(value = "地址",required = false)@RequestParam("address")String address,
+                                         @ApiParam(value = "兴趣爱好",required = false)@RequestParam("interest")String interest,
+                                         @ApiParam(value = "生日",required = false)@RequestParam("birthday")String birthday,
+                                         @ApiParam(value = "标签",required = false)@RequestParam("remark")String remark,
+                                         @ApiParam(value = "工作",required = false)@RequestParam("job")String job
+    ){
+        String result = "fail";
+
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserName(userName);
+        user.setUserPassword(userPassword);
+        user.setEmail(email);
+        user.setImg(img);
+        user.setScore(0);
+        user.setImg("");
+        UserDetail userDetail = new UserDetail();
+        userDetail.setAddress(address);
+        if(!birthday.isEmpty() && !birthday.equals("")){
+            birthday = birthday+" 00:00:00";
+            System.out.println(birthday);
+            Timestamp timestamp = Timestamp.valueOf(birthday);
+            userDetail.setBirthday(timestamp);
+        }
+        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+        userDetail.setUserId(userId);
+        userDetail.setRegisterTime(timestamp1);
+        userDetail.setInterest(interest);
+        userDetail.setSex(sex);
+        userDetail.setPhone(phone);
+        userDetail.setRemark(remark);
+        userDetail.setJob(job);
+
+        userService.insertUser(user,userDetail);
+        result = "success";
+
+        Map<String,Object> response = new HashMap<String, Object>();
+        response.put("updateResult",result);
+        return response;
+    }
+
     /**
      * 获取用户信息
      * @param userId
@@ -146,4 +196,6 @@ public class UserController {
         response.put("userDetail",JSON.toJSON(userDetail));
         return response;
     }
+
+
 }

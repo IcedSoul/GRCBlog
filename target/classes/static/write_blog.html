@@ -6,15 +6,13 @@
     <link rel="stylesheet" href="plugins/editor.md-master/examples/css/style.css"/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="plugins/editor.md-master/css/editormd.css"/>
-    <link href="css/layer.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/src.js"></script>
+    <script src="js/util.js"></script>
     <script src="plugins/editor.md-master/editormd.min.js"></script>
-    <script src="js/vue.js"></script>
-    <script src="js/layer.js"></script>
+
 </head>
 <body>
+<script src="js/header.js"></script>
 <div id="layout">
     <header>
         <h1>欢迎使用MarkDown语法编辑博客
@@ -22,7 +20,7 @@
         </h1>
     </header>
     <header>
-        <input type="text" class="form-control " placeholder="标题" style="width: 100%;height: 50px" id="title">
+        <input type="text" class="form-control" placeholder="标题" style="width: 100%;height: 50px" id="title"/>
     </header>
     <div class="editormd" id="test-editormd">
         <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc" id="editormd"></textarea>
@@ -31,7 +29,7 @@
         <textarea class="editormd-html-textarea" name="editorhtml" id="editorhtml"></textarea>
     </div>
 </div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -82,7 +80,9 @@
     </div>
 </div>
 <script type="text/javascript">
+
     showClassify();
+
     var testEditor;
     testEditor = $(function () {
         editormd("test-editormd", {
@@ -113,7 +113,7 @@
     function getitClassify() {
         var itClassifys = "";
         var user = {};
-        user.userId = 1;
+        user.userId = url.getCookie("userId");
         $.ajax({
             async: false,
             type: 'POST',
@@ -133,7 +133,7 @@
     function getClassify() {
         var Classifys = "";
         var user = {};
-        user.userId = 1;
+        user.userId = url.getCookie("userId");
         $.ajax({
             async: false,
             type: 'POST',
@@ -173,12 +173,20 @@
         var itClassifySelect = document.getElementById("itClassifyVue");
         var itClassIndex = itClassifySelect.selectedIndex;
         var Blog = {};
-        Blog.userId = '1';
+        Blog.userId = url.getCookie("userId");
         Blog.title = document.getElementById("title").value;
-        Blog.blogContent = document.getElementById("editormd").value;
+        Blog.blogContent = document.getElementById("editorhtml").value;
         Blog.classifyId = classifySelect.options[classIndex].value;
         Blog.itClassifyId = itClassifySelect.options[itClassIndex].value;
         Blog.tags = document.getElementById("tags").value;
+        if(Blog.title == ""){
+            layer.msg("标题不能为空",{icon:1});
+            return;
+        }
+        if(Blog.blogContent == ""){
+            layer.msg("博客内容不能为空",{icon:1});
+            return;
+        }
         $.ajax({
             async: false,
             type: 'POST',
@@ -187,12 +195,14 @@
             dataType: 'json',
             success: function (result) {
                 addResult = result.addResult;
+                Blog = JSON.parse(result.blog);
             },
             error: function (result) {
                 layer.alert('提交错误');
             }
         });
         if (addResult == 'success') {
+
             layer.open({
                 title: false,
                 content: '发表成功'
@@ -202,14 +212,13 @@
                     window.location.href = "http://localhost:8080/GRCBlog/write_blog.html";
                 }
                 , btn2: function (index, layero) {
-                    window.location.href = "http://localhost:8080/GRCBlog/blog_content.html";
+                    window.location.href = url.makeURL('http://localhost:8080/GRCBlog/blog_content.html','blogId',Blog.blogId);
                 }
             });
         }
         else
             layer.alert('提交错误');
     }
-
 </script>
 </body>
 </html>
