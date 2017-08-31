@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <title>资源详情</title>
     <script src="js/src.js"></script>
@@ -12,57 +11,56 @@
 
 </head>
 <body>
+<script src="js/header.js"></script>
 
-<div class="container" id="upload">
-
-    <div class="col-md-5 col-md-offset-2" id="title">
+<div class="container p-t-50" id="upload">
+    <div class="col-md-8 col-md-offset-2" id="title">
         <div class="col-md-2 col-md-offset-0">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-                <rect width="50" height="60" style="fill:gray;"/>
+            <svg class="svg" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <rect width="50px" height="60px" style="fill:gray;"/>
                 <polygon style="fill:#FFFFFF;" points="35,0 50,0 50,15 "/>
                 <polygon style="fill:#FFFFFF;" points="30,3 45,20 30,20 "/>
-                <text x="5" y="40" font-size="15" style="fill:white">RAR</text>
+                <text x="5" y="40" font-size="10" style="fill:white">{{ type }}</text>
             </svg>
         </div>
 
-        <div class="col-md-9 col-md-offset-1">
-            <h3 id="filename">{{ upload_title }}</h3>
+        <div class="col-md-10">
+            <h3>{{ name }}</h3>
             <div>
-                <span class="label label-info label-offset" v-for="tag in tags"> {{ tag.text }}</span>
+                <span class="label label-info label-offset" v-for="tag in keyWord"> {{ tag.text }}</span>
             </div>
         </div>
     </div>
 
 
     <div class="col-md-9 col-md-offset-2">
-        <p class="text-muted" >{{ publish_time }}</p>
+        <p>上传时间:&nbsp; &nbsp;{{ upTime }}</p>
     </div>
 
-    <div clas="container-content" id="content">
+    <div clas="container-content">
         <div class="col-md-8 col-md-offset-2">
-            <h4>资料详细描述：</h4>
-            <p id="remark">{{ upload_content }}</p>
+            <h4>资源描述：</h4>
+            <p>{{ remark }}</p>
 
-            <hr class="divider" width="700px">
+            <hr class="divider col-md-12">
         </div>
 
         <div class="col-md-8 col-md-offset-2">
             <div class="row">
-                <div class="col-md-4">
-                    <span class="glyphicon glyphicon-yen" aria-hidden="true" style="color: #337ab7" id="score">所需积分：{{ score }}分</span>
-                    &nbsp &nbsp;
+                <div class="col-md-4 p-t-15">
+                    <span class="glyphicon glyphicon-yen" style="color: #337ab7" id="score">所需积分：{{ score }}分</span>
                 </div>
-                <div class="col-md-4">
-                    <span style="color: #337ab7" id="count">下载次数：{{ downNum }}次</span>
+                <div class="col-md-4 p-t-15">
+                    <span style="color: #337ab7">下载次数：{{ downNum }}次</span>
                 </div>
 
-                <div class="col-md-4 col-md-offset-8">
+                <div class="col-md-4 ">
                     <button type="button" class="btn btn-default btn-lg"  href="#">
-                        <span  class="glyphicon glyphicon-download-alt" aria-hidden="true" style="color: #337ab7">下载</span>
+                        <span  class="glyphicon glyphicon-download-alt" v-on:click="downloadPre()" style="color: #337ab7">下载</span>
                     </button>
                 </div>
 
-                <hr class="divider" width="700px">
+                <hr class="divider col-md-12">
             </div>
 
         </div>
@@ -78,92 +76,131 @@
     var upload = new Vue({
         el: "#upload",
         data:{
-            upload_title: '标题',
+            fileId:'',
+            name:'',
+            tag:[],
+            keyWord:'',
+            upTime:'',
+            remark:'',
+            score:'',
+            downNum:'',
+            filePath:'',
+            type:''
+        },
+        created:function () {
+            var uploads = "";
+            var uploadFile = {};
+            uploadFile.fileId = url.parseURL("fileId");
+            $.ajax({
+                async : false, //设置同步
+                type : 'POST',
+                url : address+'getUpload',
+                data : uploadFile,
+                dataType : 'json',
+                success : function(result) {
+                    if (result.status == "0") {
+                        uploads = result.content;
+                    }
+                    else{
+                        layer.alert(result.msg);
+                    }
+                },
+                error : function(result) {
+                    layer.alert('查询错误!!');
+                }
+            });
+            uploads = JSON.parse(uploads);
+            this.fileId = uploads.fileId;
+            this.name = uploads.name;
+            this.tag = uploads.tag;
+            this.keyWord = uploads.keyWord;
+            this.upTime = uploads.upTime;
+            this.remark = uploads.remark;
+            this.score = uploads.score;
+            this.downNum = uploads.downNum;
+            this.type = file.getExtendType(uploads.filePath);
+            this.filePath = uploads.filePath;
+        },
+        methods:{
+            downloadPre:function () {
+                var userId = url.getCookie("userId");
+                if(userId == "" || userId == null){
+                    layer.open({
+                        title: false,
+                        content: '您还未登录'
+                        , icon: 2
+                        , btn: ['去登录']
+                        , yes: function (index, layero) {
+                            window.location.href = address+"login_register.html";
+                        }
+                    });
+                }
+                else{
+                    var user = userUtils.getUser(userId);
+                    if(user.score >= this.score){
+                        var html = '<div style="margin-left: 20px;margin-top: 52px">' +
+                            '       此资源需要<strong>'+ this.score+'</strong>分，您当前积分为<strong>'+user.score+'</strong> ,是否确认下载？' +
+                            '</div>';
+                        layer.open({
+                            type: 1,
+                            title: "下载提示",
+                            area:['400px','200px'],
+                            content: html,
+                            icon: 2,
+                            btn: ['确认下载'],
+                            yes: function (index, layero) {
+//                                var download = {};
+//                                download.userId = url.getCookie("userId");
+//                                download.fileId = upload.fileId;
+//                                $.ajax({
+//                                    async : true,
+//                                    type : 'GET',
+//                                    url : address+'downloadFile',
+//                                    data : download,
+//                                    dataType : 'json',
+//                                    success : function(result) {
+//                                        layer.alert("下载成功")
+//                                    },
+//                                    error : function(result) {
+//                                        layer.alert('查询错误!!');
+//                                    }
+//                                });
+                                upload.downloadFile();
+                            }
+                        });
+                    }
+                    else{
+                        layer.alert( '此资源需要 '+this.score+' 分，您当前积分为 '+user.score+' ,无法下载该资源',{icon:2});
+                    }
+                }
+            },
+            downloadFile: function () {
+                var download = {};
+                download.userId = url.getCookie("userId");
+                download.fileId = upload.fileId;
 
-            tags:[
-                {text:'标签一'},
-                {text:'标签二'}
-            ],
-            publish_time: ' ranran  2017/6/30 00:00:00',
-            upload_content: '空',
-            socre:'NULL',
-            downNum:'NULL'
+                var form = $("<form>");
+                form.attr('style', 'display:none');
+                form.attr('target', '');
+                form.attr('method', 'get');
+                form.attr('action', address+'downloadFile');
+
+                var input1 = $('<input>');
+                input1.attr('type', 'hidden');
+                input1.attr('name', 'userId');
+                input1.attr('value',download.userId);
+                var input2 = $('<input>');
+                input2.attr('type', 'hidden');
+                input2.attr('name', 'fileId');
+                input2.attr('value',download.fileId);
+                $('body').append(form);
+                form.append(input1);
+                form.append(input2);
+                form.submit();
+                form.remove();
+            }
         }
-    })
-
-    uploadContent();
-
-    function uploadContent() {
-        var uploadData = getUpload ();
-//        layer.msg(blogData.userId);
-        var user = getUser(uploadData.userId);
-        var Date = formatDate(uploadData.upTime);
-        var tags = getItClassify(uploadData.itClassifyId);
-
-        upload.upload_title = uploadData.name;
-        upload.tags = tags.itClassifyname;
-        upload.publish_time = user+' '+Date;
-        upload.upload_content = uploadData.remark;
-        upload.score=uploadData.score;
-        upload.downNum=uploadData.downNum;
-
-    }
-
-
-    function getUpload() {
-        var upload = null;
-        var uploadfile = {};
-        uploadfile.fileId=1;
-        $.ajax({
-            async : false, //设置同步
-            type : 'POST',
-            url : 'http://localhost:8080/GRCBlog/getUpload',
-            data : uploadfile,
-            dataType : 'json',
-            success : function(result) {
-                if (result!=null) {
-                    upload = result.upload;
-                }
-                else{
-                   alert('查询错误');
-                }
-            },
-            error : function(result) {
-               alert('查询错误!!');
-            }
-        });
-        //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-        upload = eval("("+upload+")");
-        return upload;
-    }
-
-    function getUser(id) {
-        var user = null;
-        var users = {};
-        users.userId = id;
-
-        $.ajax({
-            async : false, //设置同步
-            type : 'POST',
-            url : 'http://localhost:8080/GRCBlog/getUser',
-            data :users,
-            dataType : 'json',
-            success : function(result) {
-                if (result!=null) {
-                    user = result.user;
-                }
-                else{
-                    alert('查询错误');
-                }
-            },
-            error : function(result) {
-                alert('查询错误!!');
-            }
-        });
-        //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-       // user = eval("("+user+")");
-        return user.userName;
-    }
+    });
 
     function getItClassify(id) {
         var itClassify = null;
@@ -173,7 +210,7 @@
         $.ajax({
             async : false, //设置同步
             type : 'POST',
-            url : 'http://localhost:8080/GRCBlog/getItClassify',
+            url : address+'getItClassify',
             data :classify,
             dataType : 'json',
             success : function(result) {
@@ -188,22 +225,9 @@
                 alert('服务器错误!!');
             }
         });
-        //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-        // user = eval("("+user+")");
         return itClassify;
     }
 
-    function   formatDate(time)   {
-        var date = new Date(time);
-        Y = date.getFullYear() + '-';
-        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-        D = date.getDate() + ' ';
-        h = date.getHours() + ':';
-        m = date.getMinutes() + ':';
-        s = date.getSeconds();
-
-        return Y+M+D+h+m+s;
-    }
 
 </script>
 

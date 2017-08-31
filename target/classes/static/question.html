@@ -10,13 +10,12 @@
 
 </head>
 <body>
-
+<script src="js/header.js"></script>
 <div class="container">
     <div id="questionArea">
         <div class="col-md-8 col-md-offset-2">
-            <h2>{{ questionTitle }}</h2>
-            <span class="label label-primary" v-for="tag in tags" style="margin-left: 3px;"> {{ tag.text }}</span>
-            <p class="text-muted">发布者：{{ questionAuthor }} <br>发布时间：{{ questionPublishTime }}0</p>
+            <h2>{{ title }}</h2>
+            <p class="text-muted">发布者：{{ authorName }} <br>发布时间：{{ publishTime }}0</p>
             <hr class="divider" width="800px">
         </div>
 
@@ -27,7 +26,7 @@
                <br>
                 <div class="row">
                     <div class="col-md-4">
-                         <span class="glyphicon glyphicon-yen" aria-hidden="true" style="color: #337ab7">问题积分：{{ questionScore }}</span>
+                         <span class="glyphicon glyphicon-yen" aria-hidden="true" style="color: #337ab7">问题积分：{{ score }}</span>
                     </div>
 
                     <div class="col-md-4 col-md-offset-10">
@@ -49,17 +48,21 @@
     var questionArea = new Vue({
         el:'#questionArea',
         data:{
-            questionTitle:'未命名',
-            tags:[
-                {text: 'java'},
-                {text: 'c++'}
-            ],
-            questionAuthor:'佚名',
-            questionPublishTime:'2017-07-03 00:00:00',
-            questionContent:'问题内容',
-            questionScore:'10'
+            title:'',
+            authorName:'',
+            publishTime:'',
+            questionContent:'',
+            score:''
+        },
+        created: function () {
+            var question = questionUtils.getQuestion(url.parseURL("questionId"));
+            this.title = question.title;
+            this.authorName = userUtils.getUser(question.userId).userName;
+            this.publishTime = question.publishTime;
+            this.questionContent = question.questionContent;
+            this.score = question.score;
         }
-    })
+    });
 
     Vue.component('answer-item',{
         props:['answer'],

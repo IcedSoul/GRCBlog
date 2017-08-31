@@ -3,12 +3,14 @@
 <head>
     <meta charset="utf-8"/>
     <title>提问</title>
-    <script src="js/src.js"></script>
-    <script src="js/util.js"></script>
     <link rel="stylesheet" href="plugins/editor.md-master/examples/css/style.css"/>
     <link rel="stylesheet" href="plugins/editor.md-master/css/editormd.css"/>
+    <script src="js/src.js"></script>
+    <script src="js/util.js"></script>
 </head>
 <body>
+<script src="js/header.js"></script>
+
 <div id="layout">
     <header>
         <h1>欢迎使用MarkDown语法编辑提问
@@ -20,8 +22,6 @@
     </header>
     <div class="editormd" id="test-editormd">
         <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc" id="editormd"></textarea>
-        <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
-        <!-- html textarea 需要开启配置项 saveHTMLToTextarea == true -->
         <textarea class="editormd-html-textarea" name="editorhtml" id="editorhtml"></textarea>
     </div>
 </div>
@@ -69,38 +69,39 @@
     }
     function submitQuestion(score) {
 
-        var addResult = "";
+        var response = "";
         var Question = {};
         Question.userId = url.getCookie("userId");
         Question.title = document.getElementById("title").value;
-        Question.questionContent = document.getElementById("editormd").value;
+        Question.questionContent = document.getElementById("editorhtml").value;
         Question.score = score;
         $.ajax({
             async: false,
             type: 'POST',
-            url: 'http://localhost:8080/GRCBlog/addQuestion',
+            url: address+'addQuestion',
             data: Question,
             dataType: 'json',
             success: function (result) {
-                addResult = result.addResult;
+                response = result;
             },
             error: function (result) {
                 layer.alert('提交错误');
             }
         });
-        if (addResult == 'success') {
+        if (response.status == "0") {
+            var question = JSON.parse(response.content);
             layer.open({
                 title: false,
                 content: '提问成功'
                 , icon: 1
                 , yes: function (index, layero) {
-                    window.location.href = "http://localhost:8080/GRCBlog/question.html";
+                    window.location.href = url.makeURL(address+'question.html','questionId',question.questionId);
                 }
             });
             return false;
         }
         else
-            layer.alert('提交错误');
+            layer.alert('网络错误');
     }
 </script>
 </body>

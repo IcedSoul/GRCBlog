@@ -1,6 +1,7 @@
 package com.grc.service;
 
 import com.grc.domain.Question;
+import com.grc.utils.Response;
 
 import java.util.List;
 
@@ -9,8 +10,8 @@ import java.util.List;
  */
 public interface QuestionService {
     public List<Question> getAllQuestions(Integer userId);
-    public Question getQuestion(Integer questionId);
-    public void addQuestion(Question question);
+    public Response getQuestion(Integer questionId);
+    public Response addQuestion(Integer userId,String title,String questionContent,Integer score);
     public void updateQuestion(Question question);
     public void deleteQuestion(Integer questionId);
 }

@@ -13,8 +13,9 @@
 
 </head>
 <body>
+<script src="js/header.js"></script>
 <div class="container">
-    <div row>
+    <div class="row">
         <div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -73,7 +74,7 @@
         $.ajax({
             async: false,
             type: 'POST',
-            url: 'http://localhost:8080/GRCBlog/getAllItClassifys',
+            url: address+'getAllItClassifys',
             data: user,
             dataType: 'json',
             success: function (result) {
@@ -100,7 +101,7 @@
         var results = "";
         var userId = url.getCookie("userId");
         $.ajaxFileUpload({
-            url:'http://localhost:8080/GRCBlog/uploadFile?userId='+userId,
+            url:address+'uploadFile?userId='+userId,
             secureuri:false ,
             fileElementId:'fileUpload',
             type:'POST',
@@ -113,13 +114,12 @@
                 result = result.replace("<pre>", '');
                 result = result.replace("</pre>", '');
                 result = JSON.parse(result);
-                results = result.result;
-                if(results.status == "0") {
-                    layer.msg("文件上传成功", {icon: 1});
-                    uploadFile();
+                if(result.status == "0") {
+                    layer.msg(result.msg, {icon: 1});
+                    uploadFile(result.content);
                 }
                 else {
-                    layer.msg("文件上传失败", {icon: 0});
+                    layer.msg(result.msg, {icon: 0});
                 }
             },
             error: function ()
@@ -129,13 +129,13 @@
         );
     }
     
-    function uploadFile() {
-        var addResult = "";
+    function uploadFile(filePath) {
+        var response = "";
         var itClassifySelect = document.getElementById("itClassifyVue");
         var itClassIndex = itClassifySelect.selectedIndex;
         var Upload = {};
         Upload.userId = '1';
-        Upload.filePath = "";
+        Upload.filePath = filePath;
         Upload.name = document.getElementById("name").value;
         Upload.remark = document.getElementById("remark").value;
         Upload.itClassifyId = itClassifySelect.options[itClassIndex].value;
@@ -144,28 +144,29 @@
         $.ajax({
             async: false,
             type: 'POST',
-            url: 'http://localhost:8080/GRCBlog/addUpload',
+            url: address+'addUpload',
             data: Upload,
             dataType: 'json',
             success: function (result) {
-                addResult = result.addResult;
+                response = result;
             },
             error: function (result) {
                 layer.alert('提交错误');
             }
         });
-        if (addResult == 'success') {
+        if (response.status == "0" ) {
+            var file = JSON.parse(response.content);
             layer.open({
                 title: false,
                 content: '上传成功'
                 , icon: 1
                 , yes: function (index, layero) {
-                    window.location.href = "http://localhost:8080/GRCBlog/upload_content.html";
+                    window.location.href = url.makeURL(address+"upload_content.html","fileId",file.fileId);
                 }
             });
         }
         else
-            layer.alert('提交错误');
+            layer.alert(response.msg);
     }
 
 </script>

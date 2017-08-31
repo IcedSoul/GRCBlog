@@ -1,19 +1,22 @@
 package com.grc.controller;
 
-import com.alibaba.fastjson.JSON;
+
 import com.alibaba.fastjson.JSONArray;
 import com.grc.domain.Upload;
 import com.grc.service.UploadService;
 import com.grc.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Timestamp;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,7 @@ import java.util.Map;
 @RestController
 @EnableAutoConfiguration
 public class UploadController {
+
     @Autowired
     UploadService uploadService;
 
@@ -62,13 +66,8 @@ public class UploadController {
      * @return
      */
     @PostMapping(value = "/getUpload")
-    public Map<String,Object> getUpload(@RequestParam("fileId")Integer fileId){
-        String result = "";
-        Upload upload = uploadService.getUpload(fileId);
-        result = JSON.toJSONString(upload);
-        Map<String,Object> response = new HashMap<String, Object>();
-        response.put("upload",result);
-        return response;
+    public Response getUpload(@RequestParam("fileId")Integer fileId){
+        return uploadService.getUpload(fileId);
     }
 
     /**
@@ -83,28 +82,14 @@ public class UploadController {
      * @return
      */
     @PostMapping(value = "/addUpload")
-    public Map<String,Object> addUpload(@RequestParam("userId")Integer userId,
+    public Response addUpload(@RequestParam("userId")Integer userId,
                                         @RequestParam("filePath")String filePath,
                                         @RequestParam("name")String name,
                                         @RequestParam("remark")String remark,
                                         @RequestParam("itClassifyId")Integer itClassifyId,
                                         @RequestParam("keyword")String keyword,
                                         @RequestParam("score")Integer score){
-        Upload upload = new Upload();
-        upload.setUserId(userId);
-        upload.setFilePath(filePath);
-        upload.setName(name);
-        upload.setRemark(remark);
-        upload.setItClassifyId(itClassifyId);
-        upload.setKeyword(keyword);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        upload.setUpTime(timestamp);
-        upload.setDownNum(0);
-        upload.setScore(score);
-        uploadService.addUpload(upload);
-        Map<String,Object> response = new HashMap<String, Object>();
-        response.put("addResult","success");
-        return response;
+        return uploadService.addUpload(userId,filePath,name,remark,itClassifyId,keyword,score);
     }
 
     /**
@@ -164,6 +149,12 @@ public class UploadController {
     @PostMapping(value = "/uploadFile")
     public Response uploadFile(@RequestParam MultipartFile fileUpload, Integer userId){
         return uploadService.uploadFile(fileUpload,userId);
+    }
+
+    @GetMapping(value = "/downloadFile")
+    public ResponseEntity<byte[]> downloadFile(@RequestParam("userId")Integer userId,
+                                                 @RequestParam("fileId")Integer fileId){
+        return uploadService.downloadFile(userId,fileId);
     }
 
 }

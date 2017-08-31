@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.grc.domain.Question;
 import com.grc.service.QuestionService;
+import com.grc.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,13 +47,8 @@ public class QuestionController {
      * @return
      */
     @PostMapping(value = "/getQuestion")
-    public Map<String,Object> getQuestion(@RequestParam("questionId")Integer questionId){
-        String result = "";
-        Question question = questionService.getQuestion(questionId);
-        result = JSON.toJSONString(question);
-        Map<String,Object> response = new HashMap<String, Object>();
-        response.put("question",result);
-        return response;
+    public Response getQuestion(@RequestParam("questionId")Integer questionId){
+        return questionService.getQuestion(questionId);
     }
 
     /**
@@ -64,24 +60,11 @@ public class QuestionController {
      * @return
      */
     @PostMapping(value = "/addQuestion")
-    public Map<String,Object> addQuestion(@RequestParam("userId")Integer userId,
-                                          @RequestParam("title")String title,
-                                          @RequestParam("questionContent")String questionContent,
-                                          @RequestParam("score")Integer score){
-        Question question = new Question();
-        question.setUserId(userId);
-        question.setTitle(title);
-        question.setQuestionContent(questionContent);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        question.setAnswerNum(0);
-        question.setScore(score);
-        question.setState(-1);
-        question.setAcceptUserId(-1);
-        question.setPublishTime(timestamp);
-        questionService.addQuestion(question);
-        Map<String,Object> response = new HashMap<String, Object>();
-        response.put("addResult","success");
-        return response;
+    public Response addQuestion(@RequestParam("userId")Integer userId,
+                                @RequestParam("title")String title,
+                                @RequestParam("questionContent")String questionContent,
+                                @RequestParam("score")Integer score){
+        return questionService.addQuestion(userId,title,questionContent,score);
     }
 
     /**
