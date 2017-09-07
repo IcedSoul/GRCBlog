@@ -26,10 +26,10 @@ document.writeln('<div class="navbar navbar-fixed-top" role="navigation" id="men
     '<div v-if="seen">'+
     '            <ul class="nav navbar-nav navbar-right">'+
 '                <li>'+
-'                    <button class="btn btn-info btn-info-nav ">登录</button>' +
+'                    <button class="btn btn-info btn-info-nav" v-on:click="login">登录</button>' +
     '           </li>'+
 '                <li>'+
-'                    <button class="btn btn-info btn-info-nav ">注册</button>' +
+'                    <button class="btn btn-info btn-info-nav" v-on:click="register">注册</button>' +
     '           </li>'+
     '            </ul>'+
     '</div>'+
@@ -97,6 +97,12 @@ var button = new Vue({
         },
         personalInfo:function () {
             window.location.href = address+"personal_info.html";
+        },
+        login:function () {
+            window.location.href = address+"login_register.html";
+        },
+        register:function () {
+            window.location.href = address+"login_register.html";
         }
 
     }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.grc.domain.Answer;
 import com.grc.service.AnswerService;
+import com.grc.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,6 @@ import java.util.Map;
  * Created by 14437 on 2017/6/25.
  */
 @RestController
-@EnableAutoConfiguration
 public class AnswerController {
 
     @Autowired
@@ -31,13 +31,8 @@ public class AnswerController {
      * @return
      */
     @PostMapping(value = "/getQuestionAnswers")
-    public Map<String,Object> getQuestionAnswers(@RequestParam("questionId")Integer questionId){
-        String result = "";
-        List<Answer> answerList = answerService.getQuestionAnswers(questionId);
-        result = JSONArray.toJSONString(answerList);
-        Map<String,Object> response = new HashMap<String, Object>();
-        response.put("answers",result);
-        return response;
+    public Response getQuestionAnswers(@RequestParam("questionId")Integer questionId){
+        return answerService.getQuestionAnswers(questionId);
     }
 
     /**
@@ -65,21 +60,12 @@ public class AnswerController {
      */
 
     @PostMapping(value = "/addAnswer")
-    public Map<String,Object> addAnswer(@RequestParam("questionId")Integer questionId,
-                                      @RequestParam("userId")Integer userId,
-                                      @RequestParam("answerContent")String answerContent,
-                                      @RequestParam("answerAnswerId")Integer answerAnswerId){
-        Answer answer = new Answer();
-        answer.setQuestionId(questionId);
-        answer.setUserId(userId);
-        answer.setAnswerContent(answerContent);
-        answer.setAnswerAnswerId(answerAnswerId);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        answer.setPublishTime(timestamp);
-        answerService.addAnswer(answer);
-        Map<String,Object> response = new HashMap<String, Object>();
-        response.put("addResult","success");
-        return response;
+    public Response addAnswer(@RequestParam("questionId")Integer questionId,
+                              @RequestParam("userId")Integer userId,
+                              @RequestParam("answerContent")String answerContent,
+                              @RequestParam("answerAnswerId")Integer answerAnswerId,
+                              @RequestParam("level")Integer level){
+        return answerService.addAnswer(questionId,userId,answerContent,answerAnswerId,level);
     }
 
     /**

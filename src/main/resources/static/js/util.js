@@ -65,6 +65,14 @@ var userUtils = new Vue({
                 }
             });
             return user;
+        },
+        checkLogin:function () {
+            var userId = url.getCookie("userId");
+            if(userId == null || userId == "" || userId == undefined){
+                return false;
+            }
+            else
+                return true;
         }
     }
 });

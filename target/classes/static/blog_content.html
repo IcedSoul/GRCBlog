@@ -104,7 +104,7 @@
             $.ajax({
                 async : false,
                 type : 'POST',
-                url : 'http://localhost:8080/GRCBlog/getBlog',
+                url : address+'getBlog',
                 data : blogInfo,
                 dataType : 'json',
                 success : function(result) {
@@ -150,7 +150,7 @@
         '                 </button>'+
         '             </div>'+
         '           <div v-if="seen" class="col-md-6 col-md-offset-3 p-t-10">'+
-        '           <textarea rows="3" cols="20" type="text" class="form-control" v-model="leaveContent" placeholder="看了博客之后说几句吧..."\n' +
+        '               <textarea rows="3" cols="20" type="text" class="form-control" v-model="leaveContent" placeholder="看了博客之后说几句吧..."\n' +
         '                                       aria-describedby="basic-addon1"></textarea>'+
         '                 <button type="button" class="btn btn-default">'+
         '                     <span class="glyphicon glyphicon-remove-sign" style="color: #8c8c8c" v-on:click="unShowInput">取消</span>'+
@@ -185,7 +185,7 @@
             }
 
         }
-    })
+    });
 
     var leaveWord = new Vue({
         el: '#leaveWordArea',
@@ -203,7 +203,7 @@
                 $.ajax({
                     async : false,
                     type : 'POST',
-                    url : 'http://localhost:8080/GRCBlog/getBlogLeaveWords',
+                    url : address+'getBlogLeaveWords',
                     data : blogInfo,
                     dataType : 'json',
                     success : function(result) {
@@ -228,7 +228,7 @@
                 $.ajax({
                     async : false,
                     type : 'POST',
-                    url : 'http://localhost:8080/GRCBlog/addLeaveWord',
+                    url : address+'addLeaveWord',
                     data : leaveWord1,
                     dataType : 'json',
                     success : function(result) {

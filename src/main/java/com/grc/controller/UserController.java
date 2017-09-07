@@ -19,7 +19,6 @@ import java.util.Map;
  * Created by 14437 on 2017/6/21.
  */
 @RestController
-@EnableAutoConfiguration
 public class UserController {
 
     @Autowired

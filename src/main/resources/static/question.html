@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,27 +19,47 @@
             <hr class="divider" width="800px">
         </div>
 
-        <div class="container-content" id="content">
+        <div class="container-content">
             <div class="col-md-8 col-md-offset-2">
                 <p>问题详细描述：</p>
-                <p>{{ questionContent }}</p>
+                <div v-html="questionContent">
+                    {{ questionContent }}
+                </div>
                <br>
                 <div class="row">
                     <div class="col-md-4">
                          <span class="glyphicon glyphicon-yen" aria-hidden="true" style="color: #337ab7">问题积分：{{ score }}</span>
                     </div>
 
-                    <div class="col-md-4 col-md-offset-10">
-                        <button type="button" class="btn btn-default" href="#">
+                    <div class="col-md-4 col-md-offset-4" v-if="showButton">
+                        <button type="button" class="btn btn-default pull-right" v-on:click="showAnswerInput()">
                             <span class="glyphicon glyphicon-comment" aria-hidden="true" style="color: #337ab7">回答</span>
                         </button>
                     </div>
                 </div>
-                <hr class="divider" width="800px">
+                <hr class="divider col-md-12">
             </div>
         </div>
     </div>
     <div id="answerArea">
+        <div class="row" v-if="seen">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-2 col-md-offset-0">
+                    <a href=""><img src="img/3.jpg" class="img-circle img-hd"></a>
+                </div>
+
+                <div class="col-md-10" style="padding-left: 0">
+                    <div class="input-group col-sm-12 col-md-12 col-lg-12">
+                             <textarea rows="3" cols="20" type="text" v-model="newAnswer" class="form-control" placeholder="请输入答案内容"
+                                       aria-describedby="basic-addon1"></textarea>
+                            <button type="button" class="btn btn-default m-t-10">
+                                <span class="glyphicon glyphicon-send" style="color: #337ab7" v-on:click="addNewAnswer()">发送</span>
+                            </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="col-md-8 col-md-offset-2 pd-t-b-20">
+        </div>
         <answer-item v-for="item in answers" v-bind:answer="item"></answer-item>
     </div>
 </div>
@@ -48,62 +68,181 @@
     var questionArea = new Vue({
         el:'#questionArea',
         data:{
+            questionId:'',
             title:'',
             authorName:'',
             publishTime:'',
             questionContent:'',
-            score:''
+            score:'',
+            showButton:true
         },
         created: function () {
             var question = questionUtils.getQuestion(url.parseURL("questionId"));
+            this.questionId = question.questionId;
             this.title = question.title;
             this.authorName = userUtils.getUser(question.userId).userName;
             this.publishTime = question.publishTime;
             this.questionContent = question.questionContent;
             this.score = question.score;
+        },
+        methods:{
+            showAnswerInput:function () {
+                if(userUtils.checkLogin()==true){
+                    this.showButton = false;
+                    answerArea.seen = true;
+                }
+                else{
+                    var html = '<div style="margin-left: 20px;margin-top: 52px">' +
+                        '       请先去注册或登陆' +
+                        '</div>';
+                    layer.open({
+                        type: 1,
+                        title: "登陆提示",
+                        area:['400px','200px'],
+                        content: html,
+                        icon: 2,
+                        btn: ['去登陆/注册'],
+                        yes: function (index, layero) {
+                            window.location.href= address+ "login_register.html";
+                        }
+                    });
+                }
+            }
         }
     });
 
+
     Vue.component('answer-item',{
-        props:['answer'],
-        template: '<div class="container-fluid">'+
-        '            <div class="row">'+
-        '                <div class="col-md-4 col-md-offset-2">'+
-        '                    <div class="col-md-2 col-md-offset-0">'+
-        '                        <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>'+
-        '                    </div>'+
-        '                    <div class="col-md-8 col-md-offset-1">'+
-        '                        <span class="text" >{{ answer.userName }}</span>'+
-        '                        <p class="text-muted">回答时间：{{ answer.publishTime}}</p>'+
-        '                    </div>'+
-        '                </div>'+
-        '            </div>'+
-        '            <div class="col-md-6 col-md-offset-3">'+
-        '                <p>{{ answer.answerContent }}</p>'+
-        '            </div>'+
-        '            <div class="col-md-6 col-md-offset-3">'+
-        '                <button type="button" class="btn btn-default">'+
-        '                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style="color: #337ab7">点赞</span>'+
-        '                </button>'+
-        '                <button type="button" class="btn btn-default" href="#">'+
-        '                    <span class="glyphicon glyphicon-comment" aria-hidden="true" style="color: #337ab7">回复</span>'+
-        '                </button>'+
-        '            </div>'+
-        '            <hr class="divider" width="800px">'+
-        '        </div>'
-    })
+        props: ['answer'],
+        template: '<div>' +
+        '<div class="container">'+
+        '             <div class="row">'+
+        '                 <div class="col-md-4 col-md-offset-2">'+
+        '                     <div class="col-md-2 col-md-offset-0">'+
+        '                         <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>'+
+        '                     </div>'+
+        '                     <div class="col-md-8 col-md-offset-1">'+
+        '                         <span class="text">{{ answer.userName }}</span>'+
+        '                         <p class="text-muted">评论时间：{{ answer.publishTime }}</p>'+
+        '                     </div>'+
+        '                 </div>'+
+        '             </div>'+
+        '             <div class="col-md-7 col-md-offset-3">'+
+        '                {{ answer.answerContent }}'+
+        '             </div>'+
+        '             <div class="col-md-6 col-md-offset-3 m-t-10">'+
+        '                 <button type="button" class="btn btn-default">'+
+        '                     <span class="glyphicon glyphicon-thumbs-up" style="color: #337ab7">点赞</span>'+
+        '                 </button>'+
+        '                 <button type="button" class="btn btn-default" href="#">'+
+        '                     <span class="glyphicon glyphicon-comment" style="color: #337ab7" v-on:click="showInput">回复</span>'+
+        '                 </button>'+
+        '             </div>'+
+        '           <div v-if="seen" class="col-md-6 col-md-offset-3 p-t-10">'+
+        '               <textarea rows="3" cols="20" type="text" class="form-control" v-model="answerContent" placeholder="请输入答案内容"\n' +
+        '                                       aria-describedby="basic-addon1"></textarea>'+
+        '                 <button type="button" class="btn btn-default">'+
+        '                     <span class="glyphicon glyphicon-remove-sign" style="color: #8c8c8c" v-on:click="unShowInput">取消</span>'+
+        '                 </button>'+
+        '                 <button type="button" class="btn btn-default" href="#">'+
+        '                     <span class="glyphicon glyphicon-send" style="color: #337ab7" v-on:click="addAnswer(answer.answerId,answer.level)">发送</span>'+
+        '                 </button>'+
+        '             </div>'+
+        '         </div>'+
+        '        <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2"/>' +
+        '        <div class="col-md-offset-2 p-t-10">'+
+        '           <answer-item v-for="item in answer.childWord" v-bind:answer="item"></answer-item>'+
+        '       </div>'+
+        '</div>',
+        data:function () {
+            return {
+                answerContent:"",
+                seen:false
+            }
+        },
+        methods:{
+            showInput: function () {
+                this.seen = true;
+            },
+            unShowInput: function () {
+                this.seen = false;
+            },
+            addAnswer: function (answerAnswerId,level) {
+                answerArea.addAnswer(answerAnswerId,level,this.answerContent);
+                this.seen = false;
+                answerArea.updateAnswers();
+            }
+
+        }
+    });
 
 
     var answerArea = new Vue({
         el: '#answerArea',
         data: {
-            answers:[
-                {
-                    userName:'未命名',
-                    publishTime:'2017-07-02 00:00:12',
-                    answerContent:'回答内容'
+            answers:[],
+            newAnswer:'',
+            seen:false
+        },
+        created:function () {
+            this.updateAnswers();
+        },
+        methods:{
+            updateAnswers: function () {
+                var questionInfo = {};
+                questionInfo.questionId = url.parseURL('questionId');
+                var response = '';
+                $.ajax({
+                    async : false,
+                    type : 'POST',
+                    url : address+'getQuestionAnswers',
+                    data : questionInfo,
+                    dataType : 'json',
+                    success : function(result) {
+                        response = result;
+                    },
+                    error : function(result) {
+                        layer.msg('服务器异常');
+                    }
+                });
+                if(response.status == "0"){
+                    this.answers = eval("("+response.content+")");
                 }
-            ]
+                else{
+                    layer.msg(response.msg);
+                }
+            },
+            addAnswer: function (answerAnswerId,level,answerContent) {
+                var answer1 = {};
+                answer1.questionId = questionArea.questionId;
+                answer1.answerAnswerId = answerAnswerId;
+                answer1.answerContent = answerContent;
+                answer1.level = level+1;
+                answer1.userId = url.getCookie("userId");
+
+                var response = '';
+                $.ajax({
+                    async : false,
+                    type : 'POST',
+                    url : address+'addAnswer',
+                    data : answer1,
+                    dataType : 'json',
+                    success : function(result) {
+                        response = result;
+                    },
+                    error : function(result) {
+                        layer.msg('服务器异常');
+                    }
+                });
+                if(response.status == "0"){
+                    layer.msg('回答成功',{icon:1});
+                }
+            },
+            addNewAnswer:function () {
+                this.addAnswer(-1,-1,this.newAnswer);
+                this.updateAnswers();
+            }
+
         }
     })
 

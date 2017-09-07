@@ -23,4 +23,5 @@ public class Answer {
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Timestamp publishTime;
     private Integer answerAnswerId;
+    private Integer level;
 }

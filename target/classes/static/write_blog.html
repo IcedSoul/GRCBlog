@@ -117,7 +117,7 @@
         $.ajax({
             async: false,
             type: 'POST',
-            url: 'http://localhost:8080/GRCBlog/getAllItClassifys',
+            url: address+'getAllItClassifys',
             data: user,
             dataType: 'json',
             success: function (result) {
@@ -137,7 +137,7 @@
         $.ajax({
             async: false,
             type: 'POST',
-            url: 'http://localhost:8080/GRCBlog/getUserClassifys',
+            url: address+'getUserClassifys',
             data: user,
             dataType: 'json',
             success: function (result) {
@@ -190,7 +190,7 @@
         $.ajax({
             async: false,
             type: 'POST',
-            url: 'http://localhost:8080/GRCBlog/addBlog',
+            url: address+'addBlog',
             data: Blog,
             dataType: 'json',
             success: function (result) {
@@ -209,10 +209,10 @@
                 , icon: 1
                 , btn: ['继续编写博客', '查看博客']
                 , yes: function (index, layero) {
-                    window.location.href = "http://localhost:8080/GRCBlog/write_blog.html";
+                    window.location.href = address+"write_blog.html";
                 }
                 , btn2: function (index, layero) {
-                    window.location.href = url.makeURL('http://localhost:8080/GRCBlog/blog_content.html','blogId',Blog.blogId);
+                    window.location.href = url.makeURL(address+'blog_content.html','blogId',Blog.blogId);
                 }
             });
         }

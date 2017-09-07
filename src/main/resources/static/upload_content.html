@@ -149,22 +149,6 @@
                             icon: 2,
                             btn: ['确认下载'],
                             yes: function (index, layero) {
-//                                var download = {};
-//                                download.userId = url.getCookie("userId");
-//                                download.fileId = upload.fileId;
-//                                $.ajax({
-//                                    async : true,
-//                                    type : 'GET',
-//                                    url : address+'downloadFile',
-//                                    data : download,
-//                                    dataType : 'json',
-//                                    success : function(result) {
-//                                        layer.alert("下载成功")
-//                                    },
-//                                    error : function(result) {
-//                                        layer.alert('查询错误!!');
-//                                    }
-//                                });
                                 upload.downloadFile();
                             }
                         });

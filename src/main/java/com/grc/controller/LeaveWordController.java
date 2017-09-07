@@ -21,7 +21,6 @@ import java.util.Map;
  * Created by 14437 on 2017/6/25.
  */
 @RestController
-@EnableAutoConfiguration
 public class LeaveWordController {
     @Autowired
     LeaveWordService leaveWordService;
@@ -70,7 +69,7 @@ public class LeaveWordController {
                                       @RequestParam("blogId")Integer blogId,
                                       @RequestParam("leaveContent")String leaveContent,
                                       @RequestParam("answerId")Integer answerId,
-                                      @RequestParam("answerId")Integer level){
+                                      @RequestParam("level")Integer level){
         LeaveWord leaveWord = new LeaveWord();
         leaveWord.setAnswerId(answerId);
         leaveWord.setLeaveContent(leaveContent);
@@ -82,7 +81,7 @@ public class LeaveWordController {
         LeaveWord leaveWord1 = leaveWordService.addLeaveWord(leaveWord);
         Map<String,Object> response = new HashMap<String, Object>();
         response.put("addResult","success");
-        response.put("leaveWord",JSON.toJSONString(leaveWord));
+        response.put("leaveWord",JSON.toJSONString(leaveWord1));
         return response;
     }
 

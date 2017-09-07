@@ -25,7 +25,6 @@ import java.util.Map;
  * Created by 14437 on 2017/6/25.
  */
 @RestController
-@EnableAutoConfiguration
 public class UploadController {
 
     @Autowired
