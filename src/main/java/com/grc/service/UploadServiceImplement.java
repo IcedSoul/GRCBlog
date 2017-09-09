@@ -62,7 +62,7 @@ public class UploadServiceImplement implements UploadService {
         upload.setName(name);
         upload.setRemark(remark);
         upload.setItClassifyId(itClassifyId);
-        upload.setKeyword(keyword);
+        upload.setKeyWord(keyword);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         upload.setUpTime(timestamp);
         upload.setDownNum(0);

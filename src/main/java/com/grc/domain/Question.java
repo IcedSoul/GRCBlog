@@ -26,4 +26,5 @@ public class Question {
     private Integer score;
     private Integer state;
     private Integer acceptUserId;
+    private String briefContent;
 }

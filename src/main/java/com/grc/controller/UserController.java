@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.grc.domain.User;
 import com.grc.domain.UserDetail;
 import com.grc.service.UserService;
+import com.grc.utils.Response;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,5 +197,11 @@ public class UserController {
         return response;
     }
 
+    @ApiOperation(value = "搜索信息",httpMethod ="POST", notes = "search")
+    @PostMapping(value = "/searchAll")
+    public Response searchAll(@ApiParam(value = "用户ID",required = true)@RequestParam("userId")Integer userId,
+                           @ApiParam(value = "关键词",required = true)@RequestParam("keyWord")String keyWord){
+        return userService.search(userId,keyWord);
+    }
 
 }

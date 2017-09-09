@@ -120,7 +120,7 @@ public class UploadController {
         upload.setName(name);
         upload.setRemark(remark);
         upload.setItClassifyId(itClassifyId);
-        upload.setKeyword(keyword);
+        upload.setKeyWord(keyword);
         upload.setDownNum(downNum);
         upload.setDownNum(0);
         upload.setScore(score);

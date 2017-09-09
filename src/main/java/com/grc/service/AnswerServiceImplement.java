@@ -39,8 +39,6 @@ public class AnswerServiceImplement implements AnswerService {
         }catch (Exception e){
             return new Response("-1","服务器异常","");
         }
-
-
     }
 
     @Override

@@ -41,7 +41,7 @@
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户</a>
                         </li>
                     </ul>
-                    <div class="tab-content">
+                    <div class="tab-content" id="result">
                         <div class="tab-pane active" id="tab-article">
                             <div class="list-group ">
                                 <div class="list-group-item">
@@ -120,261 +120,121 @@
         props: ['blog'],
         template: '<div class="list-group-item">' +
                 '<div class="pull-right">' +
-                ' <span class="label label-info">{{blog.tags}}java</span>' +
+                ' <span class="label label-info" v-for="tag in tags" style="margin-right: 3px;">{{ tag.text }}</span>' +
                 '</div>' +
-                '<a class="" href="imgURL"><img src="img/display-photo.jpg"class="img-circle img-md"></a>' +
-                '<span>{{ blog.anthor}}</span>' +
+                '<a href="imgURL"><img src="img/display-photo.jpg"class="img-circle img-md"></a>' +
+                '<span>{{ blog.userName }}</span>' +
                 '<h3>{{ blog.title }}</h3>' +
-                '<p>{{ blog.blogContent }}</p>' +
+                '<p>{{ blog.briefContent }}</p>' +
                 '<span class="text-muted">评论数：</span>{{ blog.leaveNum }}&nbsp&nbsp&nbsp' +
                 '<span class="text-muted">发表时间：</span>{{blog.publishTime }}&nbsp&nbsp&nbsp ' +
                 '</div>' +
-                '<hr>'
-    })
+                '<hr>',
+    });
 
     var blog = new Vue({
         el: "#blog",
         data:{
-            blog:blogContent()
+            blog:[]
         }
-    })
+    });
 
-    function blogContent() {
-        var blogData = getAllBlogs(1);
-//        layer.msg(blogData.userId);
+    //资源页
+    Vue.component('upload-item', {
+        props: ['upload'],
+        template: '<div class="list-group-item">' +
+        '<div class="pull-right">' +
+        ' <span class="label label-info" v-for="tag in tags" style="margin-right: 3px;">{{ tag.text }}</span>' +
+        '</div>' +
+        '<div class="media">' +
+        '<div class="media-left">' +
+        '<svg width="64" height="64" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
+        '<rect width="50" height="60" style="fill:gray;"/>' +
+        '<polygon style="fill:#FFFFFF;" points="35,0 50,0 50,15 "/>' +
+        '<polygon style="fill:#FFFFFF;" points="30,3 45,20 30,20 "/>' +
+        '<text x="5" y="40" font-size="15" style="fill:white">RAR</text>' +
+        '</svg>' +
+        '</div>' +
+        '<div class="media-body">' +
+        '<h4 style="">{{ upload.name }}</h4>' +
+        '<p>{{ upload.remark }}</p>' +
+        '<br>' +
+        '<span class="text-muted">所需积分：{{ upload.score }} </span>分&nbsp&nbsp&nbsp' +
+        '<span class="text-muted">下载次数：{{upload.downNum }}</span> 次&nbsp&nbsp&nbsp' +
+        '<span class="text-muted">上传时间：{{ upload.publish_time }}</span>&nbsp&nbsp&nbsp' +
+        '<span class="text-muted">上传者：{{upload.userId}}</span>'+
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<hr>'
+    });
 
-        for(var i = 0; i< blogData.length; i++) {
-            var user = getUser(blogData[i].userId);
-
-            var Date = formatDate(blogData[i].publishTime);
-            blogData[i].publishTime = Date;
-            blogData[i].anthor = user.userName;
+    var upload = new Vue({
+        el: "#upload",
+        data:{
+            upload:[]
         }
-        return blogData;
-
-    }
-
-        //资源页
-        Vue.component('upload-item', {
-            props: ['upload'],
-            template: '<div class="list-group-item">' +
-            '<div class="pull-right">' +
-            ' <span class="label label-info">{{tags}}</span>' +
-            '</div>' +
-            '<div class="media">' +
-            '<div class="media-left">' +
-            '<svg width="64" height="64" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
-            '<rect width="50" height="60" style="fill:gray;"/>' +
-            '<polygon style="fill:#FFFFFF;" points="35,0 50,0 50,15 "/>' +
-            '<polygon style="fill:#FFFFFF;" points="30,3 45,20 30,20 "/>' +
-            '<text x="5" y="40" font-size="15" style="fill:white">RAR</text>' +
-            '</svg>' +
-            '</div>' +
-            '<div class="media-body">' +
-            '<h4 style="">{{ upload.name }}</h4>' +
-            '<p>{{ upload.remark }}</p>' +
-            '<br>' +
-            '<span class="text-muted">所需积分：{{ upload.score }} </span>分&nbsp&nbsp&nbsp' +
-            '<span class="text-muted">下载次数：{{upload.downNum }}</span> 次&nbsp&nbsp&nbsp' +
-            '<span class="text-muted">上传时间：{{ upload.publish_time }}</span>&nbsp&nbsp&nbsp' +
-            '<span class="text-muted">上传者：{{upload.anthor}}</span>'+
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '<hr>'
-        })
+    });
 
 
-        var upload = new Vue({
-            el: "#upload",
-            data:{
-                upload:uploadContent()
-            }
-        })
+    //问答页
+    Vue.component('question-item',{
+        props: ['question'],
+        template:'<div class="list-group-item">'+
+        //onClick中的函数需要修改，等端口写好之后，修改，根据id获取问题
+        //'<div class="pull-right" >'+
+        ' <h3>{{ question.title }}</h3>'+
+        '<p>{{ question.briefContent }}</p>'+
+        ' <span class="text-muted">悬赏积分：{{ question.score }}</span> &nbsp&nbsp&nbsp'+
+        ' <span class="text-muted">状态：{{ question.state }}</span>&nbsp&nbsp&nbsp'+
+        '<span class="text-muted">回答数：{{ question.answerNum }}</span> &nbsp&nbsp&nbsp'+
+        ' <span class="text-muted">发表时间：{{ question.publish_time }}</span> &nbsp&nbsp&nbsp'+
+        '<span class="text-muted">提问者：{{ question.anthor }}</span> &nbsp&nbsp&nbsp'+
+        '<hr>'+
+        '</div>'
+    });
 
-        function uploadContent() {
-            var uploadData = getAllUpload();
-//        layer.msg(blogData.userId);
-
-            for(var i = 0; i<uploadData.length;i++) {
-                var user = getUser(uploadData[i].userId);
-                var Date = formatDate(uploadData[i].upTime);
-                uploadData[i].publish_time = Date;
-                uploadData[i].anthor = user.userName;
-            }
-            return uploadData;
-
+    var question = new Vue({
+        el: "#question",
+        data:{
+            question:[]
         }
+    });
 
 
-        //问答页
-        Vue.component('question-item',{
-            props: ['question'],
-            template:'<div class="list-group-item">'+
-            //onClick中的函数需要修改，等端口写好之后，修改，根据id获取问题
-            //'<div class="pull-right" >'+
-            ' <h3>{{ question.title }}</h3>'+
-            '<p>{{ question.questionContent }}</p>'+
-            ' <span class="text-muted">悬赏积分：{{ question.score }}</span> &nbsp&nbsp&nbsp'+
-            ' <span class="text-muted">状态：{{ question.state }}</span>&nbsp&nbsp&nbsp'+
-            '<span class="text-muted">回答数：{{ question.answerNum }}</span> &nbsp&nbsp&nbsp'+
-            ' <span class="text-muted">发表时间：{{ question.publish_time }}</span> &nbsp&nbsp&nbsp'+
-            '<span class="text-muted">提问者：{{ question.anthor }}</span> &nbsp&nbsp&nbsp'+
-            '<hr>'+
-            '</div>'
-        })
-
-        var question = new Vue({
-            el: "#question",
-            data:{
-                question:questionContent()
-            }
-        })
-
-        function questionContent() {
-            var questionData = getAllQuestions(1);
-//        layer.msg(blogData.userId);
-
-            for(var i = 0; i < questionData.length;i++) {
-                var user = getUser(questionData[i].userId);
-                var Date = formatDate(questionData[i].publishTime);
-                questionData[i].publish_time = Date;
-                questionData[i].anthor = user.userName;
-            }
-            return questionData;
-        }
-
-
-        function getAllQuestions(id) {
-            var questions = null;
-            var nothing = {};
-            if(id==null)
-            {
-                nothing.userId=1;
-            }
-            else
-                nothing.userId=id;
+    var result = new Vue({
+        el:'#result',
+        created:function () {
+            var searchInfo = {};
+            searchInfo.userId = url.getCookie("userId");
+            searchInfo.keyWord = url.parseURL("keyWord");
+            var response = "";
             $.ajax({
-                async: false, //设置同步
-                type: 'POST',
-                url: 'http://localhost:8080/GRCBlog/getAllQuestions',
-                data: nothing,
-                dataType: 'json',
-                success: function (result) {
-                    if (result != null) {
-                        questions = result.questions;
-
-                    }
-                    else {
-                        alert('查询错误!!');
-                    }
+                async : false,
+                type : 'POST',
+                url : address+'searchAll',
+                data : searchInfo,
+                dataType : 'json',
+                success : function(result) {
+                    response = result;
                 },
-                error: function (resoult) {
-                    alert('服务器异常');
+                error : function(result) {
+                    layer.msg('服务器异常');
                 }
             });
-            //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-            questions = eval("(" + questions + ")");
-            return questions;
+            if(response.status == "0"){
+                var content = response.content;
+                content = JSON.parse(content);
+                blog.blog = eval('('+content.blog+')');
+                upload.upload = eval('('+content.upload+')');
+                question.question = eval('('+content.question+')');
+            }
+            else{
+                layer.msg(response.msg);
+            }
         }
+    });
 
-
-        function getUser(id) {
-            var user = null;
-            var users = {};
-            users.userId = id;
-
-            $.ajax({
-                async: false, //设置同步
-                type: 'POST',
-                url: 'http://localhost:8080/GRCBlog/getUser',
-                data: users,
-                dataType: 'json',
-                success: function (result) {
-                    if (result != null) {
-                        user = result.user;
-                    }
-                    else {
-                        alert('查询错误');
-                    }
-                },
-                error: function (result) {
-                    alert('查询错误!!');
-                }
-            });
-            //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-            // user = eval("("+user+")");
-            return user;
-        }
-
-
-        function getAllBlogs(id) {
-            var blogs = null;
-            var nothing = {};
-            nothing.userId=id;
-            $.ajax({
-                async: false, //设置同步
-                type: 'POST',
-                url: 'http://localhost:8080/GRCBlog/getAllBlogs',
-                data: nothing,
-                dataType: 'json',
-                success: function (result) {
-                    if (result != null) {
-                        blogs = result.blogs;
-                    }
-                    else {
-                        alert('查询错误');
-                    }
-                },
-                error: function (resoult) {
-                    alert('查询错误');
-                }
-            });
-            //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-            blogs = eval("(" + blogs + ")");
-            return blogs;
-        }
-
-
-        function getAllUpload() {
-            var uploads = null;
-            var nothing = {};
-            $.ajax({
-                async: false, //设置同步
-                type: 'GET',
-                url: 'http://localhost:8080/GRCBlog/getAllUpload',
-                data: nothing,
-                dataType: 'json',
-                success: function (result) {
-                    if (result != null) {
-                        uploads = result.uploads;
-
-                    }
-                    else {
-                        alert('查询错误');
-                    }
-                },
-                error: function (resoult) {
-                    alert('服务器查询错误！');
-                }
-            });
-            //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-            uploads = eval("(" + uploads + ")");
-            return uploads;
-
-        }
-
-        function formatDate(time) {
-            var date = new Date(time);
-            Y = date.getFullYear() + '-';
-            M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-            D = date.getDate() + ' ';
-            h = date.getHours() + ':';
-            m = date.getMinutes() + ':';
-            s = date.getSeconds();
-
-            return Y + M + D + h + m + s;
-        }
 
 
 

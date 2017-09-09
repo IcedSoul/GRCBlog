@@ -22,7 +22,7 @@ public class Upload {
     private String name;
     private String remark;
     private Integer itClassifyId;
-    private String keyword;
+    private String keyWord;
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Timestamp upTime;
     private Integer downNum;

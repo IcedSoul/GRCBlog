@@ -1,3 +1,4 @@
+
 document.write('<link href="css/bootstrap.min.css" rel="stylesheet">');
 document.write('<link href="css/style.css" rel="stylesheet">');
 document.write('<script src="js/jquery.min.js"></script>');

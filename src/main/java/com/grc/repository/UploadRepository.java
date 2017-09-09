@@ -2,6 +2,7 @@ package com.grc.repository;
 
 import com.grc.domain.Upload;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ import java.util.List;
  */
 public interface UploadRepository extends JpaRepository<Upload,Integer> {
     public List<Upload> findByUserId(Integer userId);
+    @Query("select u from Upload u where filePath like :keyWord or name like :keyWord or keyWord like :keyWord or remark like :keyWord")
+    public List<Upload> findByFilePathLikeOrNameLikeOrKeywordLikeOrRemarkLike(String keyWord);
 }

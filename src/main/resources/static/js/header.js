@@ -15,14 +15,14 @@ document.writeln('<div class="navbar navbar-fixed-top" role="navigation" id="men
 '                <li class="active"><a v-on:click="index" class="black-feature">首页</a></li>'+
 '                <li class="active"><a href="" class="black-feature">消息</a></li>'+
 '            </ul>'+
-'            <form class="navbar-form navbar-left" role="search">'+
+'            <div class="navbar-form navbar-left" role="search">'+
 '                <div class="form-group">'+
-'                    <input type="text" class="form-control" placeholdser="搜索">'+
-'                    <button type="submit" class="btn btn-link">'+
+'                    <input type="text" class="form-control" placeholdser="搜索" v-model="keyWord">'+
+'                    <button class="btn btn-link" v-on:click="searchAll">'+
 '                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>'+
 '                    </button>'+
 '                </div>'+
-'            </form>'+
+'            </div>'+
     '<div v-if="seen">'+
     '            <ul class="nav navbar-nav navbar-right">'+
 '                <li>'+
@@ -67,6 +67,7 @@ var button = new Vue({
     data:{
         seen:true,
         seen2:false,
+        keyWord:''
     },
     created:function () {
         var userId = url.getCookie("userId");
@@ -103,6 +104,9 @@ var button = new Vue({
         },
         register:function () {
             window.location.href = address+"login_register.html";
+        },
+        searchAll:function () {
+            window.location.href = url.makeURL(address +"search_result.html","keyWord",this.keyWord);
         }
 
     }
