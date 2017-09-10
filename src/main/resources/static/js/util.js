@@ -3,7 +3,7 @@ var address = "http://localhost:8080/GRCBlog/";
 var url = new Vue({
     methods:{
         makeURL: function (url,name,value) {
-            return url+"?"+name+"="+value;
+            return encodeURI(url+"?"+name+"="+value);
         },
         parseURL: function (name) {
             var url = location.search;
@@ -14,7 +14,7 @@ var url = new Vue({
                 for(var i = 0; i < strs.length; i ++) {
                     var value = strs[i].split("=");
                     if( value[0] == name)
-                        return value[1];
+                        return decodeURI(value[1]);
                 }
             }
             return null;

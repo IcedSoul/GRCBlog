@@ -30,18 +30,29 @@
                     <ul class="nav nav-tabs" role="tablist" id="feature-tab">
                         <li class="active">
                             <a href="#tab-article" role="tab" data-toggle="tab">
-                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 博文</a>
+                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 博文
+                                <span class="badge">{{ blogNum }}</span>
+                            </a>
                         </li>
-                        <li ><a href="#tab-resource" role="tab" data-toggle="tab">
-                            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> 资源</a></li>
-                        <li ><a href="#tab-recent" role="tab" data-toggle="tab">
-                            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> 问答</a>
+                        <li >
+                            <a href="#tab-resource" role="tab" data-toggle="tab">
+                                <span class="glyphicon glyphicon-file" aria-hidden="true"></span> 资源
+                                <span class="badge">{{ uploadNum }}</span>
+                            </a>
+                        </li>
+                        <li >
+                            <a href="#tab-recent" role="tab" data-toggle="tab">
+                                <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> 问答
+                                <span class="badge">{{ questionNum }}</span>
+                            </a>
                         </li>
                         <li ><a href="#tab-user" role="tab" data-toggle="tab">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户</a>
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户
+                            <span class="badge">{{ userNum }}</span>
+                        </a>
                         </li>
                     </ul>
-                    <div class="tab-content" id="result">
+                    <div class="tab-content">
                         <div class="tab-pane active" id="tab-article">
                             <div class="list-group ">
                                 <div class="list-group-item">
@@ -51,9 +62,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="list-group " id="blog">
+                            <div class="list-group m-t-65 " id="blogArea">
 
-                                <blog-item v-for="item in blog" v-bind:blog="item"></blog-item>
+                                <blog-item v-for="item in blog1" v-bind:blog="item"></blog-item>
 
                             </div>
                         </div>
@@ -66,8 +77,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="list-group" id="upload">
-                                <upload-item v-for="item in upload" v-bind:upload="item"></upload-item>
+                            <div class="list-group m-t-65" id="uploadArea">
+                                <upload-item v-for="item in upload1" v-bind:upload="item"></upload-item>
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-recent">
@@ -79,8 +90,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="list-group "id="question">
-                                <question-item v-for="item in question" v-bind:question="item"></question-item>
+                            <div class="list-group m-t-65" id="questionArea">
+                                <question-item v-for="item in question1" v-bind:question="item"></question-item>
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-user">
@@ -113,66 +124,76 @@
 
 <script type="text/javascript">
 
-    //var imgURL = "http://localhost:8080/GRCBlog/img/" + user.img + ".jpg";
+
 
     //博客页
     Vue.component('blog-item', {
         props: ['blog'],
-        template: '<div class="list-group-item">' +
-                '<div class="pull-right">' +
-                ' <span class="label label-info" v-for="tag in tags" style="margin-right: 3px;">{{ tag.text }}</span>' +
-                '</div>' +
-                '<a href="imgURL"><img src="img/display-photo.jpg"class="img-circle img-md"></a>' +
-                '<span>{{ blog.userName }}</span>' +
-                '<h3>{{ blog.title }}</h3>' +
-                '<p>{{ blog.briefContent }}</p>' +
-                '<span class="text-muted">评论数：</span>{{ blog.leaveNum }}&nbsp&nbsp&nbsp' +
-                '<span class="text-muted">发表时间：</span>{{blog.publishTime }}&nbsp&nbsp&nbsp ' +
-                '</div>' +
-                '<hr>',
+        template: '<div class="list-group-item pointer" v-on:click="blogDetail(blog.blogId)">' +
+                '       <div class="pull-right">' +
+                '           <span class="label label-info" v-for="tag in blog.tags" style="margin-right: 3px;">{{ tag.text }}</span>' +
+                '       </div>' +
+                '       <a href="#"><img src="img/display-photo.jpg" class="img-circle img-md"></a>' +
+                '       <span>{{ blog.userName }}</span>' +
+                '       <h3>{{ blog.title }}</h3>' +
+                '       <p>{{ blog.briefContent }}</p>' +
+                '       <span class="text-muted">评论数：</span>{{ blog.leaveNum }}&nbsp&nbsp&nbsp' +
+                '       <span class="text-muted">发表时间：</span>{{blog.publishTime }}&nbsp&nbsp&nbsp ' +
+        '               <hr>' +
+                '   </div>',
+        methods:{
+            blogDetail: function (blogId) {
+                window.location.href = url.makeURL(address+'blog_content.html','blogId',blogId);
+            }
+        }
     });
 
-    var blog = new Vue({
-        el: "#blog",
+    var blogs = new Vue({
+        el: "#blogArea",
         data:{
-            blog:[]
+            blog1:[]
         }
     });
 
     //资源页
     Vue.component('upload-item', {
         props: ['upload'],
-        template: '<div class="list-group-item">' +
-        '<div class="pull-right">' +
-        ' <span class="label label-info" v-for="tag in tags" style="margin-right: 3px;">{{ tag.text }}</span>' +
-        '</div>' +
-        '<div class="media">' +
-        '<div class="media-left">' +
-        '<svg width="64" height="64" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
-        '<rect width="50" height="60" style="fill:gray;"/>' +
-        '<polygon style="fill:#FFFFFF;" points="35,0 50,0 50,15 "/>' +
-        '<polygon style="fill:#FFFFFF;" points="30,3 45,20 30,20 "/>' +
-        '<text x="5" y="40" font-size="15" style="fill:white">RAR</text>' +
-        '</svg>' +
-        '</div>' +
-        '<div class="media-body">' +
-        '<h4 style="">{{ upload.name }}</h4>' +
-        '<p>{{ upload.remark }}</p>' +
-        '<br>' +
-        '<span class="text-muted">所需积分：{{ upload.score }} </span>分&nbsp&nbsp&nbsp' +
-        '<span class="text-muted">下载次数：{{upload.downNum }}</span> 次&nbsp&nbsp&nbsp' +
-        '<span class="text-muted">上传时间：{{ upload.publish_time }}</span>&nbsp&nbsp&nbsp' +
-        '<span class="text-muted">上传者：{{upload.userId}}</span>'+
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<hr>'
-    });
+        template: '<div class="list-group-item pointer"  v-on:click="uploadDetail(upload.fileId)">' +
+        '               <div class="pull-right">' +
+        '                   <span class="label label-info" v-for="tag in upload.keyWord" style="margin-right: 3px;">{{ tag.text }}</span>' +
+        '               </div>' +
+        '               <div class="media">' +
+        '                   <div class="media-left">' +
+        '                       <svg width="64" height="64" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
+        '                           <rect width="50" height="60" style="fill:gray;"/>' +
+        '                           <polygon style="fill:#FFFFFF;" points="35,0 50,0 50,15 "/>' +
+        '                           <polygon style="fill:#FFFFFF;" points="30,3 45,20 30,20 "/>' +
+        '                           <text x="5" y="40" font-size="15" style="fill:white">RAR</text>' +
+        '                       </svg>' +
+        '                   </div>' +
+        '                   <div class="media-body">' +
+        '                       <h4 style="">{{ upload.name }}</h4>' +
+        '                       <p>{{ upload.remark }}</p>' +
+        '                       <br/>' +
+        '                       <span class="text-muted">所需积分：{{ upload.score }} </span>分&nbsp&nbsp&nbsp' +
+        '                       <span class="text-muted">下载次数：{{upload.downNum }}</span> 次&nbsp&nbsp&nbsp' +
+        '                       <span class="text-muted">上传时间：{{ upload.publish_time }}</span>&nbsp&nbsp&nbsp' +
+        '                       <span class="text-muted">上传者：{{upload.userId}}</span>'+
+        '                   </div>' +
+        '           </div>' +
+        '           <hr/>' +
+        '       </div>',
+        methods:{
+            uploadDetail:function (fileId) {
+                window.location.href = url.makeURL(address+"/upload_content.html","fileId",fileId);
+            }
 
-    var upload = new Vue({
-        el: "#upload",
+        }    });
+
+    var uploads = new Vue({
+        el: "#uploadArea",
         data:{
-            upload:[]
+            upload1:[]
         }
     });
 
@@ -180,61 +201,76 @@
     //问答页
     Vue.component('question-item',{
         props: ['question'],
-        template:'<div class="list-group-item">'+
-        //onClick中的函数需要修改，等端口写好之后，修改，根据id获取问题
-        //'<div class="pull-right" >'+
-        ' <h3>{{ question.title }}</h3>'+
-        '<p>{{ question.briefContent }}</p>'+
-        ' <span class="text-muted">悬赏积分：{{ question.score }}</span> &nbsp&nbsp&nbsp'+
-        ' <span class="text-muted">状态：{{ question.state }}</span>&nbsp&nbsp&nbsp'+
-        '<span class="text-muted">回答数：{{ question.answerNum }}</span> &nbsp&nbsp&nbsp'+
-        ' <span class="text-muted">发表时间：{{ question.publish_time }}</span> &nbsp&nbsp&nbsp'+
-        '<span class="text-muted">提问者：{{ question.anthor }}</span> &nbsp&nbsp&nbsp'+
-        '<hr>'+
-        '</div>'
-    });
-
-    var question = new Vue({
-        el: "#question",
-        data:{
-            question:[]
+        template:'<div class="list-group-item pointer" v-on:click="questionDetail(question.questionId)">' +
+        '           <div class="row">'+
+        '               <h3>{{ question.title }}</h3>'+
+        '               <p>{{ question.briefContent }}</p>'+
+        '               <span class="text-muted">悬赏积分：{{ question.score }}</span> &nbsp&nbsp&nbsp'+
+        '               <span class="text-muted">状态：{{ question.state }}</span>&nbsp&nbsp&nbsp'+
+        '               <span class="text-muted">回答数：{{ question.answerNum }}</span> &nbsp&nbsp&nbsp'+
+        '               <span class="text-muted">发表时间：{{ question.publishTime }}</span> &nbsp&nbsp&nbsp'+
+        '               <span class="text-muted">提问者：{{ question.userId }}</span> &nbsp&nbsp&nbsp'+
+        '               <hr/>' +
+        '           </div>'+
+        '       </div>',
+        methods:{
+            questionDetail:function (questionId) {
+                window.location.href = url.makeURL(address+"question.html","questionId",questionId);
+            }
         }
     });
 
+    var questions = new Vue({
+        el: "#questionArea",
+        data:{
+            question1:[]
+        }
+    });
 
     var result = new Vue({
-        el:'#result',
-        created:function () {
-            var searchInfo = {};
-            searchInfo.userId = url.getCookie("userId");
-            searchInfo.keyWord = url.parseURL("keyWord");
-            var response = "";
-            $.ajax({
-                async : false,
-                type : 'POST',
-                url : address+'searchAll',
-                data : searchInfo,
-                dataType : 'json',
-                success : function(result) {
-                    response = result;
-                },
-                error : function(result) {
-                    layer.msg('服务器异常');
-                }
-            });
-            if(response.status == "0"){
-                var content = response.content;
-                content = JSON.parse(content);
-                blog.blog = eval('('+content.blog+')');
-                upload.upload = eval('('+content.upload+')');
-                question.question = eval('('+content.question+')');
-            }
-            else{
-                layer.msg(response.msg);
-            }
+        el:'#feature-tab',
+        data:{
+            blogNum: 0,
+            uploadNum: 0,
+            questionNum: 0,
+            userNum: 0
         }
     });
 
+    init();
+
+    function init() {
+        var searchInfo = {};
+        searchInfo.userId = url.getCookie("userId");
+        searchInfo.keyWord = url.parseURL("keyWord");
+        var response = "";
+        $.ajax({
+            async: false,
+            type: 'POST',
+            url: address + 'searchAll',
+            data: searchInfo,
+            dataType: 'json',
+            success: function (result) {
+                response = result;
+            },
+            error: function (result) {
+                layer.msg('服务器异常');
+            }
+        });
+        if (response.status == "0") {
+            var content = response.content;
+            content = JSON.parse(content);
+            blogs.blog1 = eval('(' + content.blog + ')');
+            result.blogNum = blogs.blog1.length;
+            uploads.upload1 = eval('(' + content.upload + ')');
+            result.uploadNum = uploads.upload1.length;
+            questions.question1 = eval('(' + content.question + ')');
+            result.questionNum = questions.question1.length;
+        }
+        else {
+            layer.msg(response.msg);
+        }
+    }
 
 
 
