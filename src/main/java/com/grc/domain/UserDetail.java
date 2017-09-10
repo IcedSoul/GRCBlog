@@ -1,5 +1,6 @@
 package com.grc.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -15,10 +16,12 @@ public class UserDetail {
     @Id
     private Integer userId;
     private String sex;
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Timestamp registerTime;
     private String phone;
     private String address;
     private String interest;
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Timestamp birthday;
     private String remark;
     private String job;

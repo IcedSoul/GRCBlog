@@ -180,3 +180,25 @@ table {
 .pointer {
     cursor:pointer
 }
+#blog-content{
+    background-color: transparent;
+}
+#blog-content p{
+    line-height: 1.6em;
+    word-spacing: 0.05em;
+    font-size: 16px;
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+.share-to{
+    font-size: 20px;
+    color: #777;
+
+}
+.text {
+    margin-left: 0 ;
+}
+

@@ -6,17 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="plugins/editor.md-master/examples/css/style.css"/>
     <link rel="stylesheet" href="plugins/editor.md-master/css/editormd.css"/>
+    <script src="plugins/editor.md-master/editormd.min.js"></script>
     <script src="js/src.js"></script>
     <script src="js/util.js"></script>
     <title>博客内容</title>
-    <script src="plugins/editor.md-master/editormd.min.js"></script>
+
 
 </head>
 <body>
 <script src="js/header.js"></script>
 <div class="container" id="blog">
     <div class="title">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8 col-md-offset-2" style="text-align: center">
             <h2>{{ title }}</h2>
             <!--<span class="label label-primary"> 标签</span>-->
         </div>
@@ -31,21 +32,21 @@
                 </div>
 
                 <div class="col-md-8 col-md-offset-1">
-                    <span class="text label-offset">{{ userName }}</span>
-                    <div>
+                    <span class="text label-offset" style="margin-left: 10px;">{{ userName }}</span>
+                    <div style="margin-top: 5px">
                         <span class="label label-info label-offset" v-for="tag in tags"> {{ tag.text }}</span>
                     </div>
-                    <p>
-                    </p>
-                    <p class="text-muted label-offset">发布时间：{{ publishTime }}</p>
+                    <p class="text-muted label-offset" style="margin-top: 5px">发布时间：{{ publishTime }}</p>
                 </div>
             </div>
+
             <div class="col-md-4">
-                <div class="btn-group">
+                <div class="btn-group pull-right">
                     <a class="btn btn-default no-border share-to" href="#" id="qq"><i class="fa fa-qq"></i></a>
                     <a class="btn btn-default no-border share-to" href="#" id="sina"><i class="fa fa-weibo"></i></a>
                 </div>
             </div>
+
         </div>
     </div>
 

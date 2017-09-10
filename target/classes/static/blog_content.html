@@ -4,113 +4,120 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" href="plugins/editor.md-master/examples/css/style.css"/>
+    <link rel="stylesheet" href="plugins/editor.md-master/css/editormd.css"/>
+    <script src="plugins/editor.md-master/editormd.min.js"></script>
     <script src="js/src.js"></script>
     <script src="js/util.js"></script>
     <title>博客内容</title>
 
+
 </head>
 <body>
-    <script src="js/header.js"></script>
-    <div class="container"  id="blog">
-        <div class="title">
-            <div class="col-md-6 col-md-offset-2">
-                <h2>{{ title }}</h2>
-                <!--<span class="label label-primary"> 标签</span>-->
-            </div>
+<script src="js/header.js"></script>
+<div class="container" id="blog">
+    <div class="title">
+        <div class="col-md-8 col-md-offset-2" style="text-align: center">
+            <h2>{{ title }}</h2>
+            <!--<span class="label label-primary"> 标签</span>-->
         </div>
+    </div>
 
-        <div class="container-img hd-img" id="head_img">
-            <div class="row img">
+    <div class="container-img hd-img" id="head_img">
+        <div class="row img">
 
-                <div class="col-md-4 col-md-offset-2">
-                    <div class="col-md-2 col-md-offset-0">
-                        <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>
+            <div class="col-md-4 col-md-offset-2">
+                <div class="col-md-2 col-md-offset-0">
+                    <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>
+                </div>
+
+                <div class="col-md-8 col-md-offset-1">
+                    <span class="text label-offset" style="margin-left: 10px;">{{ userName }}</span>
+                    <div style="margin-top: 5px">
+                        <span class="label label-info label-offset" v-for="tag in tags"> {{ tag.text }}</span>
                     </div>
-
-                    <div class="col-md-8 col-md-offset-1">
-                        <span class="text label-offset">{{ userName }}</span>
-                        <div>
-                            <span class="label label-info label-offset" v-for="tag in tags"> {{ tag.text }}</span>
-                        </div>
-                        <p>
-                        </p>
-                        <p class="text-muted label-offset">发布时间：{{ publishTime }}</p>
-                     </div>
-                </div>
-
-                <div class="col-md-4 col-md-offset-2">
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-star" aria-hidden="true" style="color: #2aabd2" ></span>
-                    </button>
+                    <p class="text-muted label-offset" style="margin-top: 5px">发布时间：{{ publishTime }}</p>
                 </div>
             </div>
+
+            <div class="col-md-4">
+                <div class="btn-group pull-right">
+                    <a class="btn btn-default no-border share-to" href="#" id="qq"><i class="fa fa-qq"></i></a>
+                    <a class="btn btn-default no-border share-to" href="#" id="sina"><i class="fa fa-weibo"></i></a>
+                </div>
+            </div>
+
         </div>
+    </div>
 
 
-        <div class="container-content">
-            <div class="list-group-item-content">
-                <div class="col-md-8 col-md-offset-2 blog" v-html="blogContent">
+    <div class="container-content">
+        <div class="list-group-item-content">
+            <div class="col-md-8 col-md-offset-2 blog">
+                <div class="markdown-body editormd-preview-container" id="blog-content" v-html="blogContent" >
                     {{ blogContent }}
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-        <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2" />
-    <div>
-         <div class="container" id="newLeaveWord">
-             <div class="row" v-if="seen">
-                 <div class="col-md-4 col-md-offset-2">
-                     <div class="col-md-2 col-md-offset-0">
-                         <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>
-                     </div>
+<hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2"/>
+<div>
+    <div class="container" id="newLeaveWord">
+        <div class="row" v-if="seen">
+            <div class="col-md-4 col-md-offset-2">
+                <div class="col-md-2 col-md-offset-0">
+                    <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>
+                </div>
 
-                     <div class="col-md-8 col-md-offset-1" >
-                         <div class="input-group col-sm-12 col-md-12 col-lg-12 ">
-                             <textarea rows="3" cols="20" type="text" v-model="newLeaveContent" class="form-control" placeholder="看了博客之后说几句吧..."
+                <div class="col-md-8 col-md-offset-1">
+                    <div class="input-group col-sm-12 col-md-12 col-lg-12 ">
+                             <textarea rows="3" cols="20" type="text" v-model="newLeaveContent" class="form-control"
+                                       placeholder="看了博客之后说几句吧..."
                                        aria-describedby="basic-addon1"></textarea>
-                             <button type="button" class="btn btn-default" href="#">
-                                 <span class="glyphicon glyphicon-send" style="color: #337ab7" v-on:click="addNewLeaveWord()">发送</span>
-                             </button>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-
-         </div>
-
-         <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2" />
-        <div id="leaveWordArea">
-            <word-item v-for="item in leaveWords" v-bind:word="item"></word-item>
+                        <button type="button" class="btn btn-default" href="#">
+                            <span class="glyphicon glyphicon-send" style="color: #337ab7"
+                                  v-on:click="addNewLeaveWord()">发送</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
+
+    <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2"/>
+    <div id="leaveWordArea">
+        <word-item v-for="item in leaveWords" v-bind:word="item"></word-item>
+    </div>
+</div>
 
 <script type="text/javascript">
 
     var blog = new Vue({
         el: "#blog",
-        data:{
+        data: {
             title: '',
             userName: '',
             publishTime: '',
-            tags:[],
+            tags: [],
             blogContent: ''
         },
-        created:function () {
+        created: function () {
             var blogInfo = {};
             blogInfo.blogId = url.parseURL('blogId');
             var blogs = '';
             $.ajax({
-                async : false,
-                type : 'POST',
-                url : address+'getBlog',
-                data : blogInfo,
-                dataType : 'json',
-                success : function(result) {
+                async: false,
+                type: 'POST',
+                url: address + 'getBlog',
+                data: blogInfo,
+                dataType: 'json',
+                success: function (result) {
                     blogs = result.blog;
                 },
-                error : function(result) {
+                error: function (result) {
                     layer.msg('服务器异常');
                 }
             });
@@ -123,63 +130,63 @@
         }
     });
 
-    Vue.component('word-item',{
+    Vue.component('word-item', {
         props: ['word'],
         template: '<div>' +
-        '<div class="container">'+
-        '             <div class="row">'+
-        '                 <div class="col-md-4 col-md-offset-2">'+
-        '                     <div class="col-md-2 col-md-offset-0">'+
-        '                         <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>'+
-        '                     </div>'+
-        '                     <div class="col-md-8 col-md-offset-1">'+
-        '                         <span class="text">{{ word.userName }}</span>'+
-        '                         <p class="text-muted">评论时间：{{ word.leaveTime }}</p>'+
-        '                     </div>'+
-        '                 </div>'+
-        '             </div>'+
-        '             <div class="col-md-7 col-md-offset-3">'+
-        '                {{ word.leaveContent }}'+
-        '             </div>'+
-        '             <div class="col-md-6 col-md-offset-3 p-t-10">'+
-        '                 <button type="button" class="btn btn-default">'+
-        '                     <span class="glyphicon glyphicon-thumbs-up" style="color: #337ab7">点赞</span>'+
-        '                 </button>'+
-        '                 <button type="button" class="btn btn-default" href="#">'+
-        '                     <span class="glyphicon glyphicon-comment" style="color: #337ab7" v-on:click="showInput">回复</span>'+
-        '                 </button>'+
-        '             </div>'+
-        '           <div v-if="seen" class="col-md-6 col-md-offset-3 p-t-10">'+
+        '<div class="container">' +
+        '             <div class="row">' +
+        '                 <div class="col-md-4 col-md-offset-2">' +
+        '                     <div class="col-md-2 col-md-offset-0">' +
+        '                         <a class="" href=""><img src="img/3.jpg" class="img-circle img-hd"></a>' +
+        '                     </div>' +
+        '                     <div class="col-md-8 col-md-offset-1">' +
+        '                         <span class="text">{{ word.userName }}</span>' +
+        '                         <p class="text-muted">评论时间：{{ word.leaveTime }}</p>' +
+        '                     </div>' +
+        '                 </div>' +
+        '             </div>' +
+        '             <div class="col-md-7 col-md-offset-3">' +
+        '                {{ word.leaveContent }}' +
+        '             </div>' +
+        '             <div class="col-md-6 col-md-offset-3 p-t-10">' +
+        '                 <button type="button" class="btn btn-default">' +
+        '                     <span class="glyphicon glyphicon-thumbs-up" style="color: #337ab7">点赞</span>' +
+        '                 </button>' +
+        '                 <button type="button" class="btn btn-default" href="#">' +
+        '                     <span class="glyphicon glyphicon-comment" style="color: #337ab7" v-on:click="showInput">回复</span>' +
+        '                 </button>' +
+        '             </div>' +
+        '           <div v-if="seen" class="col-md-6 col-md-offset-3 p-t-10">' +
         '               <textarea rows="3" cols="20" type="text" class="form-control" v-model="leaveContent" placeholder="看了博客之后说几句吧..."\n' +
-        '                                       aria-describedby="basic-addon1"></textarea>'+
-        '                 <button type="button" class="btn btn-default">'+
-        '                     <span class="glyphicon glyphicon-remove-sign" style="color: #8c8c8c" v-on:click="unShowInput">取消</span>'+
-        '                 </button>'+
-        '                 <button type="button" class="btn btn-default" href="#">'+
-        '                     <span class="glyphicon glyphicon-send" style="color: #337ab7" v-on:click="addLeaveWord(word.wordId,word.level)">发送</span>'+
-        '                 </button>'+
-        '             </div>'+
-        '         </div>'+
+        '                                       aria-describedby="basic-addon1"></textarea>' +
+        '                 <button type="button" class="btn btn-default">' +
+        '                     <span class="glyphicon glyphicon-remove-sign" style="color: #8c8c8c" v-on:click="unShowInput">取消</span>' +
+        '                 </button>' +
+        '                 <button type="button" class="btn btn-default" href="#">' +
+        '                     <span class="glyphicon glyphicon-send" style="color: #337ab7" v-on:click="addLeaveWord(word.wordId,word.level)">发送</span>' +
+        '                 </button>' +
+        '             </div>' +
+        '         </div>' +
         '        <hr class="divider col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2"/>' +
-        '        <div class="col-md-offset-2 p-t-10">'+
-        '           <word-item v-for="item in word.childWord" v-bind:word="item"></word-item>'+
-        '       </div>'+
+        '        <div class="col-md-offset-2 p-t-10">' +
+        '           <word-item v-for="item in word.childWord" v-bind:word="item"></word-item>' +
+        '       </div>' +
         '</div>',
-        data:function () {
-          return {
-              leaveContent:"",  
-              seen:false
-          }
+        data: function () {
+            return {
+                leaveContent: "",
+                seen: false
+            }
         },
-        methods:{
+        methods: {
             showInput: function () {
                 this.seen = true;
             },
             unShowInput: function () {
                 this.seen = false;
             },
-            addLeaveWord: function (answerId,level) {
-                leaveWord.addLeaveWord(answerId,level,this.leaveContent);
+            addLeaveWord: function (answerId, level) {
+                leaveWord.addLeaveWord(answerId, level, this.leaveContent);
                 this.seen = false;
                 leaveWord.updateLeaveWords();
             }
@@ -192,81 +199,119 @@
         data: {
             leaveWords: []
         },
-        created:function () {
+        created: function () {
             this.updateLeaveWords();
         },
-        methods:{
+        methods: {
             updateLeaveWords: function () {
                 var blogInfo = {};
                 blogInfo.blogId = url.parseURL('blogId');
                 var words = '';
                 $.ajax({
-                    async : false,
-                    type : 'POST',
-                    url : address+'getBlogLeaveWords',
-                    data : blogInfo,
-                    dataType : 'json',
-                    success : function(result) {
+                    async: false,
+                    type: 'POST',
+                    url: address + 'getBlogLeaveWords',
+                    data: blogInfo,
+                    dataType: 'json',
+                    success: function (result) {
                         words = result.leaveWords;
                     },
-                    error : function(result) {
+                    error: function (result) {
                         layer.msg('服务器异常');
                     }
                 });
-                words = eval('('+words+')');
+                words = eval('(' + words + ')');
                 this.leaveWords = words;
             },
-            addLeaveWord:function (answerId,level,leaveContent) {
+            addLeaveWord: function (answerId, level, leaveContent) {
                 var leaveWord1 = {};
                 leaveWord1.answerId = answerId;
                 leaveWord1.blogId = url.parseURL('blogId');
                 leaveWord1.userId = url.getCookie('userId');
-                leaveWord1.level = level+1;
+                leaveWord1.level = level + 1;
                 leaveWord1.leaveContent = leaveContent;
 
                 var addResult = '';
                 $.ajax({
-                    async : false,
-                    type : 'POST',
-                    url : address+'addLeaveWord',
-                    data : leaveWord1,
-                    dataType : 'json',
-                    success : function(result) {
+                    async: false,
+                    type: 'POST',
+                    url: address + 'addLeaveWord',
+                    data: leaveWord1,
+                    dataType: 'json',
+                    success: function (result) {
                         addResult = result.addResult;
-                        if(addResult == "success")
+                        if (addResult == "success")
                             leaveWord1 = result.leaveWord;
                     },
-                    error : function(result) {
+                    error: function (result) {
                         layer.msg('服务器异常');
                     }
                 });
-                if(addResult == "success"){
-                    layer.msg('留言成功',{icon:1});
+                if (addResult == "success") {
+                    layer.msg('留言成功', {icon: 1});
                 }
             }
         }
     });
 
     var newLeaveWord = new Vue({
-        el:'#newLeaveWord',
-        data:{
-            newLeaveContent:'',
-            seen:false
+        el: '#newLeaveWord',
+        data: {
+            newLeaveContent: '',
+            seen: false
         },
-        created:function () {
+        created: function () {
             var userId = url.getCookie("userId");
-          if(userId==null || userId==undefined || userId =='' )
-              this.seen = false;
-          else
-              this.seen = true;
+            if (userId == null || userId == undefined || userId == '')
+                this.seen = false;
+            else
+                this.seen = true;
         },
-        methods:{
-            addNewLeaveWord:function () {
-                leaveWord.addLeaveWord(-1,-1,this.newLeaveContent);
+        methods: {
+            addNewLeaveWord: function () {
+                leaveWord.addLeaveWord(-1, -1, this.newLeaveContent);
                 leaveWord.updateLeaveWords();
             }
         }
-        })
+    })
+
+    //分享功能
+    $(".share-to").click( function(){
+        var options={
+            shareTitle: blog.title,
+            shareUrl: 'http://localhost:63342/GRCBlog/static/sharetest.html?',
+            shareCon: "一篇很棒的博文"
+        };
+        share($(this).attr("id"), options)
+    });
+
+    var share = function(type, options) {
+        var Surl;
+        switch (type) {
+            case 'qq':
+                Surl = "http://connect.qq.com/widget/shareqq/index.html?url=" + options.shareUrl + "&title=" + options.shareTitle + "&desc=" + options.shareCon + "&pics=" + options.shareIamge;
+                break;
+            case 'qzone':
+                Surl = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + options.shareUrl + "&title=" + options.shareTitle + "&desc=" + options.shareCon ;
+                break;
+            case 'sina':
+                Surl = "http://service.weibo.com/share/share.php?title="+ options.shareTitle + options.shareUrl ;
+                break;
+            case 'tqq':
+                Surl = "http://share.v.t.qq.com/index.php?c=share&a=index&title=" + options.shareTitle + "&url=" + options.shareUrl;
+                break;
+            case "renren":
+                Surl = "http://widget.renren.com/dialog/share?resourceUrl=" + options.shareUrl + "&title=" + options.shareTitle  + "&description=" + options.shareCon;
+                break;
+            case "douban":
+                Surl = "https://www.douban.com/share/service?href=" + options.shareUrl + "&name=" + options.shareTitle + "&image=" + options.shareIamge + "&text=" + options.shareCon;
+                break;
+            default:
+                callback("shareConfig设置错误");
+                return false;
+        };
+        window.open(Surl, "newWindow");
+    };
 
 
 </script>

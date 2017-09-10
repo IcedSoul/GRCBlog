@@ -1,6 +1,7 @@
 package com.grc.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.grc.domain.User;
 import com.grc.domain.UserDetail;
 import com.grc.service.UserService;
@@ -189,7 +190,6 @@ public class UserController {
     @PostMapping(value = "/getUser")
     public Map<String,Object> getUser(@ApiParam(value = "用户ID",required = true)@RequestParam("userId")Integer userId){
         User user = userService.findUser(userId);
-        user.setUserPassword("");
         UserDetail userDetail = userService.findUserDetail(userId);
         Map<String,Object> response = new HashMap<String, Object>();
         System.out.print(JSON.toJSON(user));

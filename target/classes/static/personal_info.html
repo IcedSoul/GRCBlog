@@ -26,7 +26,7 @@
                                 <label>头像：</label>
                                 <br>
                                 <a style="cursor: pointer" id="show-photo" v-on:click="changeIMG">
-                                        <img src="img/display-photo.jpg" class="img-circle img-lg">
+                                        <img :src="img" class="img-circle img-lg">
                                 </a>
                             </div>
                             <div class="form-group">
@@ -109,6 +109,7 @@
         el:"#modifyUserInfo",
         data:{
             userName:'',
+            img:'',
             userPassword:'',
             userNewPassword:'',
             userConfirmPassword:'',
@@ -144,6 +145,7 @@
                     }
                 });
 
+                this.img = user.img;
                 this.userName = user.userName;
                 this.userBirthday = userDetail.birthday;
                 this.userSex = userDetail.sex;
@@ -193,7 +195,7 @@
                 var html = '<div style="margin-left: 20px;margin-top: 52px">' +
                     '           <input class="center-block" type="file" name="imgUpload" id="imgUpload" accept="image/*"/>' +
                     '       </div>';
-                layer.open({
+                var confirme = layer.open({
                     type: 1,
                     title: "上传头像",
                     area:['400px','200px'],
@@ -202,6 +204,7 @@
                     btn: ['确认上传'],
                     yes: function (index, layero) {
                         modifyUserInfo.uploadIMG();
+                        layer.closeAll();
                     }
                 });
             },

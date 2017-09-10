@@ -101,11 +101,20 @@ public class UserServiceImplement implements UserService {
         try{
             if(fileUpload != null && !fileUpload.isEmpty()) {
                 String fileName = fileUpload.getOriginalFilename();
+                String[] temp = fileName.split("[.]");
+                fileName = String.valueOf(userId)+"."+temp[temp.length-1];
                 File fileFolder = new File(path+"img/");
                 if(!fileFolder.exists()){
                     fileFolder.mkdirs();
                 }
                 File file = new File(fileFolder,fileName);
+                User user = userRepository.findOne(userId);
+                user.setImg(file.getAbsolutePath());
+                if(file.exists()){
+                    file.delete();
+                    file.createNewFile();
+                }
+                userRepository.save(user);
                 fileUpload.transferTo(file);
                 return new Response("0","头像上传成功",file.getAbsolutePath());
             }
