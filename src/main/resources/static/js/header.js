@@ -52,7 +52,7 @@ document.writeln('<div class="navbar navbar-fixed-top" role="navigation" id="men
     '                        <li><a v-on:click="personalInfo"><span class="glyphicon glyphicon-cog"'+
     '                                                                                aria-hidden="true"></span> 个人信息</a>'+
     '                        </li>'+
-    '                        <li><a href=""><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>'+
+    '                        <li><a v-on:click="doLogout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</a></li>'+
     '                    </ul>'+
     '                </li>'+
     '            </ul>'+
@@ -70,6 +70,9 @@ var button = new Vue({
         keyWord:''
     },
     created:function () {
+        var keyWord = url.parseURL("keyWord");
+        if(keyWord!= null && keyWord!= "" && keyWord!= undefined)
+            this.keyWord = keyWord;
         var userId = url.getCookie("userId");
         if(userId==null || userId==undefined || userId =='' ){
             this.seen = true;
@@ -107,6 +110,10 @@ var button = new Vue({
         },
         searchAll:function () {
             window.location.href = url.makeURL(address +"search_result.html","keyWord",this.keyWord);
+        },
+        doLogout:function () {
+            url.setCookie("userId");
+            window.location.href = address + 'login_register.html';
         }
 
     }

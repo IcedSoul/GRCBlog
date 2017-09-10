@@ -153,7 +153,7 @@
 
     Vue.component('blog-brief', {
         props: ['blog'],
-        template: '<div class="panel panel-default" style="cursor:pointer"  v-on:click="blogDetail(blog.blogId)">'+
+        template: '<div class="panel panel-default pointer" v-on:click="blogDetail(blog.blogId)">'+
         '                <div class="panel-body">'+
         '                    <div class="list-group ">'+
         '                        <div class="list-group-item">'+
@@ -171,10 +171,10 @@
         '            </div>',
         methods:{
             blogDetail: function (blogId) {
-                window.location.href = url.makeURL('http://localhost:8080/GRCBlog/blog_content.html','blogId',blogId);
+                window.location.href = url.makeURL(address+'blog_content.html','blogId',blogId);
             }
         }
-    })
+    });
 
     var blogBrief = new Vue({
         el: '#blogBriefArea',

@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
@@ -202,6 +203,11 @@ public class UserController {
     public Response searchAll(@ApiParam(value = "用户ID",required = true)@RequestParam("userId")Integer userId,
                            @ApiParam(value = "关键词",required = true)@RequestParam("keyWord")String keyWord){
         return userService.search(userId,keyWord);
+    }
+
+    @PostMapping(value = "/uploadIMG")
+    public Response uploadIMG(@RequestParam MultipartFile imgUpload, Integer userId){
+        return userService.uploadIMG(imgUpload,userId);
     }
 
 }

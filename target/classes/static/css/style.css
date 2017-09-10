@@ -174,4 +174,9 @@ table {
 .m-t-10{
     margin-top: 10px;
 }
-
+.m-t-65 {
+    margin-top: -65px;
+}
+.pointer {
+    cursor:pointer
+}
