@@ -5,6 +5,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.grc.domain.User;
 import com.grc.domain.UserDetail;
 import com.grc.service.UserService;
+import com.grc.utils.Constant;
 import com.grc.utils.Response;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -106,7 +108,7 @@ public class UserController {
         user.setUserPassword(userPassword);
         user.setEmail(email);
         user.setScore(0);
-        user.setImg("");
+        user.setImg(Constant.address+"default.jpg");
         UserDetail userDetail = new UserDetail();
         userDetail.setAddress(address);
         if(!birthday.isEmpty() && !birthday.equals("")){
@@ -131,11 +133,10 @@ public class UserController {
         return response;
     }
 
-    @ApiOperation(value = "用户注册",httpMethod ="POST", notes = "user")
+    @ApiOperation(value = "更新用户信息",httpMethod ="POST", notes = "user")
     @PostMapping(value = "/updateUser")
     public Map<String,Object> updateUser(@ApiParam(value = "用户Id",required = true)@RequestParam("userId")Integer userId,
                                          @ApiParam(value = "用户名",required = true)@RequestParam("userName")String userName,
-                                         @ApiParam(value = "头像",required = true)@RequestParam("img")String img,
                                          @ApiParam(value = "用户密码",required = true)@RequestParam("userPassword")String userPassword,
                                          @ApiParam(value = "邮箱",required = false)@RequestParam("email")String email,
                                          @ApiParam(value = "性别",required = false)@RequestParam("sex")String sex,
@@ -148,12 +149,11 @@ public class UserController {
     ){
         String result = "fail";
 
-        User user = new User();
-        user.setUserId(userId);
+        User user = userService.findUser(userId);
         user.setUserName(userName);
         user.setUserPassword(userPassword);
+        user.setImg(user.getImg());
         user.setEmail(email);
-        user.setImg(img);
         user.setScore(0);
         user.setImg("");
         UserDetail userDetail = new UserDetail();
@@ -192,9 +192,9 @@ public class UserController {
         User user = userService.findUser(userId);
         UserDetail userDetail = userService.findUserDetail(userId);
         Map<String,Object> response = new HashMap<String, Object>();
-        System.out.print(JSON.toJSON(user));
-        response.put("user",JSON.toJSON(user));
-        response.put("userDetail",JSON.toJSON(userDetail));
+        System.out.print(JSON.toJSONString(user));
+        response.put("user",JSON.toJSONString(user));
+        response.put("userDetail",JSON.toJSONString(userDetail));
         return response;
     }
 

@@ -19,7 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 14437 on 2017/6/23.
@@ -60,9 +63,18 @@ public class UploadServiceImplement implements UploadService {
         upload.setUserId(userId);
         upload.setFilePath(filePath);
         upload.setName(name);
+
+        String[] tags1 = keyword.split(";");
+        ArrayList<Map<String,Object>> tags2 = new ArrayList<Map<String, Object>>();
+        for(int i=0;i<tags1.length;i++){
+            Map<String,Object> maps = new HashMap<String, Object>();
+            maps.put("text",tags1[i]);
+            tags2.add(maps);
+        }
+        upload.setKeyWord(JSON.toJSONString(tags2));
+
         upload.setRemark(remark);
         upload.setItClassifyId(itClassifyId);
-        upload.setKeyWord(keyword);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         upload.setUpTime(timestamp);
         upload.setDownNum(0);

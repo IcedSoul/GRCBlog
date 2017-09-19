@@ -60,9 +60,8 @@
         template: '<div class="panel panel-default" style="cursor: pointer" v-on:click="blogDetail(blog.blogId)">'+
         '                <div class="list-group">'+
         '                    <div class="list-group-item">'+
-        '                        <a class="" href=""><img src="img/display-photo.jpg" class="img-circle img-md"></a>'+
+        '                        <a class="" href=""><img :src="blog.img" class="img-circle img-md"></a>'+
         '                        <span>{{ blog.userName }}</span>'+
-        '                        <span class="pull-right">7小时前</span>'+
         '                        <h3>{{ blog.title }}</h3>'+
         '                        <p>{{ blog.briefContent }}</p>'+
         '                        <div class="btn-group btn-group-xs" role="group" aria-label="article-btn">'+

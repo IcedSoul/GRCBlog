@@ -2,7 +2,8 @@ server:
   port: 8080
   context-path: /GRCBlog
 web:
-  upload-path: D:/temp/
+  upload-path: D:/temp/img
+  img-path: http://localhost:8080/GRCBlog/
 spring:
   mvc:
     static-path-pattern: /**
@@ -23,5 +24,5 @@ spring:
     cache: false
   http:
     multipart:
-      max-file-size: 100Mb
-      max-request-size: 200Mb
+      max-file-size: 100mb
+      max-request-size: 200mb

@@ -61,9 +61,10 @@ public class QuestionController {
     @PostMapping(value = "/addQuestion")
     public Response addQuestion(@RequestParam("userId")Integer userId,
                                 @RequestParam("title")String title,
+                                @RequestParam("briefContent")String briefContent,
                                 @RequestParam("questionContent")String questionContent,
                                 @RequestParam("score")Integer score){
-        return questionService.addQuestion(userId,title,questionContent,score);
+        return questionService.addQuestion(userId,title,briefContent,questionContent,score);
     }
 
     /**

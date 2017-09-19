@@ -62,6 +62,8 @@ public class LeaveWordServiceImplemrnt implements LeaveWordService {
             Map<String,Object> word = new HashMap<String,Object>();
             word.put("wordId",leaveWord.getWordId());
             word.put("userName",userRepository.findOne(leaveWord.getUserId()).getUserName());
+            word.put("img",userRepository.findOne(leaveWord.getUserId()).getImg());
+            word.put("level",leaveWord.getLevel());
             word.put("leaveContent",leaveWord.getLeaveContent());
             word.put("leaveTime",df.format(leaveWord.getLeaveTime()));
             word.put("childWord",getLeaveWords(leaveWord.getWordId()));

@@ -138,7 +138,9 @@
                     dataType : 'json',
                     success : function(result) {
                         user = result.user;
+                        user = JSON.parse(user);
                         userDetail = result.userDetail;
+                        userDetail = JSON.parse(userDetail);
                     },
                     error : function(result) {
                         layer.msg('服务器异常');
@@ -227,6 +229,7 @@
                         result = JSON.parse(result);
                         if(result.status == "0") {
                             layer.msg(result.msg, {icon: 1});
+                            window.location.href = address+"personal_info.html";
                         }
                         else {
                             layer.msg(result.msg, {icon: 0});

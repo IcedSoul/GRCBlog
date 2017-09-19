@@ -5,6 +5,8 @@ import com.grc.domain.UserDetail;
 import com.grc.utils.Response;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by 14437 on 2017/6/20.
  */

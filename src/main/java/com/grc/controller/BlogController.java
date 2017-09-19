@@ -5,15 +5,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.grc.domain.Blog;
+import com.grc.domain.User;
 import com.grc.service.BlogService;
 import com.grc.service.UserService;
+import com.grc.utils.CommonTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Array;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +49,7 @@ public class BlogController {
             Integer userId1 = Integer.valueOf(blog.get("userId").toString());
             String userName = userService.findUser(userId1).getUserName();
             blog.put("userName",userName);
+            blog.put("img",userService.findUser(userId1).getImg());
         }
         result = blogs.toJSONString();
         Map<String,Object> response = new HashMap<String, Object>();
@@ -114,22 +119,32 @@ public class BlogController {
     @PostMapping(value = "/addBlog")
     public Map<String,Object> addBlog(@RequestParam("userId")Integer userId,
                                       @RequestParam("title")String title,
+                                      @RequestParam("briefContent")String briefContent,
                                       @RequestParam("blogContent")String blogContent,
                                       @RequestParam("classifyId")Integer classifyId,
                                       @RequestParam("itClassifyId")Integer itClassifyId,
                                       @RequestParam("tags")String tags){
         Blog blog = new Blog();
         blog.setUserId(userId);
+        User user = userService.findUser(userId);
+        user.setScore(user.getScore()+5);
         blog.setTitle(title);
+        blog.setBriefContent(briefContent);
         blog.setBlogContent(blogContent);
         blog.setClassifyId(classifyId);
         blog.setItClassifyId(itClassifyId);
         blog.setLeaveNum(0);
         blog.setViewNum(0);
         blog.setGoodNum(0);
-        blog.setTags(tags);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        blog.setPublishTime(timestamp);
+        String[] tags1 = tags.split(";");
+        ArrayList<Map<String,Object>> tags2 = new ArrayList<Map<String, Object>>();
+        for(int i=0;i<tags1.length;i++){
+            Map<String,Object> maps = new HashMap<String, Object>();
+            maps.put("text",tags1[i]);
+            tags2.add(maps);
+        }
+        blog.setTags(JSON.toJSONString(tags2));
+        blog.setPublishTime(CommonTools.getCurrentTime());
         blog = blogService.addBlog(blog);
         Map<String,Object> response = new HashMap<String, Object>();
         response.put("addResult","success");

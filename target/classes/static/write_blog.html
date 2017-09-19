@@ -175,6 +175,7 @@
         var Blog = {};
         Blog.userId = url.getCookie("userId");
         Blog.title = document.getElementById("title").value;
+        Blog.briefContent = document.getElementById("editormd").value.substring(0,100);
         Blog.blogContent = document.getElementById("editorhtml").value;
         Blog.classifyId = classifySelect.options[classIndex].value;
         Blog.itClassifyId = itClassifySelect.options[itClassIndex].value;

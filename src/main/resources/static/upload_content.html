@@ -113,7 +113,7 @@
             this.fileId = uploads.fileId;
             this.name = uploads.name;
             this.tag = uploads.tag;
-            this.keyWord = uploads.keyWord;
+            this.keyWord = eval('('+uploads.keyWord+')');
             this.upTime = uploads.upTime;
             this.remark = uploads.remark;
             this.score = uploads.score;

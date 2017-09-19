@@ -19,7 +19,7 @@
                 <div class="panel-body">
                     <div class="row" id="authorInfo">
                         <div class="col-md-3 " style="text-align: center;padding-top: 50px">
-                            <img src="img/display-photo.jpg" class="img-circle img-lg">
+                            <img :src="img" class="img-circle img-lg">
                         </div>
                         <div class="col-md-9 ">
                             <h3 style="font-weight: bold">{{ authorName }}</h3>
@@ -59,7 +59,8 @@
             authorSex:'',
             authorJob:'',
             authorFavorite:'',
-            authorSignature:''
+            authorSignature:'',
+            img:''
         },
         created:function () {
             var user = {};
@@ -73,7 +74,9 @@
                 dataType : 'json',
                 success : function(result) {
                     user = result.user;
+                    user = JSON.parse(user);
                     userDetail = result.userDetail;
+                    userDetail = JSON.parse(userDetail);
                 },
                 error : function(result) {
                     layer.msg('服务器异常');
@@ -85,7 +88,7 @@
             this.authorJob= userDetail.job;
             this.authorFavorite = userDetail.interest;
             this.authorSignature = userDetail.remark;
-            
+            this.img = user.img;
         }
     })
 

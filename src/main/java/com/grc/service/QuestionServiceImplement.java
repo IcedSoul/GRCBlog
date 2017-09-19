@@ -35,11 +35,12 @@ public class QuestionServiceImplement implements QuestionService{
     }
 
     @Override
-    public Response addQuestion(Integer userId,String title,String questionContent,Integer score) {
+    public Response addQuestion(Integer userId,String title,String briefContent,String questionContent,Integer score) {
         try {
             Question question = new Question();
             question.setUserId(userId);
             question.setTitle(title);
+            question.setBriefContent(briefContent);
             question.setQuestionContent(questionContent);
             question.setAnswerNum(0);
             question.setScore(score);

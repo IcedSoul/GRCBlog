@@ -20,7 +20,7 @@
                 <div class="panel-body">
                     <div class="row" id="userInfo">
                         <div class="col-md-3 " style="text-align: center;padding-top: 50px">
-                            <img src="img/display-photo.jpg" class="img-circle img-lg">
+                            <img :src="img" class="img-circle img-lg">
                         </div>
                         <div class="col-md-9 ">
                             <!--<p class="pull-right" ><span class="badge">积分:42</span></p>-->
@@ -65,16 +65,16 @@
                     <ul class="nav nav-tabs" role="tablist" id="feature-tab">
                         <li class="active" style=><a href="#tab-article" role="tab"
                                                                         data-toggle="tab">
-                            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 博文<span>(12)</span></a>
+                            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 博文</a>
                         </li>
-                        <li style=><a href="#tab-resource" role="tab" data-toggle="tab">
-                            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> 贡献资源<span>(12)</span></a></li>
-                        <li style=><a href="#tab-question" role="tab" data-toggle="tab">
-                            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Ta的提问<span>(12)</span></a>
-                        </li>
-                        <li style=><a href="#tab-answer" role="tab" data-toggle="tab">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Ta的回答<span>(2)</span></a>
-                        </li>
+                        <!--<li style=><a href="#tab-resource" role="tab" data-toggle="tab">-->
+                            <!--<span class="glyphicon glyphicon-file" aria-hidden="true"></span> 贡献资源<span>(12)</span></a></li>-->
+                        <!--<li style=><a href="#tab-question" role="tab" data-toggle="tab">-->
+                            <!--<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Ta的提问<span>(12)</span></a>-->
+                        <!--</li>-->
+                        <!--<li style=><a href="#tab-answer" role="tab" data-toggle="tab">-->
+                            <!--<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Ta的回答<span>(2)</span></a>-->
+                        <!--</li>-->
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab-article">
@@ -82,36 +82,36 @@
                                 <blog-brief v-for="item in blogs" v-bind:blog="item"></blog-brief>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab-resource">
-                            <div class="list-group" id = "uploadArea">
-                                <upload-brief v-for="item in uploads" v-bind:upload="item"></upload-brief>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab-question">
-                            <div class="list-group" id="questionArea">
-                                <question-brief v-for="item in questions" v-bind:question="item"></question-brief>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab-answer">
-                            <div class="list-group ">
-                                <div class="list-group-item">
-                                    <div class="pull-right">
-                                        <span class="label label-info">java</span>
-                                        <span class="label label-info">计划书</span>
-                                    </div>
-                                    <h3>怎么写java开发计划书？</h3>
-                                    <p>
-                                        java开发计划书应该这样写................
-                                    </p>
-                                    <span class="text-muted">悬赏积分：</span>3&nbsp&nbsp&nbsp
-                                    <span class="text-muted">状态：</span>未解决&nbsp&nbsp&nbsp
-                                    <span class="text-muted">回答数：</span>123&nbsp&nbsp&nbsp
-                                    <span class="text-muted">发表时间：</span>7小时前&nbsp&nbsp&nbsp
-                                    <span class="text-muted">提问者：</span>小民&nbsp&nbsp&nbsp
-                                </div>
-                                <hr>
-                            </div>
-                        </div>
+                        <!--<div class="tab-pane" id="tab-resource">-->
+                            <!--<div class="list-group" id = "uploadArea">-->
+                                <!--<upload-brief v-for="item in uploads" v-bind:upload="item"></upload-brief>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="tab-pane" id="tab-question">-->
+                            <!--<div class="list-group" id="questionArea">-->
+                                <!--<question-brief v-for="item in questions" v-bind:question="item"></question-brief>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="tab-pane" id="tab-answer">-->
+                            <!--<div class="list-group ">-->
+                                <!--<div class="list-group-item">-->
+                                    <!--<div class="pull-right">-->
+                                        <!--<span class="label label-info">java</span>-->
+                                        <!--<span class="label label-info">计划书</span>-->
+                                    <!--</div>-->
+                                    <!--<h3>怎么写java开发计划书？</h3>-->
+                                    <!--<p>-->
+                                        <!--java开发计划书应该这样写................-->
+                                    <!--</p>-->
+                                    <!--<span class="text-muted">悬赏积分：</span>3&nbsp&nbsp&nbsp-->
+                                    <!--<span class="text-muted">状态：</span>未解决&nbsp&nbsp&nbsp-->
+                                    <!--<span class="text-muted">回答数：</span>123&nbsp&nbsp&nbsp-->
+                                    <!--<span class="text-muted">发表时间：</span>7小时前&nbsp&nbsp&nbsp-->
+                                    <!--<span class="text-muted">提问者：</span>小民&nbsp&nbsp&nbsp-->
+                                <!--</div>-->
+                                <!--<hr>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -141,7 +141,9 @@
                 dataType : 'json',
                 success : function(result) {
                     user = result.user;
+                    user = JSON.parse(user);
                     userDetail = result.userDetail;
+                    userDetail = JSON.parse(userDetail);
                 },
                 error : function(result) {
                     layer.msg('服务器异常');
@@ -153,6 +155,7 @@
             this.authorJob= userDetail.job;
             this.authorFavorite = userDetail.interest;
             this.authorSignature = userDetail.remark;
+            this.img = user.img;
 
         }
     })

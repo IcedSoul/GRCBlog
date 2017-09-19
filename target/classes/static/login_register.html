@@ -245,7 +245,6 @@
                     dataType: 'json',
                     success: function (result) {
                         registerResult = result.registerResult;
-                        currentUser = result.currentUser;
                     },
                     error: function (result) {
                         layer.msg('服务器异常');
@@ -253,9 +252,6 @@
                 });
                 if (registerResult == "success") {
                     layer.msg('注册成功',{icon:1});
-                    currentUser = eval('('+currentUser+')');
-                    cookie.set('currentUserId',currentUser.userId,1);
-                    window.location.href = "http://localhost:8080/GRCBlog/login_register.html";
                 }
                 else
                     layer.msg('注册错误',{icon:2});

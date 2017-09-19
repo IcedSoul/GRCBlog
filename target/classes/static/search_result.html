@@ -65,26 +65,18 @@
                                 <upload-item v-for="item in upload1" v-bind:upload="item"></upload-item>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab-user">
-                            <div class="list-group default">
+                        <div class="tab-pane" id="tab-recent">
+                            <div class="list-group">
                                 <div class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-left media-middle">
-                                            <img src="img/display-photo.jpg" class="img-circle img-md">
-
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 style="font-weight: bold">小民同学</h4>
-                                            <p><span class="text-muted">性别：</span>女&nbsp&nbsp&nbsp
-                                                <span class="text-muted">职业：</span>java工程师&nbsp&nbsp&nbsp
-                                                <span class="text-muted">兴趣：</span>编程&nbsp&nbsp&nbsp</p>
-                                            <p><span class="text-muted">个性签名：</span>我爱编程&nbsp&nbsp&nbsp</p>
-                                        </div>
+                                    <div style="text-align: right">
+                                        <button type="button" class="btn btn-default no-border">按时间排序</button>
+                                        <button type="button" class="btn btn-default no-border">按热门排序</button>
                                     </div>
                                 </div>
-                                <hr>
                             </div>
-
+                            <div class="list-group m-t-65" id="questionArea">
+                                <question-item v-for="item in question1" v-bind:question="item"></question-item>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -95,8 +87,6 @@
 
 <script type="text/javascript">
 
-
-
     //博客页
     Vue.component('blog-item', {
         props: ['blog'],
@@ -104,7 +94,7 @@
                 '       <div class="pull-right">' +
                 '           <span class="label label-info" v-for="tag in blog.tags" style="margin-right: 3px;">{{ tag.text }}</span>' +
                 '       </div>' +
-                '       <a href="#"><img src="img/display-photo.jpg" class="img-circle img-md"></a>' +
+                '       <a href="#"><img :src="blog.img" class="img-circle img-md"></a>' +
                 '       <span>{{ blog.userName }}</span>' +
                 '       <h3>{{ blog.title }}</h3>' +
                 '       <p>{{ blog.briefContent }}</p>' +
@@ -149,7 +139,7 @@
         '                       <span class="text-muted">所需积分：{{ upload.score }} </span>分&nbsp&nbsp&nbsp' +
         '                       <span class="text-muted">下载次数：{{upload.downNum }}</span> 次&nbsp&nbsp&nbsp' +
         '                       <span class="text-muted">上传时间：{{ upload.publish_time }}</span>&nbsp&nbsp&nbsp' +
-        '                       <span class="text-muted">上传者：{{upload.userId}}</span>'+
+        '                       <span class="text-muted">上传者：{{upload.userName}}</span>'+
         '                   </div>' +
         '           </div>' +
         '           <hr/>' +
@@ -180,7 +170,7 @@
         '               <span class="text-muted">状态：{{ question.state }}</span>&nbsp&nbsp&nbsp'+
         '               <span class="text-muted">回答数：{{ question.answerNum }}</span> &nbsp&nbsp&nbsp'+
         '               <span class="text-muted">发表时间：{{ question.publishTime }}</span> &nbsp&nbsp&nbsp'+
-        '               <span class="text-muted">提问者：{{ question.userId }}</span> &nbsp&nbsp&nbsp'+
+        '               <span class="text-muted">提问者：{{ question.userName }}</span> &nbsp&nbsp&nbsp'+
         '               <hr/>' +
         '           </div>'+
         '       </div>',
@@ -231,11 +221,33 @@
         if (response.status == "0") {
             var content = response.content;
             content = JSON.parse(content);
-            blogs.blog1 = eval('(' + content.blog + ')');
+            var blog2 = eval('(' + content.blog + ')');
+            for(var i=0;i<blog2.length;i++){
+                var user = userUtils.getUser(blog2[i].userId);
+                blog2[i].img = user.img;
+                blog2[i].userName = user.userName;
+            }
+            blogs.blog1 = blog2;
             result.blogNum = blogs.blog1.length;
-            uploads.upload1 = eval('(' + content.upload + ')');
+            var upload2 = eval('(' + content.upload + ')');
+            for(var i=0;i<upload2.length;i++){
+                var user = userUtils.getUser(upload2[i].userId);
+                upload2[i].userName = user.userName;
+            }
+            uploads.upload1 =upload2;
             result.uploadNum = uploads.upload1.length;
-            questions.question1 = eval('(' + content.question + ')');
+            var question2 = eval('(' + content.question + ')');
+            for(var i=0;i<question2.length;i++){
+                var user = userUtils.getUser(question2[i].userId);
+                question2[i].userName = user.userName;
+                if(question2[i].status == "-1"){
+                    question2[i].status = "未解决";
+                }
+                else{
+                    question2[i].status = "已解决";
+                }
+            }
+            questions.question1 = question2;
             result.questionNum = questions.question1.length;
         }
         else {

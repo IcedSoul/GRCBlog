@@ -73,6 +73,7 @@
         var Question = {};
         Question.userId = url.getCookie("userId");
         Question.title = document.getElementById("title").value;
+        Question.briefContent = document.getElementById("editormd").value.substring(0,100);
         Question.questionContent = document.getElementById("editorhtml").value;
         Question.score = score;
         $.ajax({

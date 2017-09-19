@@ -42,6 +42,9 @@ public class UserServiceImplement implements UserService {
     @Value("${web.upload-path}")
     private String path;
 
+    @Value("${web.img-path}")
+    private String webPath;
+
     @Override
     @Transactional
     public void insertUser(User user, UserDetail userDetail) {
@@ -103,13 +106,13 @@ public class UserServiceImplement implements UserService {
                 String fileName = fileUpload.getOriginalFilename();
                 String[] temp = fileName.split("[.]");
                 fileName = String.valueOf(userId)+"."+temp[temp.length-1];
-                File fileFolder = new File(path+"img/");
+                File fileFolder = new File(path);
                 if(!fileFolder.exists()){
                     fileFolder.mkdirs();
                 }
                 File file = new File(fileFolder,fileName);
                 User user = userRepository.findOne(userId);
-                user.setImg(file.getAbsolutePath());
+                user.setImg(webPath+fileName);
                 if(file.exists()){
                     file.delete();
                     file.createNewFile();

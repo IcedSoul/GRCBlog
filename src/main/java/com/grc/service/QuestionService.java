@@ -11,7 +11,7 @@ import java.util.List;
 public interface QuestionService {
     public List<Question> getAllQuestions(Integer userId);
     public Response getQuestion(Integer questionId);
-    public Response addQuestion(Integer userId,String title,String questionContent,Integer score);
+    public Response addQuestion(Integer userId,String title,String briefContent,String questionContent,Integer score);
     public void updateQuestion(Question question);
     public void deleteQuestion(Integer questionId);
 }

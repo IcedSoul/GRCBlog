@@ -79,6 +79,7 @@ public class AnswerServiceImplement implements AnswerService {
             Map<String,Object> answer1 = new HashMap<String,Object>();
             answer1.put("answerId",answer.getAnswerId());
             answer1.put("userName",userRepository.findOne(answer.getUserId()).getUserName());
+            answer1.put("img",userRepository.findOne(answer.getUserId()).getImg());
             answer1.put("answerContent",answer.getAnswerContent());
             answer1.put("level",answer.getLevel());
             answer1.put("publishTime",CommonTools.dateFormat.format(answer.getPublishTime()));
